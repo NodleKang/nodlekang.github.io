@@ -1,0 +1,20 @@
+# main links
+main:
+  #- title: "Quick-Start Guide"
+  #  url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
+  - title: "Home"
+    url: /
+  - title: "Posts"
+    url: /posts/
+  - title: "Category"
+    url: /categories/
+# docs:
+#   - title: Infra
+#     children:
+#       # 인프라 관련 페이지들
+#   - title: JAVA
+#     children:
+#       - title: "Sample Page"
+#         url: /docs/java/sample/
+#       - title: "New Sample Page"
+#         url: /docs/java/new-sample/

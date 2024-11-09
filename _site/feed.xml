@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-11-09T17:09:37+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">WorkWise</title><subtitle>YJ&apos;s notes</subtitle><author><name>YJ</name></author><entry><title type="html">Sample Post</title><link href="http://localhost:4000/blogs/sample/" rel="alternate" type="text/html" title="Sample Post" /><published>2024-11-09T10:00:00+09:00</published><updated>2024-11-09T10:00:00+09:00</updated><id>http://localhost:4000/blogs/sample</id><content type="html" xml:base="http://localhost:4000/blogs/sample/"><![CDATA[<p>이 페이지는 Minial Mistakes 테마를 사용한 포스트 샘플입니다.</p>
+
+<h1 id="h1-제목">H1 제목</h1>
+
+<p>내용을 작성합니다.</p>
+
+<h2 id="h2-제목-첫-번째">H2 제목 첫 번째</h2>
+
+<p>내용을 작성합니다.</p>
+
+<h2 id="h2-제목-두번째">H2 제목 두번째</h2>
+
+<p>내용을 작성합니다.</p>
+
+<h3 id="h3-제목">H3 제목</h3>
+
+<p>내용을 작성합니다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello World"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h4 id="h4-제목">H4 제목</h4>
+
+<p>내용을 작성합니다.</p>]]></content><author><name>YJ</name></author><category term="blogs" /><category term="blogs" /><category term="github" /><summary type="html"><![CDATA[이 페이지는 Minial Mistakes 테마를 사용한 포스트 샘플입니다.]]></summary></entry></feed>
