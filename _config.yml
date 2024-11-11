@@ -20,11 +20,11 @@ rtl                      : # true, false (default) # turns direction of the page
 title                    : "WorkWise"
 title_separator          : "-"
 subtitle                 : "나의 노트 기록해두기"
-name                     : "YJ"
-description              : "YJ's notes"
-url                      : "yyj1219.github.io"
+name                     : "강노들"
+description              : ""
+url                      : "nodlekang.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : "yyj1219/yyj1219.github.io"
+repository               : "nodlekang/nodlekang.github.io"
 words_per_minute         : 200
 enable_copy_code_button  : # true, false (default)
 copyright                : # "copyright" name, defaults to site.title
@@ -53,7 +53,7 @@ analytics:
 
 # Site Author
 author:
-  name             : "YJ"
+  name             : "강노들"
   bio              : "Software developer, DBA"
   location         : "Republic of Korea"
   email            :
@@ -63,14 +63,14 @@ author:
       # url: "mailto:your.name@email.com"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/yyj1219"
+      url: "https://github.com/nodlekang"
 
 # Site Footer
 footer:
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/yyj1219"
+      url: "https://github.com/nodlekang"
 
 
 # Reading Files
