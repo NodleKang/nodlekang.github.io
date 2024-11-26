@@ -6,6 +6,8 @@
    Typography
    ========================================================================== */
 
+// 기본 값이 데스크탑에서 large에서 x-large 이상인 구간인 경우 폰트가 커져서 
+// 효율적이지 못 해서 폰트 사이즈를 조정했습니다.
 $doc-font-size: 16px !default;
 $doc-font-size-medium: $doc-font-size * 1.125 !default;
 $doc-font-size-large: $doc-font-size * 1.125 !default;
@@ -146,13 +148,21 @@ $base0f: #ff5370 !default;
 /*
    Breakpoints
    ========================================================================== */
-
+// Breakpoints 기준값 재정의
+//
+// 기본 값이 데스크탑에서 large에서 x-large 이상인 구간인 경우 폰트가 커지지만
+// 양쪽 네비게이션 영역과 TOC 영역이 같이 넓어지면서 상대적으로 표현할 수 있는 
+// 글 영역이 작아져서 효율적이 못 합니다.
+//
+// 이 영역을 포함한 전체 영역에 대한 조정을 했습니다.
 $small: 600px !default;
 $medium: 768px !default;
 $medium-wide: 900px !default;
 $large: 1024px !default;
-$x-large: 1280px !default;
-$max-width: $x-large !default;
+$x-large: 1340px !default;
+$max-width: 1920px !default;
+// $x-large: 1280px !default;
+// $max-width: $x-large !default;
 
 /*
    Grid
