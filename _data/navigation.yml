@@ -8,6 +8,8 @@ main:
     url: /posts/
   - title: "Category"
     url: /categories/
+  - title: "Tags"
+    url: /tags/
 # docs:
 #   - title: Infra
 #     children:
