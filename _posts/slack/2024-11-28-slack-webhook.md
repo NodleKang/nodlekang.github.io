@@ -46,7 +46,7 @@ Slack에서 Incoming Webhooks라는 기능을 제공하는데, 이 기능을 이
 2. 우측 상단에 보이면 "Create New App" 버튼을 클릭합니다.
 3. 앱 생성 옵션을 선택하는 화면이 나오는데, 앱을 생성하는 것이니 "From Scratch" 옵션을 선택합니다.
    - "From a manifest" 옵션: manifest 파일을 사용하는 방식
-   - "From a manifest" 옵션: UI를 사용하는 방식 
+   - "From Scratch" 옵션: UI를 사용하는 방식 
 4. 앱 이름과 워크스페이스를 입력하는 화면이 나옵니다. <br> "App Name" 에 앱 이름을 쓰고, 앱이 사용할 워크스페이스를 선택합니다. <br> 그 후에 "Create App" 버튼을 클릭합니다.
 5. 이제 새 앱이 생성되었을 겁니다. 만약 화면에서 앱이 바로 보이지 않으면 우측 상단에 있는 "Your Apps"를 클릭하면 확인할 수 있습니다.
 
