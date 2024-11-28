@@ -7,7 +7,7 @@ categories:
 tag: 
   - network
   - windows
-  - 어댑터
+  - 네트워크 어댑터
   - ip
   - transport name
 toc: true
