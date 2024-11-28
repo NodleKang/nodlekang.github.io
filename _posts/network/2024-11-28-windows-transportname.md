@@ -57,7 +57,7 @@ Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter "IPEnabled = 'Tru
 
 위 명령을 실행하면 다음과 같이 네트워크 어댑터의 IP 주소와 Transport Name이 출력됩니다.
 
-```powershell
+```
 Description: vmxnet3 이더넷 어댑터 #2
 IP Address: 10.65.80.67
 Transport Name: \Device\Tcpip_{872A1E36-92DB-4E56-86C9-426DACE0144D}
