@@ -32,15 +32,17 @@ toc_sticky: true
 2. 채널 생성
    - Slack에서 메시지를 받을 채널을 생성합니다. 만약 이미 사용할 채널이 있다면 다음 단계로 진행합니다.
 
-# 웹훅(Webhook) 수신 환경 구성
+# Incoming Webhooks 설정
 
-Slack에서 Incoming Webhooks라는 기능을 제공하는데, 이 기능을 이용하면 Slack에 메시지를 보낼 수 있습니다.API 사이트에서 앱을 생성한 후에 웹훅용 URL을 추가해야 합니다.
+Slack에서 Incoming Webhooks라는 기능을 제공하는데, 이 기능을 이용하면 Slack에 메시지를 보낼 수 있습니다.
+
+이 기능을 사용하려면 Slack API 사이트에서 앱을 생성한 후에 웹훅용 URL을 추가해야 합니다.
 
 웹훅 URL로 메시지를 보내면 Slack API에서 생성한 앱이 그 메시지를 받아서 지정된 Slack 채널에 메시지를 송신합니다.
 
 ## 앱 생성
 
-1. https://api.slack.com/apps 사이트에 Slack 계정으로 로그인 합니다.
+1. [https://api.slack.com/apps](https://api.slack.com/apps) 사이트에 Slack 계정으로 로그인 합니다.
 2. 우측 상단에 보이면 "Create New App" 버튼을 클릭합니다.
 3. 앱 생성 옵션을 선택하는 화면이 나오는데, 앱을 생성하는 것이니 "From Scratch" 옵션을 선택합니다.
    - "From a manifest" 옵션: manifest 파일을 사용하는 방식
@@ -52,7 +54,7 @@ Slack에서 Incoming Webhooks라는 기능을 제공하는데, 이 기능을 이
 
 Slack에서 Incoming Webhook 은 Slack이 정한 포멧에 일치하는 데이터를 보내주면, 지정된 채널에 메시지를 보내주는 기능입니다. 
 
-1. https://api.slack.com/apps 사이트에 Slack 계정으로 로그인 합니다.
+1. [https://api.slack.com/apps](https://api.slack.com/apps) 사이트에 Slack 계정으로 로그인 합니다.
 2. 우측 상단에 있는 "Your Apps"를 클릭해서 보이는 앱 목록에서 원하는 앱을 선택해서 앱 설정 화면으로 이동합니다.
 3. 좌측 사이드바 메뉴들 중에 "Incoming Webhooks" 메뉴를 선택합니다.
 4. "Incoming Webhooks" 메뉴 화면에서 다음과 같은 작업을 합니다.
