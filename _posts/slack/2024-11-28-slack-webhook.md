@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Slack"
+title: "Slack Incoming Webhooks 사용하기"
 date: 2024-11-28 09:00:00 +0900
 categories: 
   - Slack
