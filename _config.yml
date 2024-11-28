@@ -23,9 +23,9 @@ subtitle                 : "기억의 기록"
 name                     : "강노들"
 description              : ""
 url                      : "nodlekang.github.io"
-baseurl                  : # the subpath of your site, e.g. "/blog"
+baseurl                  : "/"
 repository               : "nodlekang/nodlekang.github.io"
-words_per_minute         : 200
+words_per_minute         : 300
 enable_copy_code_button  : # true, false (default)
 copyright                : # "copyright" name, defaults to site.title
 copyright_url            : # "copyright" URL, defaults to site.url
@@ -60,7 +60,7 @@ author:
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      # url: "mailto:your.name@email.com"
+      url: "mailto:nodlekang@email.com"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/nodlekang"
