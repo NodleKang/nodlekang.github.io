@@ -34,7 +34,7 @@ toc_sticky: true
 
 # 웹훅(Webhook) 수신 환경 구성
 
-ㄴSlackㅇ에엣에서서 Incoming Webhooks라는 기능을 제공하는데, 이 기능을 이용하면 Slack에 메시지를 보낼 수 있습니다.API 사이트에서 앱을 생성한 후에 웹훅용 URL을 추가해야 합니다.
+Slack에서 Incoming Webhooks라는 기능을 제공하는데, 이 기능을 이용하면 Slack에 메시지를 보낼 수 있습니다.API 사이트에서 앱을 생성한 후에 웹훅용 URL을 추가해야 합니다.
 
 웹훅 URL로 메시지를 보내면 Slack API에서 생성한 앱이 그 메시지를 받아서 지정된 Slack 채널에 메시지를 송신합니다.
 
