@@ -17,7 +17,7 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 # Site Settings
 locale                   : "ko-KR"
 rtl                      : # true, false (default) # turns direction of the page into right to left for RTL languages
-title                    : "Memory Vault"
+title                    : "Nodle's Memory Vault"
 title_separator          : "-"
 subtitle                 : "기억의 기록"
 name                     : "강노들"
