@@ -16,7 +16,7 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 2024년 11월 30일 배우자의 퇴직연금 리밸런싱에 대한 기록입니다.
+본 포스트는 2024년 11월 29일 금요일에 실행한 배우자의 퇴직연금 리밸런싱에 대한 기록입니다.
 
 <div class="notice--warning" markdown="1">
 **Disclaimer**
