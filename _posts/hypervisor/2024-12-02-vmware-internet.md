@@ -61,4 +61,4 @@ Broadcom 정책 변화로 VMware Workstation Pro 17 부터는 개인 사용자�
 
 VMware Player는 아래 링크에서 바로 다운로드 받을 수 있어서 편리합니다.
 
-![VMware Player 다운로드 CDN](https://softwareupdate.vmware.com/cds/vmw-desktop/player/)
+[https://softwareupdate.vmware.com/cds/vmw-desktop/player/](https://softwareupdate.vmware.com/cds/vmw-desktop/player/)
