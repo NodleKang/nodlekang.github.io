@@ -27,11 +27,11 @@ VMware에서 인터넷을 사용하게 하려면 호스트의 네트워크 설�
 
 호스트인 윈도우에 네트워크 어댑터 설정에서 인터넷에 연결되어 있는 네트워크 어댑터를 VMware에 공유합니다.
 
-![윈도우 네트워크 어댑터 공유](/assets/images/post/hypervisor/2024-12-02-vmware-internet/windows_adapter_share.png)
+![윈도우 네트워크 어댑터 공유](/assets/images/post/hypervisor/2024-12-02-vmware-internet/windows_adapter_share.png){: width="100"}
 
 # VMware 네트워크 설정
 
-![VMware 네트워크 설정)(/assets/images/post/hypervisor/2024-12-02-vmware-internet/vmware_adapter.png)
+![VMware 네트워크 설정](/assets/images/post/hypervisor/2024-12-02-vmware-internet/vmware_adapter.png){: width="100"}
 
 # 게스트 OS 설정
 
