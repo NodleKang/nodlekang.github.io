@@ -21,13 +21,13 @@ toc_sticky: true
 
 <div class="notice" markdown="1">
 - Host OS: Windows 10
-- Hypervisor: VMware Workstation 16 Player 17.5.2
+- Hypervisor: VMware Player 17.5.2
 - Guest OS: Rocky Linux 8.10 minimal
 </div>
 
 # 호스트 네트워크 설정
 
-VMware에서 인터넷을 사용하게 하려면 호스트의 네트워크 설정을 변경해야 합니다.
+VMware Player에서 인터넷을 사용하게 하려면 호스트의 네트워크 설정을 변경해야 합니다.
 
 호스트인 윈도우에 네트워크 어댑터 설정에서 인터넷에 연결되어 있는 네트워크 어댑터를 VMware에 공유합니다.
 
@@ -52,3 +52,13 @@ $ vi /etc/sysconfig/network-scripts/ifcfg-ens*
 ```bash
 ONBOOT=yes
 ```
+
+# VMware Player 다운로드
+
+Broadcom 정책 변화로 VMware Workstation Pro 17 부터는 개인 사용자에게 무료로 제공됩니다.
+
+하지만 개인적인 테스트에는 원래도 개인 사용자에게 무료로 제공되던 VMware Player로도 충분해서 VMware Player를 사용하고 있습니다. 
+
+VMware Player는 아래 링크에서 바로 다운로드 받을 수 있어서 편리합니다.
+
+https://softwareupdate.vmware.com/cds/vmw-desktop/player/
