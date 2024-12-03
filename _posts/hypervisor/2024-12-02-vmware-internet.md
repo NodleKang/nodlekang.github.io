@@ -34,7 +34,7 @@ toc_sticky: true
 
 참고로 Broadcom 정책 변화로 VMware Workstation Pro 17 부터는 개인 사용자에게 무료로 제공됩니다.
 
-VMware Player 다운로드: [https://www.vmware.com/kr/products/workstation-player/workstation-player-evaluation.html](https://www.vmware.com/kr/products/workstation-player/workstation-player-evaluation.html)
+VMware Player 다운로드: [https://softwareupdate.vmware.com/cds/vmw-desktop/player/](https://softwareupdate.vmware.com/cds/vmw-desktop/player/)
 
 VMware Toools 다운로드: [https://support.broadcom.com/group/ecx/productdownloads?subfamily=VMware%20Tools](https://support.broadcom.com/group/ecx/productdownloads?subfamily=VMware%20Tools)
 
