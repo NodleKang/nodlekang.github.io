@@ -124,3 +124,22 @@ sudo ./vmware-install.pl
 ```
 
 설치가 완료되면 게스트 OS를 재부팅합니다.
+
+# 폴더 공유
+
+게스트 OS와 호스트 OS 간에 파일을 복사하거나 드래그 앤 드롭을 사용하려면 VMware Player에서 폴더 공유를 설정해야 합니다.
+
+![폴더 공유 설정](/assets/images/post/hypervisor/2024-12-02-vmware-internet/vmware_folder_share.png)
+
+폴더 공유를 설정하고 게스트 OS에서 다음과 같이 마운트하면 호스트 OS의 폴더를 사용할 수 있습니다.
+
+```bash
+sudo mkdir /mnt/hgfs
+sudo /usr/bin/vmhgfs-fuse .host:/ /mnt/hgfs -o subtype=vmhgfs-fuse,allow_other
+```
+
+마운트가 성공했는지 확인하려면 다음과 같이 명령을 실행합니다.
+
+```bash
+ls /mnt/hgfs
+```
