@@ -16,7 +16,7 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 윈도우에 설치한 VMware Player 환경을 설정하는 방법에 대해서 정리한 것입니다.
+본 포스트는 윈도우에 설치한 VMware Player 환경을 설정한 내용을 정리한 것 입니다.
 
 # 환경
 
