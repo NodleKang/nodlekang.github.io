@@ -1,26 +1,27 @@
 ---
 layout: single
-title: "VMware 사용 설정"
-date: 2024-12-02 10:00:00 +0900
+title: "VMware Player 환경 설정"
+date: 2024-12-04 09:00:00 +0900
 categories: 
   - Linux
 tag: 
   - linux
   - vmware
-  - internet
-  - ssl
+  - 인터넷
   - 인증서
+  - ssl
   - vmware-tools
+  - 포트포워딩
 toc: true
 toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 윈도우에 설치한 VMware Player 환경을 설정한 내용을 정리한 것 입니다.
+본 포스트는 윈도우에 설치한 VMware Player 사용을 위해 환경을 설정한 내용을 정리한 것 입니다.
 
 # 환경
 
-다음과 같은 환경에서 테스트하였습니다.
+본 포스트는 다음과 같은 환경에서 테스트하였습니다.
 
 <div class="notice" markdown="1">
 - Host OS: Windows 10
@@ -32,7 +33,7 @@ toc_sticky: true
 
 개인 사용자에게 무료로 제공되는 VMware Player와 VMware Tools를 다운로드 받아서 사용했습니다. 
 
-참고로 Broadcom 정책 변화로 VMware Workstation Pro 17 부터는 개인 사용자에게 무료로 제공됩니다.
+참고로 Broadcom 정책 변화로 VMware Workstation Pro 17 부터는 개인 사용자 한해서 무료로 제공됩니다. (하지만 VMware Player를 사용했습니다.)
 
 VMware Player 다운로드: [https://softwareupdate.vmware.com/cds/vmw-desktop/player/](https://softwareupdate.vmware.com/cds/vmw-desktop/player/)
 
@@ -49,8 +50,6 @@ VMware Player에서 인터넷을 사용하게 하려면 호스트 OS에서 네�
 # VMware 네트워크 설정
 
 VMware Player에서 네트워크 설정은 NAT로 설정합니다.
-
-만약 NAT 설정으로 안 된다면 다른 옵션을 선택해도 됩니다.
 
 ![VMware 네트워크 설정](/assets/images/post/hypervisor/2024-12-02-vmware-internet/vmware_adapter.png)
 
@@ -142,4 +141,74 @@ sudo /usr/bin/vmhgfs-fuse .host:/ /mnt/hgfs -o subtype=vmhgfs-fuse,allow_other
 
 ```bash
 ls /mnt/hgfs
+```
+
+# 포트포워딩
+
+호스트OS에서 게스트OS로 접속하려면 포트포워딩을 설정해야 합니다.
+
+## 게스트OS IP 확인
+
+ifconfig 명령을 사용하여 게스트OS의 IP를 확인합니다. 
+
+eth 혹은 ens로 시작하는 인터페이스의 IP를 확인합니다.
+
+```bash
+$ ifconfig
+```
+
+## VMware Player 포트포워딩 설정
+
+윈도우에 설치된 VMware Player에 포트포워딩을 설정하려면 직접 설정 파일을 수정해야 합니다.
+
+VMware Player의 설정 파일은 다음과 같은 경로에 있습니다.
+
+```
+C:\ProgramData\VMware\vmnetnat.conf
+```
+
+해당 파일을 열어 보면 다음과 같이 tcp/udp 포트포워딩 설정이 있습니다.
+
+TCP 포트포워딩을 하려면 `[incomingtcp]` 부분에 `포트 = 게스트OS IP:포트` 형식으로 설정을 추가합니다.
+
+```
+... 생략 ...
+[incomingtcp]
+... 생략 ...
+
+# SSH
+#      ssh -p 8889 root@localhost
+8889 = 192.168.226.128:22 # 여기에 게스트OS에서 확인한 IP를 입력합니다.
+
+[incomingudp]
+# UDP port forwarding example
+#6000 = 192.168.27.128:6001
+... 생략 ...
+```
+
+설정을 추가한 후에 윈도우의 서비스에서 VMware NAT Service를 재시작하면 포트포워딩이 적용됩니다.
+
+![서비스재시작](/assets/images/post/hypervisor/2024-12-02-vmware-internet/service_restart.png)
+
+## 게스트OS sshd 서비스 확인과 방화벽 설정
+
+게스트OS에서 sshd 서비스가 실행 중인지 확인합니다.
+
+```bash
+$ systemctl status sshd
+```
+
+만약 실행 중이 아니라면 다음과 같이 서비스를 시작합니다.
+
+```bash
+sudo systemctl start sshd
+sudo systemctl enable sshd
+```
+
+## 호스트OS에서 게스트OS로 접속
+
+호스트OS에서 게스트OS로 접속하려면 다음과 같이 명령을 실행합니다.
+
+```bash
+ssh -p 8889 root@localhost
 ```
