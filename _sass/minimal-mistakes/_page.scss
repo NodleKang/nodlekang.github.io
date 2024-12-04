@@ -84,6 +84,11 @@ body {
 }
 
 .page__content {
+  h1 { /* 헤더에 padding 추가 */
+    padding-top: 1.5em;
+    padding-bottom: 1em;
+  }
+
   h2 {
     padding-bottom: 0.5em;
     border-bottom: 1px solid $border-color;
