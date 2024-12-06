@@ -113,7 +113,7 @@ $ sudo vi /etc/systemd/system/myapp.service
 $ sudo vi /etc/systemd/system/opensearch.service
 ```
 
-```bash
+```
 [Unit]
 Description=OpenSearch Service
 After=network-online.target
@@ -125,7 +125,7 @@ Group=${GROUP}
 Environment=OPENSEARCH_HOME=/engn001/mysolution/opensearch-2.13.0
 ExecStart=/bin/bash ${OPENSEARCH_HOME}/start.sh
 ExecStop=/bin/bash ${OPENSEARCH_HOME}/stop.sh
-WorkingDirectory=${OPENSEARCH_HOME}
+WorkingDirectory=/engn001/mysolution/opensearch-2.13.0
 
 Restart=on-failure
 RestartSec=5s
