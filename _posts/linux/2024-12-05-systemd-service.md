@@ -1,7 +1,7 @@
 ---
 layout: single
-title: "Linux 서비스 등록하기"
-date: 2024-12-05 15:00:00 +0900
+title: "Linux 서비스 등록"
+date: 2024-12-06 15:00:00 +0900
 categories: 
   - Linux
 tag: 
@@ -9,12 +9,13 @@ tag:
   - systemd
   - systemctl
   - service
+  - 서비스
 toc: true
 toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 리눅스에서 systemd를 사용하여 서비스를 등록하는 방법에 대해서 정리한 것 입니다.
+본 포스트는 리눅스에서 systemd에 서비스를 등록하는 방법을 설명합니다.
 
 # 개요
 
@@ -104,9 +105,9 @@ $ sudo vi /etc/systemd/system/myapp.service
 
 # 서비스 파일 예시
 
-내가 하고 있는 프로젝트는 OpenSearch를 사용하고 있습니다. 
+제가 하고 있는 프로젝트는 OpenSearch를 사용하고 있습니다. 
 
-아래는 내가 작성한 OpenSearch를 서비스로 등록하는 예시입니다.
+아래는 제가 작성한 OpenSearch를 서비스로 등록하는 예시입니다.
 
 ```bash
 $ sudo vi /etc/systemd/system/opensearch.service
@@ -144,7 +145,7 @@ WantedBy=multi-user.target
 
 # 서비스 등록
 
-나는 예시로 제시한 OpenSearch 서비스를 아래와 같이 등록해서 사용하고 있습니다.
+예시로 제시한 OpenSearch 서비스를 등록하려면 아래와 같이 실행합니다.
 
 ```bash
 $ sudo systemctl daemon-reload
