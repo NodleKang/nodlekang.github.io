@@ -67,7 +67,7 @@ $light-gray: mix(#fff, $gray, 50%) !default;
 $lighter-gray: mix(#fff, $gray, 90%) !default;
 
 $background-color: #fff !default;
-$code-background-color: #cccccc !default; /* 인라인 코드 블럭 색상 (변경 전: #fafafa)*/
+$code-background-color: #d3d3d3 !default; /* 인라인 코드 블럭 색상 (변경 전: #fafafa)*/
 $code-background-color-dark: $light-gray !default;
 $text-color: $dark-gray !default;
 $muted-text-color: mix(#fff, $text-color, 20%) !default;
