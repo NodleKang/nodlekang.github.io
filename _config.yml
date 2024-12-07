@@ -43,8 +43,6 @@ google:
 # SEO Related
 google_site_verification :
 naver_site_verification  :
-google_fonts: # 폰트추가
-  - "D2Coding"
 
 # Analytics
 analytics:
