@@ -19,9 +19,8 @@ $indent-var: 1.3em !default;
 
 /* system typefaces */
 // 폰트 추가(D2Coding)
-$customFont: "D2Coding";
-$serif:  $customFont, Georgia, Times, serif !default;
-$sans-serif: $customFont, -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI",
+$serif: "D2Coding", Georgia, Times, serif !default;
+$sans-serif: "D2Coding", -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI",
   "Helvetica Neue", "Lucida Grande", Arial, sans-serif !default;
 $monospace: Monaco, Consolas, "Lucida Console", monospace !default;
 
