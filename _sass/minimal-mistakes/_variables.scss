@@ -8,8 +8,8 @@
 
 // 기본 값이 데스크탑에서 large에서 x-large 이상인 구간인 경우 폰트가 커져서 
 // 효율적이지 못 해서 폰트 사이즈를 조정했습니다.
-$doc-font-size: 14px !default; // 원래는 16px
-$doc-font-size-medium: $doc-font-size * 1.125 !default;
+$doc-font-size: 16px !default;
+$doc-font-size-medium: $doc-font-size * 1.1 !default;
 $doc-font-size-large: $doc-font-size * 1.125 !default;
 $doc-font-size-x-large: $doc-font-size * 1.125 !default;
 
