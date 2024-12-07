@@ -8,7 +8,7 @@
 
 // 기본 값이 데스크탑에서 large에서 x-large 이상인 구간인 경우 폰트가 커져서 
 // 효율적이지 못 해서 폰트 사이즈를 조정했습니다.
-$doc-font-size: 16px !default;
+$doc-font-size: 14px !default; // 원래는 16px
 $doc-font-size-medium: $doc-font-size * 1.125 !default;
 $doc-font-size-large: $doc-font-size * 1.125 !default;
 $doc-font-size-x-large: $doc-font-size * 1.125 !default;
@@ -18,8 +18,10 @@ $paragraph-indent: false !default; // true, false (default)
 $indent-var: 1.3em !default;
 
 /* system typefaces */
-$serif: Georgia, Times, serif !default;
-$sans-serif: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI",
+// 폰트 추가(D2Coding)
+$customFont: "D2Coding";
+$serif:  $customFont, Georgia, Times, serif !default;
+$sans-serif: $customFont, -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI",
   "Helvetica Neue", "Lucida Grande", Arial, sans-serif !default;
 $monospace: Monaco, Consolas, "Lucida Console", monospace !default;
 
