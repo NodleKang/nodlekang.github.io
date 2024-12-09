@@ -20,7 +20,7 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 오픈 텔레메트리(OpenTelemetry)에 대해 혼자 학습한 내용을 정리한 첫 번째 포스트 입니다.
+본 포스트는 오픈 텔레메트리(OpenTelemetry)에 대해 학습한 내용을 정리한 첫 번째 포스트 입니다.
 
 OpenTelemetry 공식 문서를 참고하고, ChatGPT를 사용하여 내용을 작성하였습니다.
 
@@ -40,8 +40,6 @@ OpenTelemetry는 Microservices, Kubernetes, Istio 등의 환경에서의 텔레�
 
 OpenTelemetry의 목표는 분산 시스템에서의 로그, 메트릭, 트레이스를 표준화하고, 이를 통해 시스템의 성능을 모니터링하고, 문제를 해결하는데 도움을 주는 것입니다.
 
-OpenTelemetry는 로그, 메트릭, 트레이스를 표준화하기 위한 API와 SDK를 제공하며, 이를 통해 다양한 언어와 프레임워크에서 텔레메트리 데이터를 수집하고, 전송하고, 저장하는 것을 지원합니다.
-
 # OpenTelemetry 컴포넌트(Component)
 
 OpenTelemetry의 컴포넌트는 로그, 메트릭, 트레이스 데이터를 수집하고, 전송하고, 저장하는데 사용되는 모듈을 의미합니다.
@@ -58,7 +56,7 @@ OpenTelemetry의 컴포넌트는 로그, 메트릭, 트레이스 데이터를 �
 
 # OpenTelemetry 수집 데이터 형식
 
-OpenTelemetry 에서는 수집하는 데이터들을 Signals 라고 지칭하며, 다음과 같은 형식으로 정의합니다.
+OpenTelemetry 에서는 수집하는 데이터들을 `Signals` 라고 지칭하며, 다음과 같은 형식으로 정의합니다.
 
 - 로그(Log): 시스템에서 발생하는 이벤트를 기록한 데이터
 - 메트릭(Metric): 시간에 따른 수치 데이터
@@ -84,7 +82,7 @@ OpenTelemetry 에서는 수집하는 데이터들을 Signals 라고 지칭하며
 
 예를 들어, 서비스와 서비스 간의 호출 관계를 추적하기 위해 사용자 ID, 세션 ID, 트랜잭션 ID 등을 배기지로 전파할 수 있습니다.
 
-![Baggage](https://opentelemetry.io/img/otel-baggage.svg){: width="100"}
+![Baggage](https://opentelemetry.io/img/otel-baggage.svg){: width="300"}
 
 # 컨텍스트 전파(Context Propagation)
 
