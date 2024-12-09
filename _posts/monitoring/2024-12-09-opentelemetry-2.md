@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "[OpenTelemetry] 1. 개념 파악 - 두번째"
+title: "[OpenTelemetry] 알아보기 2"
 date: 2024-12-09 15:00:00 +0900
 categories: 
   - 모니터링
@@ -20,7 +20,7 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 오픈 텔레메트리(OpenTelemetry)에 대해 학습한 내용을 정리한 두 번째 포스트 입니다.
+본 포스트는 오픈 텔레메트리(OpenTelemetry)에 대해 학습한 내용을 정리한 포스트 입니다.
 
 (OpenTelemetry란 무엇인가)[https://medium.com/@dudwls96/opentelemetry-란-무엇인가-18b6e4fe6e36]
 
@@ -32,8 +32,8 @@ toc_sticky: true
 
 OpenTelemetry(약자 OTel)는 Traces, Metrics, Logs와 같은 데이터를 계측하고, 생성하고, 수집하고, 내보낼 수 있는 Observability 프레임워크입니다.
 
-하지만 OpenTelemetry는 수집한 데이터를 저장하거나 조회할 수 있는 방법을 제공하지 않고, 
-상용 서비스(예를 들어 Datadog, New Relic 등) 혹은 오픈소스 서비스(예를 들어 Prometheus, Jaeger 등)로 데이터를 전달합니다.
+하지만 OpenTelemetry는 **수집한 데이터를 저장하거나 조회할 수 있는 방법을 제공하지 않고**, <br> 
+상용 서비스(예를 들어 Datadog, New Relic 등) 혹은 오픈소스 서비스(예를 들어 Prometheus, Jaeger 등)로 **데이터를 전달**합니다.
 
 OpenTelemetry는 데이터를 수집, 변환, 전송하기 위한 표준화된 SDK, API, OTel Collector를 제공하는 것을 목표로 합니다.
 
@@ -63,7 +63,7 @@ OpenTelemetry Collector 는 원격측정데이터(Traces, Metrics, Logs)를 수�
 
 OpenTelemetry Collector 는 Receivers, Processor, Exporter로 구성되어 있습니다.
 
-간단하게 데이터를 받는 Receiver, 데이터를 가공하는 Processor, 데이터를 내보내는 Exporter로 생각하면 됩니다.
+간단하게 `데이터를 받는 Receiver`, `데이터를 가공하는 Processor`, `데이터를 내보내는 Exporter`로 생각하면 됩니다.
 
 * Receiver
   * gRPC 혹은 HTTP 프로토콜로 Trace, Metric, Log 데이터를 수신합니다.
@@ -115,6 +115,3 @@ service:
       processors: [batch]
       exporters: [otlp]
 ```
-
-# Demo
-

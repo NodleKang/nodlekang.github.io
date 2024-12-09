@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "[Telemetry] 학습"
+title: "[OpenTelemetry] 텔레메트리"
 date: 2024-12-09 09:00:00 +0900
 categories: 
   - 모니터링
@@ -18,7 +18,9 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 텔레메트리(Telemetry)에 대해 학습한 내용을 정리한 것 입니다.
+본 포스트는 오픈 텔레메트리(OpenTelemetry)에 대해 학습한 내용을 정리한 포스트 입니다.
+
+첫 내용으로 `원격측정데이터` 즉, 텔레메트리(Telemetry)에 대해 학습한 내용을 정리했습니다.
 
 # 텔레메트리(Telemetry)
 

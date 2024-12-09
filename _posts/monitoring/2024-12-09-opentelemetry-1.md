@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "[OpenTelemetry] 1. 개념 파악 - 첫번째"
+title: "[OpenTelemetry] 알아보기 1"
 date: 2024-12-09 14:00:00 +0900
 categories: 
   - 모니터링
@@ -20,7 +20,7 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 오픈 텔레메트리(OpenTelemetry)에 대해 학습한 내용을 정리한 첫 번째 포스트 입니다.
+본 포스트는 오픈 텔레메트리(OpenTelemetry)에 대해 학습한 내용을 정리한 포스트 입니다.
 
 OpenTelemetry 공식 문서를 참고하고, ChatGPT를 사용하여 내용을 작성하였습니다.
 
