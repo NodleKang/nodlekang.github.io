@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "OpenTelemetry"
+title: "[OpenTelemetry] 1. 개념 파악"
 date: 2024-12-09 14:00:00 +0900
 categories: 
   - 모니터링
@@ -13,12 +13,18 @@ tag:
   - log
   - metric
   - trace
+  - span
+  - baggage
 toc: true
 toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 오픈 텔레메트리(OpenTelemetry)에 대해 학습한 내용을 정리한 첫 번째 포스트 입니다.
+본 포스트는 오픈 텔레메트리(OpenTelemetry)에 대해 혼자 학습한 내용을 정리한 첫 번째 포스트 입니다.
+
+OpenTelemetry 공식 문서를 참고하고, ChatGPT를 사용하여 내용을 작성하였습니다.
+
+당연히 내용에 오류가 있을 수 있습니다.
 
 # OpenTelemetry 등장 배경
 

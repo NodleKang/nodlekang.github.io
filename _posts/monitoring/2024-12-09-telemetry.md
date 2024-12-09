@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Telemetry"
+title: "[Telemetry] 학습"
 date: 2024-12-09 09:00:00 +0900
 categories: 
   - 모니터링
@@ -12,6 +12,7 @@ tag:
   - log
   - metric
   - trace
+  - span
 toc: true
 toc_label: 목차
 toc_sticky: true
