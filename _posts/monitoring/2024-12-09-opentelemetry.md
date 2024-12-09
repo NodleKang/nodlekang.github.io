@@ -42,6 +42,20 @@ OpenTelemetry의 목표는 분산 시스템에서의 로그, 메트릭, 트레�
 
 OpenTelemetry는 로그, 메트릭, 트레이스를 표준화하기 위한 API와 SDK를 제공하며, 이를 통해 다양한 언어와 프레임워크에서 텔레메트리 데이터를 수집하고, 전송하고, 저장하는 것을 지원합니다.
 
+# OpenTelemetry 컴포넌트(Component)
+
+OpenTelemetry의 컴포넌트는 로그, 메트릭, 트레이스 데이터를 수집하고, 전송하고, 저장하는데 사용되는 모듈을 의미합니다.
+
+- OpenTelemetry Collector: 로그, 메트릭, 트레이스 데이터를 수집하고, 전송하고, 저장하는 컴포넌트
+- OpenTelemetry Exporter: 로그, 메트릭, 트레이스 데이터를 특정 저장소로 전송하는 컴포넌트
+- OpenTelemetry Instrumentation: 로그, 메트릭, 트레이스를 수집하기 위한 라이브러리
+- OpenTelemetry Protocol: 로그, 메트릭, 트레이스 데이터를 전송하기 위한 프로토콜 (gRPC, HTTP 등)
+- OpenTelemetry Semantic Conventions: 로그, 메트릭, 트레이스 데이터를 표준화하기 위한 규칙
+- OpenTelemetry Specification: 로그, 메트릭, 트레이스 데이터를 표준화하기 위한 명세
+- OpenTelemetry Implementation: 다양한 언어와 프레임워크에서 OpenTelemetry를 사용할 수 있도록 지원하는 라이브러리
+- OpenTelemetry SDK: 로그, 메트릭, 트레이스를 수집하기 위한 SDK
+- OpenTelemetry API: 로그, 메트릭, 트레이스를 수집하기 위한 API
+
 # OpenTelemetry 수집 데이터 형식
 
 OpenTelemetry 에서는 수집하는 데이터들을 Signals 라고 지칭하며, 다음과 같은 형식으로 정의합니다.
@@ -83,19 +97,6 @@ OpenTelemetry 에서는 수집하는 데이터들을 Signals 라고 지칭하며
 HTTP 요청을 받은 서비스는 HTTP 헤더에서 컨텍스트 정보를 추출하여 로그, 메트릭, 트레이스를 수집하고, 다음 서비스에 전달할 수 있습니다.
 
 HTTP 헤더에는 사용자 ID, 세션 ID, 트랜잭션 ID 등의 컨텍스트 정보나 배기지 정보를 포함할 수 있습니다.
-
-# OpenTelemetry 구성 요소
-
-OpenTelemetry는 다음과 같은 구성 요소로 이루어져 있습니다.
-
-- OpenTelemetry API: 로그, 메트릭, 트레이스를 수집하기 위한 API
-- OpenTelemetry SDK: 로그, 메트릭, 트레이스를 수집하기 위한 SDK
-- OpenTelemetry Collector: 로그, 메트릭, 트레이스 데이터를 수집하고, 전송하고, 저장하는 컴포넌트
-- OpenTelemetry Exporter: 로그, 메트릭, 트레이스 데이터를 특정 저장소로 전송하는 컴포넌트
-- OpenTelemetry Instrumentation: 로그, 메트릭, 트레이스를 수집하기 위한 라이브러리
-- OpenTelemetry Protocol: 로그, 메트릭, 트레이스 데이터를 전송하기 위한 프로토콜
-- OpenTelemetry Semantic Conventions: 로그, 메트릭, 트레이스 데이터를 표준화하기 위한 규칙
-- OpenTelemetry Specification: 로그, 메트릭, 트레이스 데이터를 표준화하기 위한 명세
 
 # OpenTelemetry 계측 (Instrumentation)
 
