@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "[OpenTelemetry] 1. 개념 파악"
+title: "[OpenTelemetry] 1. 개념 파악 - 첫번째"
 date: 2024-12-09 14:00:00 +0900
 categories: 
   - 모니터링
@@ -82,7 +82,7 @@ OpenTelemetry 에서는 수집하는 데이터들을 `Signals` 라고 지칭하�
 
 예를 들어, 서비스와 서비스 간의 호출 관계를 추적하기 위해 사용자 ID, 세션 ID, 트랜잭션 ID 등을 배기지로 전파할 수 있습니다.
 
-![Baggage](https://opentelemetry.io/img/otel-baggage.svg){: width="300"}
+![Baggage](https://opentelemetry.io/img/otel-baggage.svg)
 
 # 컨텍스트 전파(Context Propagation)
 
@@ -106,7 +106,7 @@ OpenTelemetry는 자동 계측과 수동 계측을 지원합니다.
 
 ## 자동 계측 (Auto-Instrumentation)
 
-프레임워크나 라이브러리를 사용하여 자동으로 로그, 메트릭, 트레이스를 수집하는 것을 의미합니다.
+소스 코드를 수정하지 않고 프레임워크나 라이브러리를 사용하여 자동으로 로그, 메트릭, 트레이스를 수집하는 것을 의미합니다.
 
 예를 들어, Spring Boot, Django, Express, FastAPI, gRPC 등의 프레임워크나 라이브러리를 사용하여 자동으로 로그, 메트릭, 트레이스를 수집할 수 있습니다.
 
