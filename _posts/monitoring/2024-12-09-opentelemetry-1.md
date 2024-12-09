@@ -110,7 +110,7 @@ OpenTelemetry는 자동 계측과 수동 계측을 지원합니다.
 
 ## 코드 기반 계측 (Code-based Instrumentation)
 
-통상 수동 계측(Manual-Instrumentation )이라고도 불리며, 코드를 직접 수정하여 로그, 메트릭, 트레이스를 수집하는 것을 의미합니다.
+통상 수동 계측(Manual-Instrumentation)이라고도 불리며, 코드를 직접 수정하여 로그, 메트릭, 트레이스를 수집하는 것을 의미합니다.
 
 예를 들어, <br>
 로그를 수집하기 위해 `log.info()`, `log.error()`, `log.debug()` 등의 코드를 추가하거나, <br> 
