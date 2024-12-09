@@ -7,8 +7,6 @@ categories:
 tag: 
   - observability
   - telemetry
-  - 텔레메트리
-  - 모니터링
   - log
   - metric
   - trace

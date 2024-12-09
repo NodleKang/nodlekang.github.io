@@ -5,11 +5,9 @@ date: 2024-12-09 14:00:00 +0900
 categories: 
   - 모니터링
 tag: 
-  - observability
+  - otel
   - telemetry
-  - 텔레메트리
   - OpenTelemetry
-  - 모니터링
   - log
   - metric
   - trace
@@ -22,9 +20,7 @@ toc_sticky: true
 
 본 포스트는 오픈 텔레메트리(OpenTelemetry)에 대해 학습한 내용을 정리한 포스트 입니다.
 
-OpenTelemetry 공식 문서를 참고하고, ChatGPT를 사용하여 내용을 작성하였습니다.
-
-당연히 내용에 오류가 있을 수 있습니다.
+OpenTelemetry 공식 문서를 참고하고, ChatGPT를 사용하여 내용을 작성한 것이므로 오류가 있을 수 있습니다.
 
 # OpenTelemetry 등장 배경
 
@@ -104,15 +100,17 @@ OpenTelemetry 계측은 로그, 메트릭, 트레이스를 수집하기 위한 �
 
 OpenTelemetry는 자동 계측과 수동 계측을 지원합니다.
 
-## 자동 계측 (Auto-Instrumentation)
+## 제로 코드 계측 (Zero-code Instrumentation)
 
-소스 코드를 수정하지 않고 프레임워크나 라이브러리를 사용하여 자동으로 로그, 메트릭, 트레이스를 수집하는 것을 의미합니다.
+통상 자동 계측(Auto-Instrumentation)이라고도 불리며, 소스 코드를 수정하지 않고 프레임워크나 라이브러리를 사용하여 자동으로 로그, 메트릭, 트레이스를 수집하는 것을 의미합니다.
 
-예를 들어, Spring Boot, Django, Express, FastAPI, gRPC 등의 프레임워크나 라이브러리를 사용하여 자동으로 로그, 메트릭, 트레이스를 수집할 수 있습니다.
+제로 코드 계측은 일반적으로 에이전트와 유사한 설치로 애플리케이션에 OpenTelemetry API 및 SDK 기능을 추가합니다. 
 
-## 수동 계측 (Manual-Instrumentation)
+현재(2024.12.09) 제로 코드 계측을 지원하는 언어는 .NET, Go, Java, JavaScript, Python 등이 있습니다. 
 
-코드를 직접 수정하여 로그, 메트릭, 트레이스를 수집하는 것을 의미합니다.
+## 코드 기반 계측 (Code-based Instrumentation)
+
+통상 수동 계측(Manual-Instrumentation )이라고도 불리며, 코드를 직접 수정하여 로그, 메트릭, 트레이스를 수집하는 것을 의미합니다.
 
 예를 들어, <br>
 로그를 수집하기 위해 `log.info()`, `log.error()`, `log.debug()` 등의 코드를 추가하거나, <br> 
