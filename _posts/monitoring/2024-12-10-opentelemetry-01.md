@@ -31,7 +31,7 @@ OpenTelemetry는 수집한 데이터를 직접 저장하거나 조회할 수 있
 
 ![OpenTelemetry](https://opentelemetry.io/img/otel-diagram.svg)
 
-1. **OpenTelemetry Instrumentation**: 다양한 프레임워크와 라이브러리에서 사용할 수 있는 계측(Instrumentation) 라이브러리
+1. **OpenTelemetry Instrumentation**: 다양한 프레임워크와 라이브러리에서 사용할 수 있는 계측 라이브러리
 2. **OpenTelemetry API**: 로그, 메트릭, 트레이스를 수집하기 위한 API
 3. **OpenTelemetry SDK**: API의 구현체로, 데이터 처리와 내보내기 기능 제공
 4. **OpenTelemetry Collector**: 원격측정데이터(Traces, Metrics, Logs)를 수집, 처리, 내보내는 중앙 집중식 컴포넌트
