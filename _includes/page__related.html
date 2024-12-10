@@ -1,5 +1,6 @@
 {% assign posts = include.posts | where_exp: "post", "post.hidden != true" %}
-{% assign related_posts = posts | where_exp: "post", "post.categories[0] == page.categories[0]" | where_exp: "post", "post.url != page.url" %} <!-- 같은 가테고리 포스트로 제한하기 -->
+<!-- 같은 가테고리 포스트로 제한하기, 여러 카테고리에 속할 수도 있지만 첫 번째 카테고리만으로 필터링 -->
+{% assign related_posts = posts | where_exp: "post", "post.categories[0] == page.categories[0]" | where_exp: "post", "post.url != page.url" %}
 <div class="page__related">
   {% include before-related.html %}
   <h2 class="page__related-title">{{ site.data.ui-text[site.locale].related_label | default: "You May Also Enjoy" }}</h2>
