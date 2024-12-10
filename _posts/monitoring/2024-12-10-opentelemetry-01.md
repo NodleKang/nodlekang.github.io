@@ -120,7 +120,9 @@ OTLP는 OpenTelemetry 프로젝트를 위해 특별히 설계된 원격측정데
 
 # 지원 언어
 
-현재(2024.12.09) OpenTelemetry에서 지원하는 언어는 다음과 같으며, 제로 코드 계측을 지원하는 언어는 .NET, Go, Java, JavaScript, Python 등이 있습니다.
+OpenTelmetry는 다양한 개발 언어를 대상으로 API와 SDK를 제공하며, 이를 통해 코드 기반 계측을 할 수 있습니다.
+
+현재(2024.12.09) API와 SDK를 제공하는 개발 언어는 다음과 같습니다.
 
 | 개발언어 | Traces | Metrics | Logs   |
 |---|---|---|--------|
@@ -131,6 +133,10 @@ OTLP는 OpenTelemetry 프로젝트를 위해 특별히 설계된 원격측정데
 | Python | Stable | Stable | Development |
 
 최신의 전체 목록은 [여기](https://opentelemetry.io/docs/languages/)에서 확인할 수 있습니다.
+
+제로 코드 계측을 지원하는 언어는 .NET, Go, Java, JavaScript, Python 등이 있습니다.
+
+제로 코드 계측을 지원하는 개발 언어 목록은 [여기](https://opentelemetry.io/docs/zero-code/)에서 확인할 수 있습니다.
 
 # 참고 자료
 
