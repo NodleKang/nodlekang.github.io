@@ -13,11 +13,10 @@ layout: archive
 {% endif %}
 
 {% assign filtered_posts = posts | where_exp: "post", "not (post.categories contains '배당' or post.categories contains '부동산' or post.categories contains '연금' or post.categories contains '재테크')" %}
-{% assign posts = filtered_posts %}
 
 {% assign entries_layout = page.entries_layout | default: 'list' %}
 <div class="entries-{{ entries_layout }}">
-  {% include documents-collection.html entries=posts type=entries_layout %}
+  {% include documents-collection.html entries=filtered_posts type=entries_layout %}
 </div>
 
 {% include paginator.html %}
