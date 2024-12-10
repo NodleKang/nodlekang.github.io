@@ -81,7 +81,7 @@ OpenTelemetry는 두 가지 주요 계측 방식을 지원합니다.
 
 예를 들어, 전체 시스템, 특정 서비스, 특정 함수를 대상으로 원격측정데이터(Traces, Metrics, Logs)를 수집할 수 있습니다.
 
-# Collector
+# OpenTelemetry Collector
 
 OpenTelemetry Collector는 원격측정데이터(Traces, Metrics, Logs)를 수신하고 처리한 후에 OpenTelemetry 백엔드로 데이터를 내보내는 역할을 합니다.
 
