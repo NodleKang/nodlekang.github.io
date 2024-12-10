@@ -270,7 +270,3 @@ plugins:
   - jekyll-gist
   - jekyll-feed
   - jekyll-include-cache
-
-# 페이지네이션 설정
-paginate: 5
-paginate_path: /page:num/
