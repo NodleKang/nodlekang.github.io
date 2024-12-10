@@ -109,7 +109,13 @@ keep_files:
   - .svn
 encoding: "utf-8"
 markdown_ext: "markdown,mkdown,mkdn,mkd,md"
-
+exclude_from_home:
+  - 부동산
+  - 배당
+  - 재테크
+  - 부동산
+  - 연금
+  - 투자
 
 # Conversion
 markdown: kramdown
