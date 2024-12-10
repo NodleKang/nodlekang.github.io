@@ -105,6 +105,8 @@ exclude:
   - /docs # ignore Minimal Mistakes /docs
   - /test # ignore Minimal Mistakes /test
   - _posts/realestate
+  - _posts/pension
+  - _posts/income
 keep_files:
   - .git
   - .svn
