@@ -7,32 +7,14 @@ layout: archive
 <h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>
 
 {% if paginator %}
-  {% assign all_posts = paginator.posts %}
+  {% assign posts = paginator.posts %}
 {% else %}
-  {% assign all_posts = site.posts %}
+  {% assign posts = site.posts %}
 {% endif %}
-
-{% assign excluded_categories = "부동산,투자,배당,연금,재테크,주식" | split: "," %}
-{% assign filtered_posts = "" | split: "" %}
-
-{% for post in all_posts %}
-  {% assign post_categories = post.categories %}
-  {% assign should_exclude = false %}
-
-  {% for category in post_categories %}
-    {% if excluded_categories contains category %}
-      {% assign should_exclude = true %}
-    {% endif %}
-  {% endfor %}
-
-  {% unless should_exclude %}
-    {% assign filtered_posts = filtered_posts | push: post %}
-  {% endunless %}
-{% endfor %}
 
 {% assign entries_layout = page.entries_layout | default: 'list' %}
 <div class="entries-{{ entries_layout }}">
-  {% include documents-collection.html entries=filtered_posts type=entries_layout %}
+  {% include documents-collection.html entries=posts type=entries_layout %}
 </div>
 
 {% include paginator.html %}

@@ -104,6 +104,7 @@ exclude:
   - tmp
   - /docs # ignore Minimal Mistakes /docs
   - /test # ignore Minimal Mistakes /test
+  - _posts/realestate
 keep_files:
   - .git
   - .svn
