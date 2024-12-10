@@ -6,8 +6,8 @@
    Typography
    ========================================================================== */
 
-// 기본 값이 데스크탑에서 large에서 x-large 이상인 구간인 경우 폰트 사이즈를 조정했습니다.
-$doc-font-size: 16px !default;
+// 기본 폰트 사이즈를 원하는 값으로 변경
+$doc-font-size: 14px !default;
 $doc-font-size-medium: $doc-font-size * 1.0 !default;
 $doc-font-size-large: $doc-font-size * 1.1 !default;
 $doc-font-size-x-large: $doc-font-size * 1.1 !default;
