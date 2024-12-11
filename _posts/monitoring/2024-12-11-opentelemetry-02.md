@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "[OpenTelemetry] Collector 설치와 구성"
-date: 2024-12-10 11:00:00 +0900
+date: 2024-12-11 11:00:00 +0900
 categories: 
   - 모니터링
 tag: 
