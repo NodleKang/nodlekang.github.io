@@ -1,7 +1,7 @@
 ---
 layout: single
-title: "[OpenTelemetry] Java 애플리케이션 제로 코드 계측하기"
-date: 2024-12-10 10:00:00 +0900
+title: "[OpenTelemetry] Collector 설치와 구성"
+date: 2024-12-10 11:00:00 +0900
 categories: 
   - 모니터링
 tag: 
@@ -17,105 +17,158 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 Java 애플리케이션에 제로 코드 계측(Zero-code Instrumentation)을 적용하는 방법을 테스트한 내용을 정리한 포스트입니다.
+본 포스트는 OpenTelemetry Collector를 설치하고 구성하는 방법을 정리한 포스트입니다.
 
-# Java Agent
+# 개요
 
-Java 어플리케이션을 **제로 코드 계측(일명, 자동 계측)**하기 위해서는 `Java Agent JAR`를 사용해야 합니다.
+OpenTelemetry Collector는 다양한 소스에서 보낸 데이터를 수신하고(Receiver), 가공해서(Processor) 저장소로 내보내는(Exporter) 역할을 합니다.
 
-Java Agent는 JVM에 붙어서 애플리케이션을 실행할 때, 바이트코드를 조작하여 계측을 적용할 수 있습니다.
+# 설치
 
-즉, **Java 애플리케이션을 수정하지 않고도 OpenTelemetry를 적용할 수 있습니다**. 
+OpenTelemetry Collector는 여러 가지 방법으로 설치할 수 있으며, 원하는 방법을 선택하여 설치할 수 있습니다. 
 
-## Java Agent 적용하기
+1. Docker: Docker 이미지를 사용하여 Collector를 실행할 수 있습니다.
+2. Docker Compose: 기존 docker-compose.yaml 파일에 OpenTelemetry Collector를 추가할 수 있습니다.
+3. Kubernetes: 데몬셋으로 에이전트를 배포하고 단일 게이트웨이 인스턴스를 설정할 수 있습니다.
+4. Linux: APK, DEB, RPM 패키지를 통해 Linux 시스템에 설치할 수 있습니다.
+5. macOS: Intel 및 ARM 시스템용 릴리스가 제공됩니다.
+6. Windows: gzip으로 압축된 tar 파일로 제공됩니다.
+7. 소스에서 빌드: GitHub 저장소에서 최신 버전을 직접 빌드할 수 있습니다.
 
-OpenTelemetry Java Agent를 사용하려면 다음과 같은 단계를 거칩니다.
+## Docker로 설치하기
 
-1. Java Agent 다운로드
-2. Java Agent 설정
-3. Java Agent 구성
-3. Java 애플리케이션 실행
-4. OpenTelemetry Collector 설정
-5. OpenTelemetry Collector 실행
-6. OpenTelemetry 백엔드 설정
-7. OpenTelemetry 백엔드 실행
-8. OpenTelemetry 데이터 확인
-9. OpenTelemetry 데이터 시각화
-
-## Java Agent 다운로드
-
-최신 버전의 [opentelemetry-javaagent.jar](https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar) 파일을 다운로드 받습니다.
-
-## Java Agent 설정
-
-Java 애플리케이션을 실행할 때, `-javaagent` 옵션을 사용하여 다운로드 받은 `opentelemetry-javaagent.jar`를 지정합니다.
-
-JVM에 -javaagent 옵션을 사용하여 계측 라이브러리를 로드하면, 애플리케이션의 모든 클래스에 대해 계측이 적용됩니다.
-
-기본적으로 Java Agent는 OTLP(OpenTelemetry Protocol)을 사용하여 http://localhost:4317 엔드포인트(OpenTelemetry Collector의 기본 엔드포인트)로 데이터를 내보냅니다.
-
-Java Agent 설정은 직접 명령줄에서 사용하거나, 환경 변수를 설정하여 사용할 수 있습니다.
+Docker를 사용하여 OpenTelemetry Collector를 실행하는 방법은 다음과 같습니다.
 
 ```bash
-# 명령에서 직접 Java Agent 사용하는 방식
-java -javaagent:path/to/opentelemetry-javaagent.jar \
-     -Dotel.service.name=your-service-name \
-     -jar myapp.jar
+# 최신 버전의 OpenTelemetry Collector 이미지를 다운로드 받습니다.
+docker pull otel/opentelemetry-collector-contrib:0.115.1
+# 다운로드 받은 이미지를 실행합니다.
+docker run otel/opentelemetry-collector-contrib:0.115.1
 ```
 
-명령에서 직접 사용할 수 있는 속성 목록은 [여기](https://opentelemetry.io/docs/languages/java/configuration/)에서 확인할 수 있습니다.
+사용자 정의 설정 파일을 사용하려면 다음과 같이 실행합니다.
 
 ```bash
-# 환경 변수를 설정하여 Java Agent 사용하는 방식
-export JAVA_TOOL_OPTIONS="-javaagent:path/to/opentelemetry-javaagent.jar"
-export OTEL_SERVICE_NAME="your-service-name"
-java -jar myapp.jar
+# 설정 파일을 호스트에 복사합니다.
+docker run -v /path/to/otel-collector-config.yaml:/etc/otel-collector-config.yaml otel/opentelemetry-collector-contrib:0.115.1 --config=/etc/otel-collector-config.yaml
 ```
 
-사용할 수 있는 환경 변수 목록은 [여기](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/)에서 확인할 수 있습니다. 
+## Docker Compose로 설치하기
 
-## Java Agent 구성
+docker-compose.yaml 파일에 OpenTelemetry Collector를 추가하여 실행할 수 있습니다.
 
-Java Agent는 다양한 방식으로 구성할 수 있습니다.
+```yaml
+otel-collector:
+  image: otel/opentelemetry-collector-contrib
+  volumes:
+    - ./otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+  ports:
+    - 1888:1888 # pprof extension
+    - 8888:8888 # Prometheus metrics exposed by the Collector
+    - 8889:8889 # Prometheus exporter metrics
+    - 13133:13133 # health_check extension
+    - 4317:4317 # OTLP gRPC receiver
+    - 4318:4318 # OTLP http receiver
+    - 55679:55679 # zpages extension
+```
 
-* 플래그를 사용하여 구성
-* 환경 변수를 사용하여 구성
-* 설정 파일을 사용하여 구성
+## Linux에 설치하기
 
-플래그를 사용하여 구성하는 방법은 다음과 같습니다.
+### DEB 패키지로 설치하기
+
+Debian 계열의 Linux 시스템에는 DEB 패키지를 사용하여 OpenTelemetry Collector를 설치할 수 있습니다.
 
 ```bash
-java -javaagent:path/to/opentelemetry-javaagent.jar \
-     -Dotel.service.name=your-service-name \
-     -Dotel.traces.exporter=logging-otlp \
-     -jar myapp.jar
+sudo apt-get update
+sudo apt-get -y install wget
+wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.115.1/otelcol_0.115.1_linux_amd64.deb
+sudo dpkg -i otelcol_0.115.1_linux_amd64.deb
 ```
 
-환경 변수를 사용하여 구성하는 방법은 다음과 같습니다.
+### RPM 패키지로 설치하기
+
+Red Hat 계열의 Linux 시스템에는 RPM 패키지를 사용하여 OpenTelemetry Collector를 설치할 수 있습니다.
 
 ```bash
-OTEL_SERVICE_NAME=your-service-name \
-OTEL_TRACES_EXPORTER=logging-otlp \
-java -javaagent:path/to/opentelemetry-javaagent.jar \
-     -jar myapp.jar
+sudo yum update
+sudo yum -y install wget systemctl
+wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.115.1/otelcol_0.115.1_linux_amd64.rpm
+sudo rpm -ivh otelcol_0.115.1_linux_amd64.rpm
 ```
 
-설정 파일을 사용하여 구성하는 방법은 다음과 같습니다.
+### 매뉴얼하게 설치하기
+
+바이너리가 포함된 tarball을 다운로드하여 수동으로 설치할 수도 있습니다.
 
 ```bash
-java -javaagent:path/to/opentelemetry-javaagent.jar \
-     -Dotel.javaagent.configuration-file=path/to/properties/file.properties \
-     -jar myapp.jar
+curl --proto '=https' --tlsv1.2 -fOL https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.115.1/otelcol_0.115.1_linux_amd64.tar.gz
+tar -xvf otelcol_0.115.1_linux_amd64.tar.gz
 ```
 
-설정 파일은 다음과 같이 작성할 수 있습니다.
+# 구성
 
-```properties
-otel.service.name=your-service-name
-otel.traces.exporter=logging-otlp
+OpenTelemetry Collector는 다양한 환경에서 실행할 수 있으며, 환경에 따라 다양한 설정이 필요합니다. 
+
+매뉴얼하게 설치한 게 아니라면 기본적으로 구성 파일은 /etc/<otel-directory>/config.yaml 경로에 위치합니다.
+
+구성 파일은 원격측정데이터에 접근하는 요소들(receivers, processors, exporters 등)을 정의합니다.
+
+아래는 간단한 구성 파일의 예시입니다.
+
+```yaml
+# receivers: 데이터를 수신하는 구성 요소 
+receivers:
+  otlp: # OpenTelemetry Protocol을 사용하여 데이터를 수신합니다.
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317 # gRPC 프로토콜로 0.0.0.0:4317 포트에서 데이터를 수신합니다.
+      http:
+        endpoint: 0.0.0.0:4318 # HTTP 프로토콜로 0.0.0.0:4318 포트에서 데이터를 수신합니다.
+# processors: 수신한 데이터를 처리하는 구성 요소
+processors:
+  batch: # 데이터를 일정 시간 동안 모아서 처리하는 processor입니다.
+
+# exporters: 처리된 데이터를 내보내는 구성 요소
+exporters:
+  otlp:
+    endpoint: otelcol:4317 # OpenTelemetry Protocol을 사용하여 데이터를 otelcol:4317 엔드포인트로 내보냅니다.
+  file:
+    path: /engn001/tuna/otelcol/otelcol.log # 파일로 데이터를 내보냅니다.
+
+# extensions: 옵션으로 사용할 수 있는 확장 기능
+extensions:
+  health_check: # Collector의 상태를 확인하는 확장 기능입니다.
+  pprof: # Collector의 프로파일링을 위한 확장 기능입니다.
+  zpages: # Collector의 내부 상태와 통계를 실시간으로 모니터링할 수 있는 웹 UI를 제공합니다.
+
+# Collector의 서비스 설정
+service:
+  extensions: [health_check, pprof, zpages] # 사용할 확장 기능을 정의합니다.
+  pipelines: # 데이터 파이프라인을 정의합니다.
+    traces: # trace 데이터를 위한 파이프라인을 정의합니다.
+      receivers: [otlp] # otlp receiver를 사용하여 데이터를 수신합니다.
+      processors: [batch] # batch processor를 사용하여 데이터를 처리합니다.
+      exporters: [otlp] # otlp exporter를 사용하여 데이터를 내보냅니다.
+    metrics: # metric 데이터를 위한 파이프라인을 정의합니다.
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp]
+    logs: # log 데이터를 위한 파이프라인을 정의합니다.
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp]
 ```
 
-# 참고
+구성 파일을 검토하려면 다음 명령을 실행합니다.
 
-* [OpenTelemetry 환경변수](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/)
-* [OpenTelemetry Java SDK 구성](https://opentelemetry.io/docs/languages/java/configuration/)
+```bash
+otelcol validate --config=customconfig.yaml
+```
+
+# 실행
+
+OpenTelemetry Collector를 실행하려면 다음 명령을 실행합니다.
+
+```bash
+otelcol --config=customconfig.yaml
+```
