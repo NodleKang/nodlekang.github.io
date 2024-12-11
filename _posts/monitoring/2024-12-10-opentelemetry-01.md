@@ -15,6 +15,10 @@ toc_label: 목차
 toc_sticky: true
 ---
 
+본 포스트는 OpenTelemetry에 대해서 학습한 내용을 정리한 포스트입니다.
+
+첫 번째 포스트이므로 OpenTelemetry에 대한 개요와 주요 구성요소 등에 대해 알아보겠습니다.
+
 # 소개
 
 OpenTelemetry(줄여서 OTel)는 2019년 5월에 OpenTracing과 OpenCensus 프로젝트를 통합하여 만들어진 오픈소스 관찰가능성(observability) 프레임워크입니다. 
