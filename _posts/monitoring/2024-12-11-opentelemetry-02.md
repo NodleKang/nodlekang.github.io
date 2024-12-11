@@ -130,10 +130,18 @@ processors:
 
 # exporters: 처리된 데이터를 내보내는 구성 요소
 exporters:
-  otlp:
-    endpoint: otelcol:4317 # OpenTelemetry Protocol을 사용하여 데이터를 otelcol:4317 엔드포인트로 내보냅니다.
   file:
     path: /engn001/tuna/otelcol/otelcol.log # 파일로 데이터를 내보냅니다.
+  otlphttp:
+    endpoint: "http://localhost:7070" # HTTP 프로토콜을 사용하여 데이터를 localhost:7070 엔드포인트로 내보냅니다.
+    compression: none # 압축은 사용하지 않습니다.
+    encoding: json # JSON 형식으로 인코딩합니다.
+  debug: # 디버그 정보를 출력합니다.
+    verbosity: detailed
+  prometheus: # Prometheus 형식으로 데이터를 내보냅니다.
+    endpoint: localhost:9090 # localhost:9090 엔드포인트로 데이터를 내보냅니다.
+    const_labels:
+      label1: otel # otel 레이블을 추가합니다.
 
 # extensions: 옵션으로 사용할 수 있는 확장 기능
 extensions:
@@ -149,15 +157,15 @@ service:
     traces: # trace 데이터를 위한 파이프라인을 정의합니다.
       receivers: [otlp] # otlp receiver를 사용하여 데이터를 수신합니다.
       processors: [batch] # batch processor를 사용하여 데이터를 처리합니다.
-      exporters: [otlp] # otlp exporter를 사용하여 데이터를 내보냅니다.
+      exporters: [file, debug] # file, debug exporter를 사용하여 데이터를 내보냅니다.
     metrics: # metric 데이터를 위한 파이프라인을 정의합니다.
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp]
+      exporters: [file, debug]
     logs: # log 데이터를 위한 파이프라인을 정의합니다.
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp]
+      exporters: [file, debug]
 ```
 
 구성 파일을 검토하려면 다음 명령을 실행합니다.
