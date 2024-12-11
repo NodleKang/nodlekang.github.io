@@ -21,7 +21,11 @@ toc_sticky: true
 
 # 소개
 
-OpenTelemetry(줄여서 OTel)는 2019년 5월에 OpenTracing과 OpenCensus 프로젝트를 통합하여 만들어진 오픈소스 관찰가능성(observability) 프레임워크입니다. 
+오늘날 모니터링 솔루션은 다양한 프로젝트가 존재하고, 솔루션마다 데이터를 수집하고 전달받는 전용 툴이 각각 존재합니다.
+
+모니터링 시스템을 운영하는 입장에서는 솔루션마다 데이터를 전달하는 전용 툴을 쓰게 되면 별도의 학습이 필요하고, 운영도 더욱 어려워질 수 있습니다.
+
+이런 문제를 해결하기 위해 등장한 것이 OpenTelemetry입니다.
 
 OpenTelemetry는 원격측정데이터(Metrics, Traces, Logs)를 수집하고 전달하는 역할을 하며, 
 데이터를 저장하고 조회하는 역할은 다른 서비스(Prometheus, Jaeger, Dynatrace, New Relic 등)에게 맡깁니다.
@@ -158,3 +162,5 @@ OpenTelmetry는 다양한 개발 언어를 대상으로 API와 SDK를 제공하�
 * [OpenTelemetry Collector Processors](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor)
 * [OpenTelemetry Collector Exporters](https://opentelemetry.io/docs/languages/js/exporters/)
 * [OpenTelemetry Protocol (OTLP)](https://github.com/open-telemetry/opentelemetry-proto/tree/main/docs)
+* [모니터링 데이터 수집과 전달을 하나의 툴로? - OpenTelemetry](https://maily.so/newslettertodevops/posts/1do16k85zx6)
+* 
