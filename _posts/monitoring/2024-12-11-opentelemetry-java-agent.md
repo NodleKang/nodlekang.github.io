@@ -19,15 +19,13 @@ toc_sticky: true
 
 본 포스트는 Java 애플리케이션에 제로코드 계측(Zero-code Instrumentation)을 적용하는 방법을 테스트한 내용을 정리한 포스트입니다.
 
-# Java Agent
-
 Java 어플리케이션을 **제로코드 계측(일명, 자동 계측)**하기 위해서는 `Java Agent JAR`를 사용해야 합니다.
 
 Java Agent는 JVM에 붙어서 애플리케이션을 실행할 때, 바이트코드를 조작하여 계측을 적용할 수 있습니다.
 
 즉, **Java 애플리케이션을 수정하지 않고도 OpenTelemetry를 적용할 수 있습니다**. 
 
-## Java Agent 적용하기
+# Java Agent 적용 방법
 
 OpenTelemetry Java Agent를 사용하려면 다음과 같은 단계를 거칩니다.
 
@@ -42,11 +40,11 @@ OpenTelemetry Java Agent를 사용하려면 다음과 같은 단계를 거칩니
 8. OpenTelemetry 데이터 확인
 9. OpenTelemetry 데이터 시각화
 
-## Java Agent 다운로드
+# Java Agent 다운로드
 
 최신 버전의 [opentelemetry-javaagent.jar](https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar) 파일을 다운로드 받습니다.
 
-## Java Agent 설정
+# Java Agent 설정
 
 Java 애플리케이션을 실행할 때, `-javaagent` 옵션을 사용하여 다운로드 받은 `opentelemetry-javaagent.jar`를 지정합니다.
 
@@ -74,7 +72,7 @@ java -jar myapp.jar
 
 사용할 수 있는 환경 변수 목록은 [여기](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/)에서 확인할 수 있습니다. 
 
-## Java Agent 구성
+# Java Agent 구성
 
 Java Agent는 다양한 방식으로 구성할 수 있습니다.
 
@@ -124,9 +122,6 @@ java -javaagent:path/to/opentelemetry-javaagent.jar \
      -Dotel.service.name=your-service-name \
      -jar myapp.jar
 ```
-
-## OpenTelemetry Collector 설정
-
 
 # 참고
 
