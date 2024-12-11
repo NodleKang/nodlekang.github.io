@@ -132,3 +132,4 @@ java -javaagent:path/to/opentelemetry-javaagent.jar \
 
 * [OpenTelemetry 환경변수](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/)
 * [OpenTelemetry Java SDK 구성](https://opentelemetry.io/docs/languages/java/configuration/)
+* [Java OpenTelemetry Examples](https://github.com/open-telemetry/opentelemetry-java-examples?tab=readme-ov-file#java-opentelemetry-examples)

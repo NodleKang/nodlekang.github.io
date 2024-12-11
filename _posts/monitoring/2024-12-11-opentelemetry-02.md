@@ -138,7 +138,8 @@ exporters:
 # extensions: 옵션으로 사용할 수 있는 확장 기능
 extensions:
   health_check: # Collector의 상태를 확인하는 확장 기능입니다.
-  pprof: # Collector의 프로파일링을 위한 확장 기능입니다.
+  pprof: # Go 언어의 pprof 프로파일링 도구를 사용하여 Collector의 성능을 분석할 수 있는 기능을 제공합니다.
+    endpoint: 0.0.0.0:1777  
   zpages: # Collector의 내부 상태와 통계를 실시간으로 모니터링할 수 있는 웹 UI를 제공합니다.
 
 # Collector의 서비스 설정

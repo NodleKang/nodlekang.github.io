@@ -100,18 +100,24 @@ OpenTelemetry Collector 는 Receivers, Processor, Exporter로 구성되어 있�
 * 다양한 프로토콜(gRPC, HTTP)과 형식으로 데이터를 수신합니다.
 * 하나 이상의 Receivers를 구성할 수 있습니다.
 * OTLP(OpenTelemetry Protocol)가 OpenTelemetry의 기본 수신 프로토콜이지만, 그 외에도 다양한 프로토콜과 형식을 지원합니다.
-* 예를 들어, Prometheus, Kafka, AWS CloudWatch, Google Cloud Pub/Sub, Datadog 등을 지원합니다.
-* [여기](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver)에서 제공되는 다양한 Receiver 목록을 확인할 수 있습니다.
+* 자주 사용되는 Receiver는 OpenTelemetry Collector에 포함되어 있습니다.
+* OpenTelemetry Collector에 포함된 Receiver 외에 다양한 Receiver는 [OpenTelemetry Collector Contrib - Receiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver)에서 제공되는 다양한 Receiver 목록을 확인할 수 있습니다.
 
 ## Processor
 * 수신한 데이터를 가공, 변환, 필터링하는 역할을 합니다. 
-* [여기](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor)에서 제공되는 다양한 Processor 목록을 확인할 수 있습니다.
+* 하나 이상의 Processor를 구성할 수 있습니다.
+* 자주 사용되는 Processor는 OpenTelemetry Collector에 포함되어 있습니다.
+* OpenTelemetry Collector에 포함된 Processor 외에 다양한 Processor는 [OpenTelemetry Collector Contrib - Processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor)에서 확인할 수 있습니다.
 
 ## Exporter
 * 처리된 데이터를 다양한 백엔드 시스템으로 내보내는 역할을 합니다.
 * 각각의 백엔드가 지원하는 데이터 형식에 맞게 데이터를 변환하여 내보냅니다.
-* 하나 이상의 Exporter를 구성할 수 있습니다. 
-* [여기](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter)에서 제공되는 다양한 Exporter 목록을 확인할 수 있습니다.
+* 하나 이상의 Exporter를 구성할 수 있습니다.
+* 자주 사용되는 언어들의 Exporter는 OpenTelemetry Collector에 포함되어 있으며, 언어별 SDK 공식문서에서 확인할 수 있습니다.
+  * [Java Script Exporter](https://opentelemetry.io/docs/languages/js/exporters/)
+  * [Python Exporter](https://opentelemetry.io/docs/languages/python/exporters/)
+  * [.NET Exporter](https://opentelemetry.io/docs/languages/net/exporters/)
+* OpenTelemetry Collector에 포함된 Exporter 외에 다양한 Exporter는 [OpenTelemetry Collector Contrib - Exporter](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter)에서 확인할 수 있습니다.
 
 # OpenTelemetry Protocol (OTLP)
 
@@ -150,5 +156,5 @@ OpenTelmetry는 다양한 개발 언어를 대상으로 API와 SDK를 제공하�
 * [OpenTelemetry GitHub](https://github.com/open-telemetry)
 * [OpenTelemetry Collector Receivers](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver)
 * [OpenTelemetry Collector Processors](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor)
-* [OpenTelemetry Collector Exporters](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter)
+* [OpenTelemetry Collector Exporters](https://opentelemetry.io/docs/languages/js/exporters/)
 * [OpenTelemetry Protocol (OTLP)](https://github.com/open-telemetry/opentelemetry-proto/tree/main/docs)
