@@ -1,22 +1,12 @@
-<!-- 같은 카테고리에 속한 포스트를 대상으로만 prev, next 가능하게 수정 -->
-{% assign current_category = page.categories[0] %}
-{% assign same_category_posts = site.posts | where_exp: "post", "post.categories[0] == current_category" %}
-{% assign current_index = same_category_posts.index | where: "url", page.url %}
-
-{% if current_index != nil %}
-  {% assign previous_post = same_category_posts[current_index | minus: 1] %}
-  {% assign next_post = same_category_posts[current_index | plus: 1] %}
-{% endif %}
-
-{% if previous_post or next_post %}
+{% if page.previous or page.next %}
   <nav class="pagination">
-    {% if previous_post %}
-      <a href="{{ previous_post.url | relative_url }}" class="pagination--pager" title="{{ previous_post.title | markdownify | strip_html }}">{{ site.data.ui-text[site.locale].pagination_previous | default: "Previous" }}</a>
+    {% if page.previous %}
+      <a href="{{ page.previous.url | relative_url }}" class="pagination--pager" title="{{ page.previous.title | markdownify | strip_html }}">{{ site.data.ui-text[site.locale].pagination_previous | default: "Previous" }}</a>
     {% else %}
       <a href="#" class="pagination--pager disabled">{{ site.data.ui-text[site.locale].pagination_previous | default: "Previous" }}</a>
     {% endif %}
-    {% if next_post %}
-      <a href="{{ next_post.url | relative_url }}" class="pagination--pager" title="{{ next_post.title | markdownify | strip_html }}">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
+    {% if page.next %}
+      <a href="{{ page.next.url | relative_url }}" class="pagination--pager" title="{{ page.next.title | markdownify | strip_html }}">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
     {% else %}
       <a href="#" class="pagination--pager disabled">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
     {% endif %}
