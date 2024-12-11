@@ -113,7 +113,7 @@ otel.service.name=your-service-name
 otel.traces.exporter=logging-otlp
 ```
 
-## Java 애플리케이션 실행
+# Java 애플리케이션 실행
 
 Java 애플리케이션을 실행합니다.
 
