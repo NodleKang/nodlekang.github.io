@@ -5,10 +5,11 @@ date: 2024-12-10 10:00:00 +0900
 categories: 
   - 모니터링
 tag: 
-  - otel
-  - telemetry
+  - Observability
+  - OTel
+  - Telemetry
   - OpenTelemetry
-  - otlp
+  - OTLP
 toc: true
 toc_label: 목차
 toc_sticky: true

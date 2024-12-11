@@ -5,8 +5,8 @@ date: 2024-12-09 09:00:00 +0900
 categories: 
   - 모니터링
 tag: 
-  - observability
-  - telemetry
+  - Observability
+  - Telemetry
   - log
   - metric
   - trace
