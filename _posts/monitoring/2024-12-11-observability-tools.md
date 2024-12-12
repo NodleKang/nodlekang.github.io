@@ -32,6 +32,8 @@ Observability 도구에 대해 알아보기 전에 분산 추적(Distributed Tra
 
 # 오픈소스 Observability 도구
 
+앞에서 분산 추적에 대해서 설명한 것은 최근의 Observability 도구들이 분산 추적 기능을 제공하는 경우가 많기 때문입니다. 
+
 ## 종류와 특징
 
 Observability에 사용할 수 있는 도구 중에 대표적인 것으로 Prometheus, Jaeger, Zipkin, OpenTelemetry 등이 있습니다. 
@@ -206,3 +208,5 @@ Jaeger All-in-One 방식 외에 Jaeger를 설치하는 방법에는 다음과 �
 * Jaege Operator를 사용하지 않고 Helm Chart를 사용하여 Kubernetes 클러스터에 Jaeger 설치
 * Docker Compose를 사용하여 로컬 환경에 Jaeger 설치
 * 소스 코드를 직접 빌드하여 Jaeger 설치
+
+여기서는 설치 방법 종류만 언급하며, 각각에 대한 설명은 나중에 기회가 되면 다루도록 하겠습니다.
