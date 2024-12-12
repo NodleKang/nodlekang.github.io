@@ -188,6 +188,8 @@ Jaeger All-in-One은 데이터를 메모리에 저장하므로, 실제 운영 �
 
 아래와 같이 `docker run` 명령어를 사용하여 Jaeger All-in-One을 실행할 수 있습니다.
 
+실행된 Jaeger All-in-One은 `http://localhost:16686` 주소로 접속하여 Jaeger UI를 확인할 수 있습니다.
+
 ```bash
 sudo docker run -d --name jaeger \
   -e COLLECTOR_OTLP_ENABLED=true \
