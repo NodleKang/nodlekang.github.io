@@ -192,7 +192,7 @@ Jaeger All-in-One은 데이터를 메모리에 저장하므로, 실제 운영 �
 sudo docker run -d --name jaeger \
   -e COLLECTOR_OTLP_ENABLED=true \
   -e COLLECTOR_OTLP_GRPC_HOST_PORT=:4317 \
-  -e COLLECTOR_OTLP_GRPC_HOST_PORT=:4318 \
+  -e COLLECTOR_OTLP_HTTP_HOST_PORT=:4318 \
   -p 6831:6831/udp \
   -p 6832:6832/udp \
   -p 5778:5778 \
@@ -212,7 +212,7 @@ sudo docker run -d --name jaeger \
 * `--name jaeger`: 컨테이너 이름 지정
 * `-e COLLECTOR_OTLP_ENABLED=true` : OTLP(OpenTelemetry Protocol) 활성화
 * `-e COLLECTOR_OTLP_GRPC_HOST_PORT=:4317` : OTLP gRPC 호스트 포트 설정
-* `-e COLLECTOR_OTLP_GRPC_HOST_PORT=:4318` : OTLP HTTP 호스트 포트 설정
+* `-e COLLECTOR_OTLP_HTTP_HOST_PORT=:4318` : OTLP HTTP 호스트 포트 설정
 * `-p 6831:6831/udp` : UDP 포트 6831을 매핑하여 Jaeger Agent의 Thrift Compact 프로토콜 사용
 * `-p 6832:6832/udp` : UDP 포트 6832를 매핑하여 Jaeger Agent의 Thrift Binary 프로토콜 사용
 * `-p 5778:5778` : Jaeger Agent의 HTTP 상태 포트 매핑
