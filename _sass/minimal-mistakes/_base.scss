@@ -109,9 +109,9 @@ abbr[data-original-title] {
 blockquote {
   margin-block: 2em;
   margin-inline-end: 1em;
-  padding-left: 1em;
-  padding-right: 1em;
-  padding-top: 1em;
+  padding-left: 1em; /* 윈쪽 padding */
+  padding-right: 1em; /* 오른쪽 padding */
+  padding-top: 1em; /* 위 padding */
   padding-inline: 1em;
   font-style: italic;
   border-inline-start: 0.25em solid $primary-color;
@@ -150,12 +150,9 @@ button:focus {
 }
 
 /* code */
-code {
-    font-size: 1.1em; // 기본 크기보다 10% 크게
-}
 
 tt,
-// code,
+code,
 kbd,
 samp,
 pre {
