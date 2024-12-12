@@ -150,9 +150,12 @@ button:focus {
 }
 
 /* code */
+code {
+    font-size: 1.1em; // 기본 크기보다 10% 크게
+}
 
 tt,
-code,
+// code,
 kbd,
 samp,
 pre {
