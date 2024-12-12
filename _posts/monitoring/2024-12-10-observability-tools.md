@@ -69,7 +69,7 @@ Observability에 사용할 수 있는 도구 중에 대표적인 것으로 Prome
     * 표준화, 통합, 확장성을 목표로 함
     * OpenTelemetry Collector, OpenTelemetry Exporter 등의 주요 구성요소를 제공
 
-<div class="notice" markdown="1">
+<div class="notice--info" markdown="1">
 OpenTracing
 : 분산 시스템에서의 Request 흐름 추적을 위해 개발된 업계 표준 API와 라이브러리
 </div>
@@ -189,22 +189,40 @@ Jaeger All-in-One은 데이터를 메모리에 저장하므로, 실제 운영 �
 아래와 같이 `docker run` 명령어를 사용하여 Jaeger All-in-One을 실행할 수 있습니다.
 
 ```bash
-sudo docker run -d \ # 컨테이너를 백그라운드에서 실행
-  --name jaeger \
-  -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \ # Zipkin 호환 데이터를 수집하기 위한 포트 설정
-  -e COLLECTOR_OTLP_ENABLED=true \ # OTLP(OpenTelemetry Protocol) 활성화
-  -p 6831:6831/udp \ # UDP 포트 6831을 매핑하여 Jaeger Agent의 Thrift Compact 프로토콜 사용
-  -p 6832:6832/udp \ # UDP 포트 6832를 매핑하여 Jaeger Agent의 Thrift Binary 프로토콜 사용
-  -p 5778:5778 \ # Jaeger Agent의 HTTP 상태 포트 매핑
-  -p 16686:16686 \ # Jaeger Query UI 포트 매핑
-  -p 4317:4317 \ # OpenTelemetry gRPC 포트 매핑
-  -p 4318:4318 \ # OpenTelemetry HTTP 포트 매핑
-  -p 14250:14250 \ # Jaeger Collector의 gRPC 포트 매핑
-  -p 14268:14268 \ # Jaeger Collector의 HTTP 포트 매핑
-  -p 14269:14269 \ # Jaeger Collector의 HTTP 상태 포트 매핑
-  -p 9411:9411 \ # Zipkin JSON API 포트 매핑
+sudo docker run -d --name jaeger \
+  -e COLLECTOR_OTLP_ENABLED=true \
+  -e COLLECTOR_OTLP_GRPC_HOST_PORT=:4317 \
+  -e COLLECTOR_OTLP_GRPC_HOST_PORT=:4318 \
+  -p 6831:6831/udp \
+  -p 6832:6832/udp \
+  -p 5778:5778 \
+  -p 16686:16686 \
+  -p 4317:4317 \
+  -p 4318:4318 \
+  -p 14250:14250 \
+  -p 14268:14268 \
+  -p 14269:14269 \
+  -p 9411:9411 \
   jaegertracing/all-in-one:1.64.0
 ```
+
+명령에 사용된 옵션은 다음과 같습니다.
+
+* `-d` : 컨테이너를 백그라운드에서 실행
+* `--name jaeger`: 컨테이너 이름 지정
+* `-e COLLECTOR_OTLP_ENABLED=true` : OTLP(OpenTelemetry Protocol) 활성화
+* `-e COLLECTOR_OTLP_GRPC_HOST_PORT=:4317` : OTLP gRPC 호스트 포트 설정
+* `-e COLLECTOR_OTLP_GRPC_HOST_PORT=:4318` : OTLP HTTP 호스트 포트 설정
+* `-p 6831:6831/udp` : UDP 포트 6831을 매핑하여 Jaeger Agent의 Thrift Compact 프로토콜 사용
+* `-p 6832:6832/udp` : UDP 포트 6832를 매핑하여 Jaeger Agent의 Thrift Binary 프로토콜 사용
+* `-p 5778:5778` : Jaeger Agent의 HTTP 상태 포트 매핑
+* `-p 16686:16686` : Jaeger Query UI 포트 매핑
+* `-p 4317:4317` : OpenTelemetry gRPC 포트 매핑
+* `-p 4318:4318` : OpenTelemetry HTTP 포트 매핑
+* `-p 14250:14250` : Jaeger Collector의 gRPC 포트 매핑
+* `-p 14268:14268` : Jaeger Collector의 HTTP 포트 매핑
+* `-p 14269:14269` : Jaeger Collector의 HTTP 상태 포트 매핑
+* `-p 9411:9411` : Zipkin JSON API 포트 매핑
 
 Jaeger All-in-One 방식 외에 Jaeger를 설치하는 방법에는 다음과 같은 방법이 있습니다.
 
@@ -219,3 +237,4 @@ Jaeger All-in-One 방식 외에 Jaeger를 설치하는 방법에는 다음과 �
 
 * [Prometheus](https://prometheus.io/)
 * [Jaeger](https://www.jaegertracing.io/)
+ 
