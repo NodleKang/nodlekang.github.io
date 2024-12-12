@@ -210,3 +210,8 @@ Jaeger All-in-One 방식 외에 Jaeger를 설치하는 방법에는 다음과 �
 * 소스 코드를 직접 빌드하여 Jaeger 설치
 
 여기서는 설치 방법 종류만 언급하며, 각각에 대한 설명은 나중에 기회가 되면 다루도록 하겠습니다.
+
+# 참고
+
+* [Prometheus](https://prometheus.io/)
+* [Jaeger](https://www.jaegertracing.io/)
