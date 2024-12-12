@@ -148,6 +148,7 @@ Docker 이미지를 사용할 경우 `/etc/prometheus/prometheus.yml` 파일을 
 아래는 redis 서버의 Metrics를 수집하는 설정 예시입니다.
 
 ```yaml
+# Redis Exporter를 사용하여 Redis 서버의 Metrics를 수집하는 설정
 # 다른 설정 부분 생략... 
 scrape_configs:
   # 스크랩된 시계열 데이터에 `job=<job_name>` 레벨 추가 
