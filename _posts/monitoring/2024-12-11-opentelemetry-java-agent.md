@@ -27,7 +27,7 @@ OpenTelemetry Java Agent는 Java 애플리케이션에 계측을 적용하는 �
 
 Java Agent는 Java 애플리케이션을 실행할 때, JVM에 붙어서 애플리케이션의 바이트코드를 조작하여 계측을 적용합니다.
 
-이 때에 사용되는 Java Agent는 OpenTelemetry Java Instrumentation(Java Agent JAR)을 사용합니다.
+사용되는 Java Agent는 OpenTelemetry Java Instrumentation(Java Agent JAR) 입니다.
 
 # Java Agent 적용 방법
 
