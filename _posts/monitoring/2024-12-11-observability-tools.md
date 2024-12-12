@@ -18,7 +18,7 @@ toc_sticky: true
 
 본 포스트는 오픈소스 Observability 도구들(Prometheus, Jaeger, Zipkin, OpenTelemetry)에 대해 학습한 내용을 정리한 것입니다. 
 
-Observability 도구에 대해 알아보기 전에 분산 추적(Distributed Tracing) 개념을 먼저 알아보겠습니다.
+최근 Observability 도구들은 분산 추적(Distributed Tracing) 기능을 제공하는 것이 일반적이기 때문에 그 개념을 먼저 알아보겠습니다.
 
 # 분산 추적 (Distributed Tracing)
 
@@ -31,8 +31,6 @@ Observability 도구에 대해 알아보기 전에 분산 추적(Distributed Tra
 분산 추적은 2010년 초반에 Google에서 발표한 Dapper 논문에서 처음 소개되었습니다.
 
 # 오픈소스 Observability 도구
-
-앞에서 분산 추적에 대해서 설명한 것은 최근의 Observability 도구들이 분산 추적 기능을 제공하는 경우가 많기 때문입니다. 
 
 ## 종류와 특징
 
