@@ -17,13 +17,17 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 Java 애플리케이션에 제로코드 계측(Zero-code Instrumentation)을 적용하는 방법을 테스트한 내용을 정리한 포스트입니다.
+본 포스트에서는 OpenTelemetry Java Agent를 사용하여 Java 애플리케이션에 제로코드 계측을 적용하는 방법에 대해 설명합니다.
 
-Java 어플리케이션을 **제로코드 계측(일명, 자동 계측)**하기 위해서는 `Java Agent JAR`를 사용해야 합니다.
+즉, Java 애플리케이션을 수정하지 않고도 OpenTelemetry를 적용하는 방법에 대해 설명합니다.
 
-Java Agent는 JVM에 붙어서 애플리케이션을 실행할 때, 바이트코드를 조작하여 계측을 적용할 수 있습니다.
+# OpenTelemetry Java Agent
 
-즉, **Java 애플리케이션을 수정하지 않고도 OpenTelemetry를 적용할 수 있습니다**. 
+OpenTelemetry Java Agent는 Java 애플리케이션에 계측을 적용하는 데 사용되는 도구입니다.
+
+Java Agent는 Java 애플리케이션을 실행할 때, JVM에 붙어서 애플리케이션의 바이트코드를 조작하여 계측을 적용합니다.
+
+이 때에 사용되는 Java Agent는 OpenTelemetry Java Instrumentation(Java Agent JAR)을 사용합니다.
 
 # Java Agent 적용 방법
 
@@ -32,13 +36,7 @@ OpenTelemetry Java Agent를 사용하려면 다음과 같은 단계를 거칩니
 1. Java Agent 다운로드
 2. Java Agent 설정
 3. Java Agent 구성
-3. Java 애플리케이션 실행
-4. OpenTelemetry Collector 설정
-5. OpenTelemetry Collector 실행
-6. OpenTelemetry 백엔드 설정
-7. OpenTelemetry 백엔드 실행
-8. OpenTelemetry 데이터 확인
-9. OpenTelemetry 데이터 시각화
+4. Java 애플리케이션 실행
 
 # Java Agent 다운로드
 
@@ -86,6 +84,7 @@ Java Agent는 다양한 방식으로 구성할 수 있습니다.
 java -javaagent:path/to/opentelemetry-javaagent.jar \
      -Dotel.service.name=your-service-name \
      -Dotel.traces.exporter=logging-otlp \
+     -Dotel.exporter.otlp.endpoint=localhost:4317 \
      -jar myapp.jar
 ```
 
@@ -94,6 +93,7 @@ java -javaagent:path/to/opentelemetry-javaagent.jar \
 ```bash
 OTEL_SERVICE_NAME=your-service-name \
 OTEL_TRACES_EXPORTER=logging-otlp \
+OTEL_EXPORTER_OTLP_ENDPOINT=localhost:4317 \
 java -javaagent:path/to/opentelemetry-javaagent.jar \
      -jar myapp.jar
 ```
@@ -111,11 +111,12 @@ java -javaagent:path/to/opentelemetry-javaagent.jar \
 ```properties
 otel.service.name=your-service-name
 otel.traces.exporter=logging-otlp
+otel.exporter.otlp.endpoint=localhost:4317  # OpenTelemetry Collector 엔드포인트
 ```
 
 # Java 애플리케이션 실행
 
-Java 애플리케이션을 실행합니다.
+Java 애플리케이션을 실행하면 Open Telemetry Java Agent가 JVM에 붙어서 계측을 적용하며, 계측 데이터를 OpenTelemetry Collector로 전송합니다.
 
 ```bash
 java -javaagent:path/to/opentelemetry-javaagent.jar \
