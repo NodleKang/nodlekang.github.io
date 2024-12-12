@@ -69,6 +69,11 @@ Observability에 사용할 수 있는 도구 중에 대표적인 것으로 Prome
     * 표준화, 통합, 확장성을 목표로 함
     * OpenTelemetry Collector, OpenTelemetry Exporter 등의 주요 구성요소를 제공
 
+<div class="notice" markdown="1">
+OpenTracing
+: 분산 시스템에서의 Request 흐름 추적을 위해 개발된 업계 표준 API와 라이브러리
+</div>
+
 ## 도구 선택 기준
 
 각 Observability 도구는 목적이나 사용 환경에 따라 단독으로 사용할 수도 있고, 다른 도구와 함께 사용할 수도 있습니다.
