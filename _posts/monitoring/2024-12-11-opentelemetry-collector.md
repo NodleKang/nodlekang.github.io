@@ -134,12 +134,8 @@ exporters:
     path: /engn001/tuna/otelcol/otelcol.log # 파일로 데이터를 내보냅니다.
   debug: # 디버그 정보를 출력합니다.
     verbosity: detailed
-  prometheus: # Prometheus 형식으로 데이터를 내보냅니다.
-    endpoint: localhost:9090 # localhost:9090 엔드포인트로 데이터를 내보냅니다.
-    const_labels:
-      label1: otel # otel 레이블을 추가합니다.
-  jaeger: # Jaeger 형식으로 데이터를 내보냅니다.
-    endpoint: localhost:4317 # localhost:4317 엔드포인트로 데이터를 내보냅니다.
+  otlp/jaeger: # Jaeger 형식으로 데이터를 내보냅니다.
+    endpoint: localhost:4319 # localhost:4319 엔드포인트로 데이터를 내보냅니다.
     tls:
       insecure: true # 보안을 무시하고 데이터를 내보냅니다.
 
@@ -157,15 +153,15 @@ service:
     traces: # trace 데이터를 위한 파이프라인을 정의합니다.
       receivers: [otlp] # otlp receiver를 사용하여 데이터를 수신합니다.
       processors: [batch] # batch processor를 사용하여 데이터를 처리합니다.
-      exporters: [file, debug, jaeger] # file, debug exporter를 사용하여 데이터를 내보냅니다.
+      exporters: [file, otlp/jaeger]
     metrics: # metric 데이터를 위한 파이프라인을 정의합니다.
       receivers: [otlp]
       processors: [batch]
-      exporters: [file, debug, prometheus]
+      exporters: [file, otlp/jaeger]
     logs: # log 데이터를 위한 파이프라인을 정의합니다.
       receivers: [otlp]
       processors: [batch]
-      exporters: [file, debug, jaeger]
+      exporters: [file, debug]
 ```
 
 구성 파일을 검토하려면 다음 명령을 실행합니다.

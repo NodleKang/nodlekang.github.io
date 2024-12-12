@@ -193,14 +193,14 @@ Jaeger All-in-One은 데이터를 메모리에 저장하므로, 실제 운영 �
 ```bash
 sudo docker run -d --name jaeger \
   -e COLLECTOR_OTLP_ENABLED=true \
-  -e COLLECTOR_OTLP_GRPC_HOST_PORT=:4317 \
-  -e COLLECTOR_OTLP_HTTP_HOST_PORT=:4318 \
+  -e COLLECTOR_OTLP_GRPC_HOST_PORT=:4319 \
+  -e COLLECTOR_OTLP_HTTP_HOST_PORT=:4320 \
   -p 6831:6831/udp \
   -p 6832:6832/udp \
   -p 5778:5778 \
   -p 16686:16686 \
-  -p 4317:4317 \
-  -p 4318:4318 \
+  -p 4319:4319 \
+  -p 4320:4320 \
   -p 14250:14250 \
   -p 14268:14268 \
   -p 14269:14269 \
@@ -213,14 +213,14 @@ sudo docker run -d --name jaeger \
 * `-d` : 컨테이너를 백그라운드에서 실행
 * `--name jaeger`: 컨테이너 이름 지정
 * `-e COLLECTOR_OTLP_ENABLED=true` : OTLP(OpenTelemetry Protocol) 활성화
-* `-e COLLECTOR_OTLP_GRPC_HOST_PORT=:4317` : OTLP gRPC 호스트 포트 설정
-* `-e COLLECTOR_OTLP_HTTP_HOST_PORT=:4318` : OTLP HTTP 호스트 포트 설정
+* `-e COLLECTOR_OTLP_GRPC_HOST_PORT=:4319` : OTLP gRPC 호스트 포트 설정 (기본값은 4317)
+* `-e COLLECTOR_OTLP_HTTP_HOST_PORT=:4320` : OTLP HTTP 호스트 포트 설정 (기본값은 4318)
 * `-p 6831:6831/udp` : UDP 포트 6831을 매핑하여 Jaeger Agent의 Thrift Compact 프로토콜 사용
 * `-p 6832:6832/udp` : UDP 포트 6832를 매핑하여 Jaeger Agent의 Thrift Binary 프로토콜 사용
 * `-p 5778:5778` : Jaeger Agent의 HTTP 상태 포트 매핑
 * `-p 16686:16686` : Jaeger Query UI 포트 매핑
-* `-p 4317:4317` : OpenTelemetry gRPC 포트 매핑
-* `-p 4318:4318` : OpenTelemetry HTTP 포트 매핑
+* `-p 4319:4319` : OpenTelemetry gRPC 포트 매핑 (COLLECTOR_OTLP_GRPC_HOST_PORT 옵션과 동일)
+* `-p 4320:4320` : OpenTelemetry HTTP 포트 매핑 (COLLECTOR_OTLP_HTTP_HOST_PORT 옵션과 동일)
 * `-p 14250:14250` : Jaeger Collector의 gRPC 포트 매핑
 * `-p 14268:14268` : Jaeger Collector의 HTTP 포트 매핑
 * `-p 14269:14269` : Jaeger Collector의 HTTP 상태 포트 매핑
