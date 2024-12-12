@@ -2,7 +2,9 @@
    Syntax highlighting
    ========================================================================== */
 
-div.highlighter-rouge,
+div.highlighter-rouge { /* 인라인 코드 블럭 폰트 사이즈 수정 */
+  font-size: $type-size-6;
+}
 figure.highlight {
   position: relative;
   margin-bottom: 1em;
