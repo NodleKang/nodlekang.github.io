@@ -17,17 +17,18 @@ toc_sticky: true
 
 본 포스트는 OpenTelemetry에 대해서 학습한 내용을 정리한 포스트입니다.
 
-첫 번째 포스트이므로 OpenTelemetry에 대한 개요와 주요 구성요소 등에 대해 알아보겠습니다.
-
-# 소개
+# 개요
 
 오늘날 모니터링 솔루션은 다양한 프로젝트가 존재하고, 솔루션마다 데이터를 수집하고 전달받는 전용 툴이 각각 존재합니다.
 
 모니터링 시스템을 운영하는 입장에서는 솔루션마다 데이터를 전달하는 전용 툴을 쓰게 되면 별도의 학습이 필요하고, 운영도 더욱 어려워질 수 있습니다.
 
+예를 들어 Grafana는 Prometheus에서 수집한 데이터를 전달받고, Kiabana는 Filebeat에서 수집한 데이터를 전달받습니다.
+
 이런 문제를 해결하기 위해 등장한 것이 OpenTelemetry입니다.
 
-OpenTelemetry는 원격측정데이터(Metrics, Traces, Logs)를 수집하고 전달하는 역할을 하며, 
+OpenTelemetry는 원격측정데이터(Metrics, Traces, Logs)를 수집하고 전달하는 역할만 합니다.
+
 데이터를 저장하고 조회하는 역할은 다른 서비스(Prometheus, Jaeger, Dynatrace, New Relic 등)에게 맡깁니다.
 
 # 목표
@@ -163,4 +164,3 @@ OpenTelmetry는 다양한 개발 언어를 대상으로 API와 SDK를 제공하�
 * [OpenTelemetry Collector Exporters](https://opentelemetry.io/docs/languages/js/exporters/)
 * [OpenTelemetry Protocol (OTLP)](https://github.com/open-telemetry/opentelemetry-proto/tree/main/docs)
 * [모니터링 데이터 수집과 전달을 하나의 툴로? - OpenTelemetry](https://maily.so/newslettertodevops/posts/1do16k85zx6)
-* 
