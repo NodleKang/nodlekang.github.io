@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "[스프링스터디] 3장"
-date: 2024-12-13 17:00:00 +0900
+date: 2024-12-13 16:30:00 +0900
 categories: 
   - Spring
 tag: 
