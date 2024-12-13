@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Observability 도구"
+title: "[OpenTelemetry] Observability 도구와 설치"
 date: 2024-12-10 12:30:00 +0900
 categories: 
   - 모니터링
@@ -16,11 +16,19 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 오픈소스 Observability 도구들(Prometheus, Jaeger, Zipkin, OpenTelemetry)에 대해 학습한 내용을 정리한 것입니다. 
+본 포스트는 OpenTelemetry 학습을 위해 테스트 환경을 구성하면서 학습한 오픈소스 Observability 도구들(Prometheus, Jaeger, Zipkin, OpenTelemetry)을 학습한 내용을 정리한 것입니다. 
 
-최근 Observability 도구들은 분산 추적(Distributed Tracing) 기능을 제공하는 것이 일반적이기 때문에 그 개념을 먼저 알아보겠습니다.
+본 포스트에서는 아래와 같은 테스트 환경에서 필요한 Jaeger를 설치하는 부분의 내용만 담겨 있습니다.
+
+![테스트 환경](/assets/images/post/observability/2024-12-10-observability-tools/opentelemetry_test_env_jaeger.png)
+
+OpenTelemetry Collector 설치 내용을 확인하고 싶다면 [링크]({% post_url 2024-12-11-opentelemetry-collector %})에서 확인하세요.
+
+OpenTelemetry Java Agent 적용 내용을 확인하고 싶다면 [링크]({% post_url 2024-12-11-opentelemetry-java-agent %})에서 확인하세요.
 
 # 분산 추적 (Distributed Tracing)
+
+최근 Observability 도구들은 분산 추적(Distributed Tracing) 기능을 제공하는 것이 일반적이기 때문에 그 개념을 먼저 알아보겠습니다.
 
 최근 구축되는 대부분의 시스템은 분산 시스템으로 구성되는데, 이러한 시스템은 각 서비스 간의 의존성이 복잡하게 얽혀 있습니다.
 

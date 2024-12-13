@@ -17,13 +17,21 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트에서는 OpenTelemetry Java Agent를 사용하여 Java 애플리케이션에 제로코드 계측을 적용하는 방법에 대해 설명합니다.
+본 포스트는 OpenTelemetry 학습을 위해 테스트 환경을 구성하면서 학습한 Java 어플리케이션에 OpenTelemetry Java Agent를 사용해서 제로코드 계측을 적용하는 방법에 대해 설명합니다.
 
-즉, Java 애플리케이션을 수정하지 않고도 OpenTelemetry를 적용하는 방법에 대해 설명합니다.
+즉, Java 애플리케이션을 수정하지 않고도 데이터 계측이 가능하게 하는 방법을 설명한 것입니다.
+
+본 포스트에서는 아래와 같은 테스트 환경에서 필요한 OpenTelemetry를 설치하는 부분의 내용만 담겨 있습니다.
+
+![테스트 환경](/assets/images/post/observability/2024-12-11-observability-java-agent/opentelemetry_test_env_java_agent.png)
+
+OpenTelemetry 백엔드로 Jaeger를 설치하는 내용을 확인하고 싶다면 [링크]({% post_url 2024-12-11-opentelemetry-tools %})에서 확인하세요.
+
+OpenTelemetry Collector 설치 내용을 확인하고 싶다면 [링크]({% post_url 2024-12-11-opentelemetry-collector %})에서 확인하세요.
 
 # OpenTelemetry Java Agent
 
-OpenTelemetry Java Agent는 Java 애플리케이션에 계측을 적용하는 데 사용되는 도구입니다.
+OpenTelemetry Java Agent는 J시스템솔루션사업팀ava 애플리케이션에 계측을 적용하는 데 사용되는 도구입니다.
 
 Java Agent는 Java 애플리케이션을 실행할 때, JVM에 붙어서 애플리케이션의 바이트코드를 조작하여 계측을 적용합니다.
 
@@ -83,7 +91,9 @@ Java Agent는 다양한 방식으로 구성할 수 있습니다.
 ```bash
 java -javaagent:path/to/opentelemetry-javaagent.jar \
      -Dotel.service.name=your-service-name \
-     -Dotel.traces.exporter=logging-otlp \
+     -Dotel.traces.exporter=otlp \
+     -Dotel.metrics.exporter=otlp \
+     -Dotel.logs.exporter=otlp \
      -Dotel.exporter.otlp.endpoint=localhost:4317 \
      -jar myapp.jar
 ```
@@ -92,7 +102,9 @@ java -javaagent:path/to/opentelemetry-javaagent.jar \
 
 ```bash
 OTEL_SERVICE_NAME=your-service-name \
-OTEL_TRACES_EXPORTER=logging-otlp \
+OTEL_TRACES_EXPORTER=otlp \
+OTEL_METRICS_EXPORTER=otlp \
+OTEL_LOGS_EXPORTER=otlp \
 OTEL_EXPORTER_OTLP_ENDPOINT=localhost:4317 \
 java -javaagent:path/to/opentelemetry-javaagent.jar \
      -jar myapp.jar
@@ -110,7 +122,9 @@ java -javaagent:path/to/opentelemetry-javaagent.jar \
 
 ```properties
 otel.service.name=your-service-name
-otel.traces.exporter=logging-otlp
+otel.traces.exporter=otlp
+otel.metrics.exporter=otlp
+otel.logs.exporter=otlp
 otel.exporter.otlp.endpoint=localhost:4317  # OpenTelemetry Collector 엔드포인트
 ```
 
