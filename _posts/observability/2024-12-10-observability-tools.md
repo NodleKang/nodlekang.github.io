@@ -22,9 +22,9 @@ toc_sticky: true
 
 ![테스트 환경](/assets/images/post/observability/2024-12-10-observability-tools/opentelemetry_test_env_jaeger.png)
 
-OpenTelemetry Collector 설치 내용을 확인하고 싶다면 [링크]({% post_url 2024-12-11-opentelemetry-collector %})에서 확인하세요.
+OpenTelemetry Collector 설치 내용을 확인하고 싶다면 [링크]({% post_url observability/2024-12-11-opentelemetry-collector %})에서 확인하세요.
 
-OpenTelemetry Java Agent 적용 내용을 확인하고 싶다면 [링크]({% post_url 2024-12-11-opentelemetry-java-agent %})에서 확인하세요.
+OpenTelemetry Java Agent 적용 내용을 확인하고 싶다면 [링크]({% post_url observability/2024-12-11-opentelemetry-java-agent %})에서 확인하세요.
 
 # 분산 추적 (Distributed Tracing)
 

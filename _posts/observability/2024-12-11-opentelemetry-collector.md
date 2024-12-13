@@ -23,9 +23,9 @@ toc_sticky: true
 
 ![테스트 환경](/assets/images/post/observability/2024-12-11-opentelemetry-collector/opentelemetry_test_env_collector.png)
 
-OpenTelemetry 백엔드로 Jaeger를 설치하는 내용을 확인하고 싶다면 [링크]({% post_url 2024-12-10-observability-tools %})에서 확인하세요.
+OpenTelemetry 백엔드로 Jaeger를 설치하는 내용을 확인하고 싶다면 [링크]({% post_url observability/2024-12-10-observability-tools %})에서 확인하세요.
 
-OpenTelemetry Java Agent 적용 내용을 확인하고 싶다면 [링크]({% post_url 2024-12-11-opentelemetry-java-agent %})에서 확인하세요.
+OpenTelemetry Java Agent 적용 내용을 확인하고 싶다면 [링크]({% post_url observability/2024-12-11-opentelemetry-java-agent %})에서 확인하세요.
 
 # 개요
 
