@@ -18,7 +18,7 @@ toc_sticky: true
 
 본 포스트는 OpenTelemetry 학습을 위해 테스트 환경을 구성하면서 학습한 오픈소스 Observability 도구들(Prometheus, Jaeger, Zipkin, OpenTelemetry)을 학습한 내용을 정리한 것입니다. 
 
-본 포스트에서는 아래와 같은 테스트 환경에서 필요한 Jaeger를 설치하는 부분의 내용만 담겨 있습니다.
+본 포스트에서는 아래와 같은 테스트 환경에서 OpenTelemetry 백엔드로 사용할 Jaeger를 설치하는 부분의 내용만 담겨 있습니다.
 
 ![테스트 환경](/assets/images/post/observability/2024-12-10-observability-tools/opentelemetry_test_env_jaeger.png)
 

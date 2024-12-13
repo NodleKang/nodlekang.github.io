@@ -21,7 +21,7 @@ toc_sticky: true
 
 즉, Java 애플리케이션을 수정하지 않고도 데이터 계측이 가능하게 하는 방법을 설명한 것입니다.
 
-본 포스트에서는 아래와 같은 테스트 환경에서 필요한 OpenTelemetry를 설치하는 부분의 내용만 담겨 있습니다.
+본 포스트에서는 아래와 같은 테스트 환경에서 필요한 OpenTelemetry Java Agent를 적용하는 부분의 내용만 담겨 있습니다.
 
 ![테스트 환경](/assets/images/post/observability/2024-12-11-opentelemetry-java-agent/opentelemetry_test_env_java_agent.png)
 
