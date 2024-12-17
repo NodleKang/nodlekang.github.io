@@ -19,9 +19,9 @@ locale                   : "ko-KR"
 rtl                      : # true, false (default) # turns direction of the page into right to left for RTL languages
 title                    : "Memory Vault"
 title_separator          : "-"
-subtitle                 : "기억의 기록"
+subtitle                 : "SINCE 2024"
 name                     : "강노들"
-description              : ""
+description              : "기억을 기록합니다."
 url                      : ""
 baseurl                  : "/"
 repository               : "nodlekang/nodlekang.github.io"
@@ -56,6 +56,7 @@ author:
   name             : "강노들"
   bio              : "SE, DBA, Just a Human"
   location         : "Republic of Korea"
+  avatar           : "/assets/images/profile.png"
   email            :
   links:
     - label: "Email"
