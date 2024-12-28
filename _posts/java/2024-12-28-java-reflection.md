@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "[Java] Reflection 개념과 예제 (작성중)"
+title: "[Java] Reflection 개념과 사용"
 date: 2024-12-28 13:00:00 +0900
 categories: 
   - Java
