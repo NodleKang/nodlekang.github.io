@@ -114,10 +114,6 @@ public class Main {
 
 다음 예는 리플렉션을 이용해서 객체에 private 필드에 접근하는 코드의 예임.
 
-<table>
-<tr>
-<td style="vertical-align: top;">
-
 ```java
 class MyClass {
     private final String name = "MyClass";
@@ -127,10 +123,6 @@ class MyClass {
     }
 }
 ```
-
-</td>
-
-<td>
 
 ```java
 import java.lang.reflect.Field;
@@ -149,19 +141,11 @@ public class Main {
 }
 ```
 
-</td>
-</tr>
-</table>
-
 ※ `setAccessible()` 메소드는 주로 접근 제어자에 의해 제한된 클래스 멤버에 대한 접근을 가능하게 하는 메소드임.
 
 ### Method 접근
 
 다음 예는 리플렉션을 이용해서 객체에 private 메소드에 접근하는 코드의 예임.
-
-<table>
-<tr>
-<td style="vertical-align: top;">
 
 ```java
 class MyClass {
@@ -172,10 +156,6 @@ class MyClass {
     }
 }
 ```
-
-</td>
-
-<td>
 
 ```java
 import java.lang.reflect.Method;
@@ -192,20 +172,11 @@ public class Main {
 }
 ```
 
-</td>
-</tr>
-</table>
-
 ※ `setAccessible()` 메소드는 주로 접근 제어자에 의해 제한된 클래스 멤버에 대한 접근을 가능하게 하는 메소드임.
 
 ### 생성자 접근
 
 다음 예는 리플렉션을 이용해서 객체에 private 메소드에 접근하는 코드의 예임.
-
-
-<table>
-<tr>
-<td style="vertical-align: top;">
 
 ```java
 class MyClass {
@@ -216,10 +187,6 @@ class MyClass {
     }
 }
 ```
-
-</td>
-
-<td>
 
 ```java
 import java.lang.reflect.Constructor;
@@ -239,10 +206,6 @@ public class Main {
     }
 }
 ```
-
-</td>
-</tr>
-</table>
 
 ※ `setAccessible()` 메소드는 주로 접근 제어자에 의해 제한된 클래스 멤버에 대한 접근을 가능하게 하는 메소드임.
 
