@@ -1,21 +1,21 @@
 ---
 layout: single
-title: "[Java] Annotation 개념과 예제 (작성중)"
-date: 2024-12-29 13:00:00 +0900
+title: "[Java] Annotation 개념과 예제"
+date: 2024-12-29 10:00:00 +0900
 categories: 
   - Java
 tag: 
   - Java
   - Anntation
   - Reflection
-  - Annotaion Processor
+  - Annotation Processor
   - Retention
 toc: true
 toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 Java에 Annotaion 개념과 예제를 학습한 내용을 정리한 포스트입니다.
+본 포스트는 Java에 Annotation 개념과 예제를 학습한 내용을 정리한 포스트입니다.
 
 글의 전반적인 톤은 네이버 블로거 "메르"님이 글 쓰시는 톤을 따라 했습니다.
 
@@ -29,9 +29,7 @@ Java로 코딩하다 보면 @Override, @Bean, @ComponentScan 등 어노테이션
 
 어노테이션(annotation)이라는 단어를 사전에 찾으면 "주석"이라고 나오는데, 
 
-`/** ... */` 형식으로 쓰는 게 사람을 위한 주석이라면 
-
-어노테이션은 컴파일러에게 도움을 주기 위한 주석이라고 볼 수 있음.
+`/** ... */` 형식으로 쓰는 게 사람을 위한 주석이라면 어노테이션은 컴파일러에게 도움을 주기 위한 주석이라고 볼 수 있음.
 
 골뱅이(@)를 사용해서 주석처럼 달아 주면 됨.
 
@@ -50,14 +48,14 @@ Java로 코딩하다 보면 @Override, @Bean, @ComponentScan 등 어노테이션
 어노테이션은 크게 3가지로 구분됨
 
 * 빌트인 어노테이이션: Java에서 기본적으로 제공하는 어노테이션. 예: @Override, @SupressWarnings
-* 메타 어노테이션: 어노테이션을 위한 어노테이션임. 어노테이션의 적용 대상이나 유지 기간 등을 지정함
+* 메타 어노테이션: 어노테이션을 위한 어노테이션. 어노테이션의 적용 대상이나 유지 기간 등을 지정함.
 * 사용자 정의 어노테이션: 사용자가 만든 어노테이션
 
 ## 빌트인 어노테이션
 
 Java에서 기본적으로 제공하는 어노테이션들이 여러 가지 있음.
 
-여기서는 그 중 몇 가지를 살펴봄.
+여기서는 몇 가지만 살펴봄.
 
 ### @Override
 
@@ -116,7 +114,7 @@ public void getInfo() {
 생성할 어노테이션이 적용될 위치를 지정함.
 
 * **@Target(ElementType.TYPE)**: 클래스,  인터페이스, 열거 타입에 어노테이션 적용
-* **@Target(ElementType.ANNOTAION_TYPE)**: 어노테이션에 어노테이션 적용
+* **@Target(ElementType.Annotation_TYPE)**: 어노테이션에 어노테이션 적용
 * **@Target(ElementType.FIELD)**: 필드에 어노테이션 적용
 * **@Target(ElementType.CONSTRUCTOR)**: 생성자에 어노테이션 적용
 * **@Target(ElementType.METHOD)**: 메소드에 어노테이션 적용
@@ -144,30 +142,35 @@ public void getInfo() {
 다음과 같이 어노테이션을 정의할 수 있음.
 
 ```java
-@Retention(RetentionPolicy.RUNTIME) // 런타임까지 어노테이션 유지
-@Target(ElementType.TYPE) // 클래스,  인터페이스, 열거 타입에 어노테이션 적용
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
 public @interface MyRuntimeAnnotation {
-  String value() default "default value";
+    String value() default "default value";
 }
 ```
 
 다음과 같은 어노테이션 사용 예제 코드를 보겠음. 
 
 ```java
-public class Main {
-  public static void main(String[] args) {
-    A a = new A();
-    System.out.println(a.value());
-  }
-}
-
 @MyRuntimeAnnotation
-class A{}
+class A {}
+
+public class Main {
+    public static void main(String[] args) {
+        A a = new A();
+        System.out.println(a);
+    }
+}
 ```
 
 코드를 보면 정상적으로 실행되면서 "default value"이 출력될 것 같음. 하지만 실제는 컴파일 오류가 발생함.
 
-왜냐면 어노테이션은 **코드에 영향을 주지 않는 메타 정보**이기 때문임.
+왜냐면 어노테이션은 **코드에 영향을 주지 않는 메타 데이터**이기 때문임.
 
 만약 **`A`** 클래스에서 **`value()`**를 호출할 수 있었다면 **`A`**에 영향을 주는 것이었을 것임.
 
@@ -177,44 +180,80 @@ class A{}
 
 ### 리플렉션(Reflection)
 
-리플렉션은 런타임에 동적으로 특정 클래스의 정보를 추출할 수 있는 기법임.
+리플렉션은 런타임에 JVM Method Area에 있는 클래스 정보를 추출하는 기능임.
 
-리플렉션을 이용해서 어노테이션 정보를 가져와 보겠음.
+리플렉션을 이용해서 어노테이션 정보를 가져오게 앞에서 봤던 코드를 고쳐보겠음.
 
 ```java
+import java.lang.annotation.Annotation;
+
+@MyRuntimeAnnotation
+class A {}
+
 public class Main {
-  public static void main(String[] args) {
+    public static void main(String[] args) {
+        A a = new A();
 
-    A a = new A();
-
-    Annotaion[] annotations = a.getClass().getAnnotations();
-    for (Annotaion annotation : annotations) {
-      if (annotation instanceof MyRuntimeAnnotation) {
-        MyRuntimeAnnotation myAnnotation = (MyRuntimeAnnotation) annotation;
-        System.out.println("Annotation: " + annotation); // Annotation: @MyRuntimeAnnotation(value=default value)
-        System.out.println("value: " + myAnnotation.value()); // Value: default value
-      }
+        Annotation[] annotations = a.getClass().getAnnotations();
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof MyRuntimeAnnotation) {
+                MyRuntimeAnnotation myAnnotation = (MyRuntimeAnnotation) annotation;
+                // Annotation: @MyRuntimeAnnotation(value=default value)
+                System.out.println("Annotation: " + annotation); 
+                // value: default value
+                System.out.println("value: " + myAnnotation.value());
+            }
+        }
     }
-
-  }
 }
 ```
 
-예제에서는 클래스로 객체를 생성해서 어노테이션 정보를 가져왔지만, 
+이 예제에서는 객체 생성을 해서 어노테이션을 정보를 가져왔지만, 객체 생성 없이도 클래스 정보를 가져오는 것도 가능함.
 
-객체 생성 없이 클래스 정보를 가져오거나 특정 패키지 안에 클래스를 모두 가져오는 것도 가능함.
+리플렉션에 관해서 좀 더 자세히 알고 싶다면 [링크]({% post_url java/2024-12-28-java-reflection %})에서 확인하기 바람.
 
-### 어노테이션 프로세서(Annotaion Processor)
+### 어노테이션 프로세서(Annotation Processor)
 
 `@Retention(RetentionPolicy.RUNTIME)`이 아닐 때는 리플렉션을 사용하지 못 함.
 
 그런 경우에는 어노테이션 프로세서를 생성해서 사용함.
 
-어노테이션 프로세서는 컴파일 단계에서 Annotaion에 정의된 로직이 동작하게 하는 것임.
+어노테이션 프로세서는 컴파일 단계에서 Annotation에 정의된 로직이 동작하게 해줌.
 
 컴파일 단계에서 실행되기 때문에 빌드 단계에서 에러를 출력하게 할 수도 있고, 소스 코드나 바이트 코드를 생성하게 할 수도 있음.
 
+개발자는 어노테이션 프로세서를 이용해서 Annotation 로직을 직접 작성할 수 있음.
+
+```java
+import com.mycompany.MyAnnotation;
+
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.lang.model.SourceVersion;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
+import java.util.Set;
+
+@SupportedAnnotationTypes("com.mycompany.MyAnnotation") // 적용할 어노테이션 위치
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
+public class MyAnnotationProcessor extends AbstractProcessor {
+    @Override
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        for (Element element : roundEnv.getElementsAnnotatedWith(MyAnnotation.class)) {
+            // 여기서 규칙을 확인합니다. 에를 들어, 메소드 이름이 "myMethod"인지 확인합니다.
+            if (!element.getSimpleName().toString().equals("myMethod")) {
+                processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Method should be named 'myMethod'", element);
+            }
+        }
+        return true;
+    }
+}
+```
 
 # 참고
 
 * [예제를 통해 어노테이션의 큰 그림을 이해하기기](https://velog.io/@l_cloud/%EC%98%88%EC%A0%9C%EB%A5%BC-%ED%86%B5%ED%95%B4-%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98%EC%9D%98-%ED%81%B0-%EA%B7%B8%EB%A6%BC%EC%9D%84-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0)
+* [Annotation 커스텀 하기](https://babgeuleus.tistory.com/entry/Annotation-%EC%BB%A4%EC%8A%A4%ED%85%80-%ED%95%98%EA%B8%B0-%EB%B0%B1%EA%B8%B0%EC%84%A0-%EC%9E%90%EB%B0%94%EB%9D%BC%EC%9D%B4%EB%B8%8C%EC%8A%A4%ED%84%B0%EB%94%94)
