@@ -35,9 +35,9 @@ Java로 코딩하다 보면 @Override, @Bean, @ComponentScan 등 어노테이션
 
 골뱅이(@)를 사용해서 주석처럼 달아 주면 됨.
 
-[Java 공식문서](https://docs.oracle.com/javase/tutorial/java/annotations/)에 보면 코드에 영향을 주지 않는 **메타 정보**라고 함.
+[Java 공식문서](https://docs.oracle.com/javase/tutorial/java/annotations/)에 보면 코드에 영향을 주지 않는 **메타 데이터터**라고 함.
 
-너무 복잡하게 생각하지 말고 우선은 **단순히 코드에 영향을 주지 않는 메타 정보를 주입하는 문법** 정도로만 생각해도 됨.
+너무 복잡하게 생각하지 말고 우선은 **단순히 코드에 영향을 주지 않는 메타 데이터를 주입하는 문법** 정도로만 생각해도 됨.
 
 어노테이션을 사용하면 다음과 같은 일을 할 수 있음
 

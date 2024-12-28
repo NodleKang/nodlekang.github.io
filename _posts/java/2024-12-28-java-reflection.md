@@ -259,3 +259,9 @@ public class Main {
 APM 솔루션을 개발할 때, alert을 발송하는 기능을 플러그인으로 개발해서 적용할 때에 리플렉션을 사용했었음.
 
 소스 코드 안에서는 플러그인이 위치할 패키지 경로를 탐색해서 클래스들을 가져와서 사용하게 함.
+
+# 참고
+
+* [[10분 테코톡] 헙크의 자바 Reflection](https://youtu.be/RZB7_6sAtC4?si=_tPJhuX8TZNPTPAV)
+* [자바 리플렉션 기초](https://hudi.blog/java-reflection/)
+* [자바 리플렉션](https://babgeuleus.tistory.com/104)
