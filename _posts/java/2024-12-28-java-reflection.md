@@ -6,7 +6,6 @@ categories:
   - Java
 tag: 
   - Java
-  - Anntation
   - Reflection
 toc: true
 toc_label: 목차
