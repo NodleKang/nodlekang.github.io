@@ -47,7 +47,7 @@ Java로 코딩하다 보면 @Override, @Bean, @ComponentScan 등 애너테이션
 
 애너테이션은 크게 3가지로 구분됨
 
-* 빌트인 어노테이이션: Java에서 기본적으로 제공하는 애너테이션. 예: @Override, @SupressWarnings
+* 빌트인 애너테이션: Java에서 기본적으로 제공하는 애너테이션. 예: @Override, @SupressWarnings
 * 메타 애너테이션: 애너테이션을 위한 애너테이션. 애너테이션의 적용 대상이나 유지 기간 등을 지정함.
 * 사용자 정의 애너테이션: 사용자가 만든 애너테이션
 
@@ -196,7 +196,7 @@ public class Main {
 
         // getClass() 메소드로 리플렉션을 이용해서 'Class' 클래스를 획득해서 사용
         Annotation[] annotations = a.getClass().getAnnotations(); 
-        
+
         for (Annotation annotation : annotations) {
             if (annotation instanceof MyRuntimeAnnotation) {
                 MyRuntimeAnnotation myAnnotation = (MyRuntimeAnnotation) annotation;
