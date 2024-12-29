@@ -182,7 +182,7 @@ public class Main {
 
 리플렉션은 런타임에 JVM Method Area에 있는 클래스 정보를 추출하는 기능임.
 
-리플렉션을 이용해서 애너테이션 정보를 가져오게 앞에서 봤던 코드를 고쳐보겠음.
+앞에서 봤던 코드를 리플렉션을 이용해서 애너테이션 정보를 가져오도록 고쳐보겠음.
 
 ```java
 import java.lang.annotation.Annotation;
@@ -194,7 +194,9 @@ public class Main {
     public static void main(String[] args) {
         A a = new A();
 
-        Annotation[] annotations = a.getClass().getAnnotations();
+        // getClass() 메소드로 리플렉션을 이용해서 'Class' 클래스를 획득해서 사용
+        Annotation[] annotations = a.getClass().getAnnotations(); 
+        
         for (Annotation annotation : annotations) {
             if (annotation instanceof MyRuntimeAnnotation) {
                 MyRuntimeAnnotation myAnnotation = (MyRuntimeAnnotation) annotation;
