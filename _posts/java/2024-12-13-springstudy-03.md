@@ -61,7 +61,7 @@ toc_sticky: true
 가장 많이 사용되며, 권장하는 방법임.
 
 ```java
-@Component // `@Component` 어노테이션을 사용해서 스프링 컨테이너에 빈(Bean)으로 등록
+@Component // `@Component` 애너테이션을 사용해서 스프링 컨테이너에 빈(Bean)으로 등록
 public class 엔지니어 {
 
     private String name;
@@ -90,8 +90,8 @@ public class 엔지니어 {
 스프링 컨텍스트 구성에서 엔지니어를 생성할 때에 노트북을 주입함.
 
 ```java
-@Configuration // `@Configuration` 어노테이션을 사용해서 스프링 설정 클래스임을 명시
-@ComponentScan(basePackages = "beans") // `@ComponentScan` 어노테이션을 사용해서 `beans` 패키지에 있는 빈(Bean)을 자동으로 등록
+@Configuration // `@Configuration` 애너테이션을 사용해서 스프링 설정 클래스임을 명시
+@ComponentScan(basePackages = "beans") // `@ComponentScan` 애너테이션을 사용해서 `beans` 패키지에 있는 빈(Bean)을 자동으로 등록
 public class 기술지원구성 {
 
 }
@@ -124,7 +124,7 @@ public class Main {
 필드 주입 방식을 사용하면 생성자 주입과 달리 생성자를 작성하지 않아도 됨.
 
 ```java
-@Component // `@Component` 어노테이션을 사용해서 스프링 컨테이너에 빈(Bean)으로 등록
+@Component // `@Component` 애너테이션을 사용해서 스프링 컨테이너에 빈(Bean)으로 등록
 public class 엔지니어 {
 
     private String name;
@@ -159,8 +159,8 @@ public class 엔지니어 {
 ```
 
 ```
-@Configuration // `@Configuration` 어노테이션을 사용해서 스프링 설정 클래스임을 명시
-@ComponentScan(basePackages = "beans") // `@ComponentScan` 어노테이션을 사용해서 `beans` 패키지에 있는 빈(Bean)을 자동으로 등록
+@Configuration // `@Configuration` 애너테이션을 사용해서 스프링 설정 클래스임을 명시
+@ComponentScan(basePackages = "beans") // `@ComponentScan` 애너테이션을 사용해서 `beans` 패키지에 있는 빈(Bean)을 자동으로 등록
 public class 기술지원구성 {
 
 }
@@ -199,12 +199,12 @@ public class Main {
 교제에서는 이 내용을 "3.1.2 @Bean 메서드의 매개변수로 빈 와이어링하기"라고 나와 있음
 
 ```java 
-@Configuration // `@Configuration` 어노테이션을 사용해서 스프링 설정 클래스임을 명시
+@Configuration // `@Configuration` 애너테이션을 사용해서 스프링 설정 클래스임을 명시
 // 자동으로 찾을 수 없는 빈(Bean)을 수동으로 등록
 public class 기술지원구성 {
 
     // `노트북`를 빈(Bean)으로 등록
-    // `@Configuration`과 `@Bean` 어노테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 수동으로 등록
+    // `@Configuration`과 `@Bean` 애너테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 수동으로 등록
     @Bean
     public 노트북 laptop() {
         노트북 laptop = new 노트북("LG Gram"); // 빈(Bean) 생성
@@ -212,7 +212,7 @@ public class 기술지원구성 {
     }
 
     // `엔지니어`를 빈(Bean)으로 등록
-    // `@Configuration`과 `@Bean` 어노테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 수동으로 등록
+    // `@Configuration`과 `@Bean` 애너테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 수동으로 등록
     @Bean
     public 엔지니어 작업자(노트북 laptop) {
         엔지니어 작업자 = new 엔지니어(laptop); // 다이렉트 와이어링 - 생성자를 통한 의존성 주입
@@ -234,12 +234,12 @@ public class 기술지원구성 {
 교제에서는 이 내용을 "3.1.1 두 @Bean 메서드 간 직접 메소드를 호출하는 빈 작성"라고 나와 있음
 
 ```java
-@Configuration // `@Configuration` 어노테이션을 사용해서 스프링 설정 클래스임을 명시
+@Configuration // `@Configuration` 애너테이션을 사용해서 스프링 설정 클래스임을 명시
 // 자동으로 찾을 수 없는 빈(Bean)을 수동으로 등록
 public class 기술지원구성 {
 
     // 다른 빈(Bean)에서 노트북을 주입해서 사용할 수 있도록 빈(Bean)으로 등록
-    // `@Configuration`과 `@Bean` 어노테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 수동으로 등록
+    // `@Configuration`과 `@Bean` 애너테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 수동으로 등록
     @Bean
     public 노트북 laptop() {
         노트북 laptop = new 노트북();
@@ -248,7 +248,7 @@ public class 기술지원구성 {
     }
 
     // `엔지니어`를 빈(Bean)으로 등록
-    // `@Configuration`과 `@Bean` 어노테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 수동으로 등록
+    // `@Configuration`과 `@Bean` 애너테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 수동으로 등록
     @Bean
     public 엔지니어 작업자() {
         엔지니어 작업자 = new 엔지니어();

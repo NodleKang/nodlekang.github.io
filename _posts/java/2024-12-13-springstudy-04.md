@@ -128,19 +128,19 @@ public class 엔지니어 {
 "기술지원서비스"가 여러 가지인데, 특별히 어떤 "기술지원서비스"를 사용하겠다고 명시한 경우가 아니라면 "@Primary 애너테이션"이 있는 빈(Bean)을 우선적으로 사용하게 함.
 
 ```java
-@Configuration // `@Configuration` 어노테이션을 사용해서 스프링 설정 클래스임을 명시
-@ComponentScan(basePackages = "beans") // `@ComponentScan` 어노테이션을 사용해서 `beans` 패키지에 있는 빈(Bean)을 자동으로 등록
+@Configuration // `@Configuration` 애너테이션을 사용해서 스프링 설정 클래스임을 명시
+@ComponentScan(basePackages = "beans") // `@ComponentScan` 애너테이션을 사용해서 `beans` 패키지에 있는 빈(Bean)을 자동으로 등록
 public class 기술지원구성 {
 
     @Bean
-    @Primary // `@Primary` 어노테이션을 사용해서 `기술지원` 빈(Bean)을 자동 와이어링할 때 우선적으로 사용하게 지정
-    @Qualifier("tomcat") // `@Qualifier` 어노테이션을 사용해서 톰캣기술지원 빈(Bean)을 구분하는 이름을 지정
+    @Primary // `@Primary` 애너테이션을 사용해서 `기술지원` 빈(Bean)을 자동 와이어링할 때 우선적으로 사용하게 지정
+    @Qualifier("tomcat") // `@Qualifier` 애너테이션을 사용해서 톰캣기술지원 빈(Bean)을 구분하는 이름을 지정
     public 기술지원서비스 톰캣기술지원() {
         return new 톰캣기술지원서비스();
     }
 
     @Bean
-    @Qualifier("application") // `@Qualifier` 어노테이션을 사용해서 어플리케이션기술지원서비스 빈(Bean)을 구분하는 이름을 지정
+    @Qualifier("application") // `@Qualifier` 애너테이션을 사용해서 어플리케이션기술지원서비스 빈(Bean)을 구분하는 이름을 지정
     public 기술지원서비스 어플리케이션기술지원서비스() {
         return new 어플리케이션기술지원서비스();
     }
@@ -290,20 +290,20 @@ public class 엔지니어 {
 "보고서저장소"가 여러 가지인데, 특별히 어떤 "보고서저장소"를 사용하겠다고 명시한 경우가 아니라면 "@Primary 애너테이션"이 있는 빈(Bean)을 우선적으로 사용하게 함.
 
 ```java
-@Configuration // `@Configuration` 어노테이션을 사용해서 스프링 설정 클래스임을 명시
-@ComponentScan(basePackages = "beans") // `@ComponentScan` 어노테이션을 사용해서 `beans` 패키지에 있는 빈(Bean)을 자동으로 등록
+@Configuration // `@Configuration` 애너테이션을 사용해서 스프링 설정 클래스임을 명시
+@ComponentScan(basePackages = "beans") // `@ComponentScan` 애너테이션을 사용해서 `beans` 패키지에 있는 빈(Bean)을 자동으로 등록
 public class 기술지원구성 {
 
     ...
 
     @Bean
-    @Primary // `@Primary` 어노테이션을 사용해서 `보고서저장소` 빈(Bean)을 자동 와이어링할 때 `파일보고서저장소`를 우선적으로 사용하게 지정
+    @Primary // `@Primary` 애너테이션을 사용해서 `보고서저장소` 빈(Bean)을 자동 와이어링할 때 `파일보고서저장소`를 우선적으로 사용하게 지정
     public 보고서저장소 파일보고서저장소() {
         return new 파일보고서저장소();
     }
 
     @Bean
-    @Qualifier("DB") // `@Qualifier` 어노테이션을 사용해서 톰캣기술지원 빈(Bean)을 구분하는 이름을 지정
+    @Qualifier("DB") // `@Qualifier` 애너테이션을 사용해서 톰캣기술지원 빈(Bean)을 구분하는 이름을 지정
     public 보고서저장소 DB보고서저장소() {
         return new DB보고서저장소();
     }

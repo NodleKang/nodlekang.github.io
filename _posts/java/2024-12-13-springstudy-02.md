@@ -67,7 +67,7 @@ toc_sticky: true
 ```java
 package beans;
 
-// 엔지니어 클래스는 Component 어노테이션을 사용하지 않았으므로 수동으로 빈(Bean)을 등록해야 함
+// 엔지니어 클래스는 Component 애너테이션을 사용하지 않았으므로 수동으로 빈(Bean)을 등록해야 함
 public class 엔지니어 {
 
     private String name;
@@ -83,11 +83,11 @@ public class 엔지니어 {
 ```
 
 ```java
-@Configuration // `@Configuration` 어노테이션을 사용해서 스프링 설정 클래스임을 명시
+@Configuration // `@Configuration` 애너테이션을 사용해서 스프링 설정 클래스임을 명시
 public class 기술지원구성 {
 
     // 빈(Bean)을 수동으로 등록
-    // `@Configuration`과 `@Bean` 어노테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 등록
+    // `@Configuration`과 `@Bean` 애너테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 등록
     @Bean
     public 엔지니어 작업자() {
         엔지니어 작업자 = new 엔지니어();
@@ -96,7 +96,7 @@ public class 기술지원구성 {
     }
 
     // 빈(Bean)을 수동으로 등록
-    // `@Configuration`과 `@Bean` 어노테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 등록
+    // `@Configuration`과 `@Bean` 애너테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 등록
     @Bean
     public String 버전() {
         return "베타 1.0";
@@ -167,8 +167,8 @@ public class 노트북 {
 스테레오 타입 애너테이션이 붙어 있는 빈(Bean)이 등록되게 하려면 @Configuration 에서 @ComponentScan 애너테이션을 사용해서 찾아내도록 해야 함
 
 ```java
-@Configuration // `@Configuration` 어노테이션을 사용해서 스프링 설정 클래스임을 명시
-@ComponentScan(basePackages = "beans") // `@ComponentScan` 어노테이션을 사용해서 `beans` 패키지에 있는 빈(Bean)을 자동으로 등록
+@Configuration // `@Configuration` 애너테이션을 사용해서 스프링 설정 클래스임을 명시
+@ComponentScan(basePackages = "beans") // `@ComponentScan` 애너테이션을 사용해서 `beans` 패키지에 있는 빈(Bean)을 자동으로 등록
 public class 기술지원구성 {
      ...
 }
@@ -228,12 +228,12 @@ public class Main {
 @Bean 애너테이션을 사용해서 빈(Bean)을 등록해야 함.
 
 ```java
-@Configuration // `@Configuration` 어노테이션을 사용해서 스프링 설정 클래스임을 명시
-@ComponentScan(basePackages = "beans") // `@ComponentScan` 어노테이션을 사용해서 `beans` 패키지에 있는 빈(Bean)을 자동으로 등록
+@Configuration // `@Configuration` 애너테이션을 사용해서 스프링 설정 클래스임을 명시
+@ComponentScan(basePackages = "beans") // `@ComponentScan` 애너테이션을 사용해서 `beans` 패키지에 있는 빈(Bean)을 자동으로 등록
 public class 기술지원구성 {
 
     // 빈(Bean)을 수동으로 등록
-    // `@Configuration`과 `@Bean` 어노테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 등록
+    // `@Configuration`과 `@Bean` 애너테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 등록
     @Bean
     public 엔지니어 작업자() {
         엔지니어 작업자 = new 엔지니어();
@@ -242,7 +242,7 @@ public class 기술지원구성 {
     }
 
     // 빈(Bean)을 수동으로 등록
-    // `@Configuration`과 `@Bean` 어노테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 등록
+    // `@Configuration`과 `@Bean` 애너테이션을 사용해서 스프링 컨테이너에 빈(Bean)을 등록
     @Bean
     @Primary
     public 엔지니어 작업자2() {
