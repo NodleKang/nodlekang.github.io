@@ -7,7 +7,7 @@ table {
   margin-bottom: 1em;
   width: 100%;
   font-family: $global-font-family;
-  font-size: $type-size-6;
+  font-size: $type-size-5; // 폰트 사이즈 조정(기존: type-size-6)
   border-collapse: collapse;
   overflow-x: auto;
 
