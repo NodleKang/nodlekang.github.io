@@ -103,10 +103,19 @@ Aspect = Advice + PointCut + Introduction(inter-type)
 spring-aspects 의존성을 주입해야 함.
 
 ```xml
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-aop</artifactId>
-</dependency>
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>6.1.14</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aop</artifactId>
+        <version>6.1.14</version>
+    </dependency>
+</dependencies>
 ```
 
 
