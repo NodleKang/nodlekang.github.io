@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "[스프링스터디] 6장"
+title: "[스프링스터디] 6장(작성중)"
 date: 2024-12-30 18:00:00 +0900
 categories: 
   - Spring
@@ -93,6 +93,22 @@ Aspect = Advice + PointCut + Introduction(inter-type)
 ![AOP-2](/assets/images/post/java/2024-12-30-springstudy-06/aop2.png)
 
 ![AOP-1](/assets/images/post/java/2024-12-30-springstudy-06/aop1.png)
+
+# 스프링에서 간단한 Aspects 구현하기
+
+간단한 Aspects를 구현해 보겠음.
+
+## 의존성 주입
+
+spring-aspects 의존성을 주입해야 함.
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+```
+
 
 # 참고
 
