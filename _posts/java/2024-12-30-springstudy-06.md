@@ -20,6 +20,8 @@ toc_sticky: true
 
 글의 전반적인 톤은 네이버 블로거 "메르"님이 글 쓰시는 톤을 따라 했습니다.
 
+본 글에 사용되는 예제 소스 전체는 [GitHub](https://github.com/NodleKang/springtextbook)에서 확인할 수 있습니다. 
+
 # AOP 란
 
 AOP(Aspects Oriented Programming)는 관점 지향 프로그래밍이라 함.
@@ -98,18 +100,21 @@ Aspect = Advice + PointCut + Introduction(inter-type)
 
 간단한 Aspects를 구현해 보겠음.
 
-## 구현단계
+예제 소스 전체는 [[GitHub SpringTextBook ch6]](https://github.com/NodleKang/springtextbook/tree/main/ch6-aop)에 있음. 
 
-스프링에서 Aspects를 구현하는 단계는 다음과 같음
+## 시나리오
 
-1. 스프링 앱에서 애스펙트를 활성화한다.
-2. 애스펙트 클래스를 생성하고 스프링 컨텍스트에 애스펙트 빈을 추가한다.
-3. 애스펙트 로직을 구현한다.
-4. 애스펙트 로직을 구현할 메소드를 정의하고 어드바이스 애너테이션을 사용하여 언제 어떤 것을 가로챌 것인지 스프링에 지시한다.
+[[스프링스터디] 4장]({% post_url java/2024-12-13-springstudy-04 %})에서 사용했던 시나리오에 로깅 기능을 추가해보겠음.
 
-## 구현하기
+* "엔지니어"는 "노트북"을 "사용"한다.
+* "엔지니어"는 "기술지원서비스"를 제공한다.
+* 실제로 할 수 있는 "기술지원서비스"에는 "톰캣기술지원서비스"도 있고, "어플리케이션기술지원서비스"도 있다.
+* 고객은 "엔지니어"에게 "기술지원"을 요청하지만, 기술적인 구체적인 내용에는 관심이 없다.
+* "엔지니어"는 "기술지원"업무가 끝나면 "보고서를 저장소에 저장"해 놓아야 한다.
+* "보고서"는 "파일"로 저장하거나 "DB"에 저장할 수 있다.
+* **'서비스'패키지에 속하는 "톰캣기술지원서비스"나 "'어플리케이션기술지원서비스"에 메소드가 실행될 때마다 로그를 남기도록 함**
 
-### 의존성 주입
+## 의존성 주입
 
 스프링에서 Aspects를 구현하기 위해 spring-aspects 의존성을 주입함.
 
@@ -119,23 +124,80 @@ Aspect = Advice + PointCut + Introduction(inter-type)
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>
         <version>6.1.14</version>
-        <scope>compile</scope>
     </dependency>
     <dependency>
         <groupId>org.springframework</groupId>
-        <artifactId>spring-aop</artifactId>
+        <artifactId>spring-aspects</artifactId>
         <version>6.1.14</version>
     </dependency>
 </dependencies>
 ```
 
-### 스프링 앱에서 애스펙트 활성화하기
+## 스프링 앱에서 애스펙트 활성화하기
 
-### 애스펙트 클래스를 생성하고 스프링 컨텍스트에 애스펙트 빈을 추가하기
+`@EnableAspectJAutoProxy` 애너테이션을 추가해서 애스펙트 매커니즘을 활성화함.
 
-### 어드바이스 애너테이션으로 스프링에 언제 어떤 메소드를 가로챌지 지시하기
+aspects 패키지에서도 빈을 찾아서 등록하게 함
 
-### 애스펙트 로직 구현하기
+```java
+@Configuration
+@ComponentScan(basePackages = {"beans", "service", "repository", "aspects"}) // aspects 패키지에서도 빈을 찾아서 등록하게 함
+@EnableAspectJAutoProxy // 스프링에서 애스펙트 매커니즘 활성화
+public class 기술지원구성 {
+
+}
+```
+
+## 애스펙트 클래스 작성하기
+
+1. `@Aspect` 애너테이션을 붙여서 애스펙트 클래스인 것을 명시함.
+2. `@Component` 애너테이션을 붙여서 스프링이 빈(Bean)으로 등록하게 함.
+3. `@Around` 애너테이션을 붙여서 스프링이 언제 어떤 메소드를 가로챌지 지시함. (@Around 애너테이션은 advice 종류 중에 하나임.)
+4. 애스펙트 클래스에서는 로깅을 남기면서도, 원래 실행됐어야 하는 메소드를 실행함.
+
+```java
+// `@Aspect` 애너테이션을 보고 애스펙트 클래스라는 걸 알게됨
+@Aspect
+// `@Component` 애너테이션을 보고 스프링 컨테이너가 빈(Bean)으로 자동으로 등록
+@Component
+public class LoggingAspect {
+
+  // 어드바이스 애너테이션인 `@Around`를 붙여서 어떤 메소드를 가로챌지 지시함
+  // 여기서는 무슨 값을 반환하든 관계없이 service 패키지에 있는 모든 클래스의 모든 메소드가 실행(execution)될 때마다 가로채도록 함.
+  @Around("execution(* service.*.*(..))")
+  public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
+
+    String methodName = joinPoint.getSignature().getName();
+    Object[] arguments = joinPoint.getArgs();
+
+    System.out.println("<로깅 애스펙트> 메소드 " + methodName + " 가 파라미터 "
+            + Arrays.asList(arguments) + "를 가지고 실행됩니다.");
+
+    // 실제 실행되어야 하는 메소드를 실행함
+    Object returnedByMethod = joinPoint.proceed();
+
+    System.out.println("<로깅 애스펙트> " + methodName + " 메소드가 실행되었으며, "
+            + returnedByMethod + " 를 반환했습니다.");
+
+    return returnedByMethod;
+  }
+}
+```
+
+## 실행 결과
+
+시나리오 대로 개발한 코드를 실행하면 아래와 같이 "<로깅 애스펙트>" 내용을 확인할 수 있음.
+
+```text
+스프링 컨텍스트 초기화가 완료되었습니다.
+노트북을 켭니다.
+노트북으로 작업합니다.
+<로깅 애스펙트> 메소드 provideSupport 가 파라미터 []를 가지고 실행됩니다.
+Tomcat 기술지원을 제공합니다.
+<로깅 애스펙트> provideSupport 메소드가 실행되었으며, null 를 반환했습니다.
+Middleware솔루션작업자 가 노트북으로 작업을 완료했습니다.
+파일에 Middleware솔루션작업자의 작업 보고서를 저장합니다.
+```
 
 
 # 참고
