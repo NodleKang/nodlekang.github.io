@@ -39,7 +39,7 @@ Aspects에 사전적 의미를 찾아보면 '관점'이라는 뜻도 있지만 �
 
 ## 관심의 분리
 
-![관심사](/assets/images/post/java/2024-12-30-springstudy-06/concerns.png)
+![관심사](/assets/images/post/java/2024-12-30-springstudy-06/concerns.png){: width="60%"}
 
 AOP 매커니즘은 프로그램을 관심사를 기준으로 핵심 관심사(core concern)와 횡단 관심사(cross cutting concern)로 분류함.
 
@@ -90,9 +90,9 @@ Aspect = Advice + PointCut + Introduction(inter-type)
 
 아래 두 그림은 모두 AOP 개념 이해를 돕기 위한 것임.
 
-![AOP-2](/assets/images/post/java/2024-12-30-springstudy-06/aop2.png)
+![AOP-2](/assets/images/post/java/2024-12-30-springstudy-06/aop2.png){: width="60%"}
 
-![AOP-1](/assets/images/post/java/2024-12-30-springstudy-06/aop1.png)
+![AOP-1](/assets/images/post/java/2024-12-30-springstudy-06/aop1.png){: width="60%"}
 
 # 스프링에서 간단한 Aspects 구현하기
 
