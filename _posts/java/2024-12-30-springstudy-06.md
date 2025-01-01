@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "[스프링스터디] 6장(작성중)"
+title: "[스프링스터디] 6장"
 date: 2024-12-30 18:00:00 +0900
 categories: 
   - Spring
