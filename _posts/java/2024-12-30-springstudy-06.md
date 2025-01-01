@@ -167,7 +167,6 @@ public class 기술지원구성 {
 // `@Component` 애너테이션을 보고 스프링 컨테이너가 빈(Bean)으로 자동으로 등록
 @Component
 public class LoggingAspect {
-
   // @Around 애너테이션
   // : AOP의 Advice에 해당하는 부분임
   // : 메소드 실행 전후에 적용됨
@@ -180,17 +179,39 @@ public class LoggingAspect {
     String methodName = joinPoint.getSignature().getName();
     Object[] arguments = joinPoint.getArgs();
 
-    System.out.println("<로깅 애스펙트> 메소드 " + methodName + " 가 파라미터 "
+    System.out.println("== 로깅 애스펙트 : 메소드 " + methodName + " 가 파라미터 "
             + Arrays.asList(arguments) + "를 가지고 실행됩니다.");
 
-    // 실제 실행되어야 하는 메소드를 실행함
     Object returnedByMethod = joinPoint.proceed();
 
-    System.out.println("<로깅 애스펙트> " + methodName + " 메소드가 실행되었으며, "
+    System.out.println("== 로깅 애스펙트 : " + methodName + " 메소드가 실행되었으며, "
             + returnedByMethod + " 를 반환했습니다.");
 
     return returnedByMethod;
   }
+}
+```
+
+## 애스펙트가 적용된 부분 찍어보기
+
+애스펙트를 service 패키지에 적용했으므로, service 패키지의 클래스를 호출하는 코드에 잘 적용됐는지 확인하는 코드를 추가함.
+
+```java
+@Component
+public class 엔지니어 {
+
+    ... 생략 ...
+
+    public void doWork() {
+        laptop.turnOn();
+        laptop.work();
+        technicalSupport.provideSupport(); // 기술 지원 서비스 사용
+        System.out.println("== AOP 구현을 위한 프록시 패턴이 적용됐는지 확인하는 내용 찍어보기");
+        System.out.println(technicalSupport.getClass().getName()+" 클래스가 사용됩니다.");
+        System.out.println("==============");
+        System.out.printf("%s 가 노트북으로 작업을 완료했습니다.\n", name);
+        reportRepository.save(name + "의 작업 보고서"); // 보고서 저장소 사용
+    }
 }
 ```
 
@@ -202,18 +223,21 @@ public class LoggingAspect {
 스프링 컨텍스트 초기화가 완료되었습니다.
 노트북을 켭니다.
 노트북으로 작업합니다.
-<로깅 애스펙트> 메소드 provideSupport 가 파라미터 []를 가지고 실행됩니다.
+== 로깅 애스펙트 : 메소드 provideSupport 가 파라미터 []를 가지고 실행됩니다.
 Tomcat 기술지원을 제공합니다.
-<로깅 애스펙트> provideSupport 메소드가 실행되었으며, null 를 반환했습니다.
+== 로깅 애스펙트 : provideSupport 메소드가 실행되었으며, null 를 반환했습니다.
+== AOP 구현을 위한 프록시 패턴이 적용됐는지 확인하는 내용 찍어보기
+jdk.proxy2.$Proxy24 클래스가 사용됩니다.
+==============
 Middleware솔루션작업자 가 노트북으로 작업을 완료했습니다.
 파일에 Middleware솔루션작업자의 작업 보고서를 저장합니다.
 ```
 
-## 어노테이션 기반으로 PointCut 적용하기
+## 애너테이션 기반으로 PointCut 적용하기
 
 앞에 예에서 작성한 애스펙트 클래스에 PointCut을 애노테이션 기반으로도 변경할 수 있음
 
-만약 `@LoggingCheck`라는 사용자 정의 애너테이션을 만들어뒀다면 아래 코드처럼 AspectJ 표현식 대신 애너테이션을 사용하게 수정할 수 있음.
+만약 `@LoggingCheck`라는 사용자 정의 애너테이션을 만들어뒀다면 아래 코드처럼 AspectJ 표현식 대신 애너테이션을 사용하게 수정할 수 있는 것임.
 
 ```java
 @Aspect
@@ -231,6 +255,30 @@ public class LoggingAspect {
   }
 }
 ```
+
+# AOP 구현 방법
+
+스프링에 한정해서가 아니라 Java에서 AOP를 구현하는 방법은 크게 3가지가 있음(컴파일, 클래스 로드시, 프록시 패턴)
+
+`J`라는 클래스에 Aspects를 적용하는 것일 예로 들어보겠음.
+
+## 컴파일 시점
+
+J.java 소스를 J.class 파일로 컴파일하는 시점에 적용될 Aspects를 끼워 넣어서 AOP를 구현하는 방식임.
+
+## 클래스 로드 시점
+
+J.java 소스를 J.class 파일로 컴파일까지 끝난 후에, 클래스 로더가 메모리에 올릴 때에 Aspects를 끼워 넣어서 AOP를 구현하는 방식임.
+
+## 프록시 패턴 방식
+
+타겟 클래스 `J`를 부가 기능을 제공하는 프록시로 감싸서 실행하는 방식임.
+
+**스프링 AOP에서 사용하는 방식**임.
+
+스프링은 IoC(Inversion of Control)와 DI(dependencies Injection)를 기반으로 하기 때문에 가능한 방식임.
+
+앞에 확인한 예제의 결과에서 "jdk.proxy2.$Proxy24 클래스가 사용됩니다." 라는 문장이 출력되었는데, 이 부분으 바로 스프링이 프록시 패턴으로 AOP를 적용한 것을 알 수 있는 부분임.
 
 # 참고
 
