@@ -280,6 +280,15 @@ J.java 소스를 J.class 파일로 컴파일까지 끝난 후에, 클래스 로�
 
 앞에 확인한 예제의 결과에서 "jdk.proxy2.$Proxy24 클래스가 사용됩니다." 라는 문장이 출력되었는데, 이 부분으 바로 스프링이 프록시 패턴으로 AOP를 적용한 것을 알 수 있는 부분임.
 
+# Spring AOP vs AspectJ
+
+| 구분 | Spring AOP | AspectJ |
+|:---:|:---:|:---:|
+| 목표 | 간단한 AOP 기능 제공 | 완벽한 AOP 기능 제공 |
+| JoinPint | 메소드 레벨만 지원 | 셍성자, 필드, 메소드 등 다양하게 지원 |
+| Weaving | 런타임시에만 가능 | 런타임을 제공하지 않음. <br> compile-time, post-compile, load-time 제공 |
+| 대상 | Spring Container가 관리하는 Bean에만 가능 | 모든 Java Object에 가능 |
+
 # 참고
 
 * [Spring AOP 블로그1](https://kha0213.github.io/spring/spring-aop/)
