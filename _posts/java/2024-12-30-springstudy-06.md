@@ -28,6 +28,8 @@ AOP(Aspects Oriented Programming)는 관점 지향 프로그래밍이라 함.
 
 어떤 로직을 기준으로 핵심 관심사(core concern)와 횡단 관심사(cross cutting concern)로 관점을 분리해서 보고, 모듈화하는 것임.
 
+핵심 관심사는 비즈니스 기능이고, 횡단 관심사는 비즈니스 기능과는 다른 관심 영역임.
+
 Aspects에 사전적 의미를 찾아보면 '관점'이라는 뜻도 있지만 다른 뜻도 있음.
 
 '문법 형식의 하나로서 반복 등을 나타내는 동사의 형태'
@@ -35,17 +37,11 @@ Aspects에 사전적 의미를 찾아보면 '관점'이라는 뜻도 있지만 �
 
 프로그램 측면에서 생각해보면 `반복되서 나타나는 중복된 코드`로 생각할 수도 있음.
 
-생각해보면 로깅, 권한 검사 등과 같은 기능이 비즈니스 기능과 관계없이 부가적으로 실행하는 중복된 코드일 가능성이 큼.
+생각해보면 로깅, 권한 검사 기능 등이 비즈니스 기능과 관계없이 부가적으로 실행하는 중복된 코드일 가능성이 큼.
 
-즉, 비즈니스 기능과 관계없이 부가적으로 실행하는 중복된 코드들을 횡단 관심사(cross cutting concern)라고 할 수 있음.
-
-## 관심의 분리
+이렇게 **비즈니스 기능과 관계없이 부가적으로 실행하는 중복된 코드들을 횡단 관심사(cross cutting concern)**라고 할 수 있는 것임.
 
 ![관심사](/assets/images/post/java/2024-12-30-springstudy-06/concerns.png){: width="60%"}
-
-AOP 매커니즘은 프로그램을 관심사를 기준으로 핵심 관심사(core concern)와 횡단 관심사(cross cutting concern)로 분류함.
-
-핵심 관심사는 비즈니스 기능이고, 횡단 관심사는 비즈니스 기능과는 다른 관심 영역임.
 
 대표적인 횡단 관심사는 다음과 같음
 * 로깅: 메소드 실행 시간이나 반환 값 등을 기록하는 데 사용
@@ -54,13 +50,13 @@ AOP 매커니즘은 프로그램을 관심사를 기준으로 핵심 관심사(c
 
 # AOP 필요성
 
+AOP는 OOP만으로는 아쉬운 부분을 충족시키기 위해서 나왔다고 할 수 있음.
+
 OOP는 프로그램 규모가 커질수록 공통적으로 발생하는 부가 기능(로깅, 보안, 트랜잭션 관리 등)을 처리하기 어려워짐.
 
 부가 기능들은 여러 모듈에 걸쳐서 중복으로 나타나는데, 이로 인해 코드 가독성이 떨어지고 유지보수가 복잡해짐.
 
 AOP는 부가 기능(횡단 관심사)을 `Aspect`라는 모듈 형태로 만들어서 설계하고 개발을 함.
-
-`Aspect` 모듈에는 부가 기능(횡단 관심사)을 내포하고 있으며 자체적으로 부가 기능을 여러 객체의 핵심 기능에 교차로 적용을 시켜줌.
 
 그러면 추상화를 통해 분리하는 작업도 필요 없어지고, 핵심 기능에 부가 기능의 코드가 남아 있지 않아도 됨.
 
@@ -72,18 +68,18 @@ AOP는 부가 기능(횡단 관심사)을 `Aspect`라는 모듈 형태로 만들
 
 AOP의 개발 방식은 핵심 관심사를 Object로, 횡단 관심사는 Aspect라는 모듈로 모듈화함.
 
-Aspect라는 모듈로 모듈화하는데, 몇 가지 AOP의 용어들을 알아야 함.
+AOP에서 사용하는 몇 가지 용어들이 있음.
 
-이 용어들은 스프링에 한정된 용어가 아니라 여러 AOP 프레임워크에서 통상적으로 사용되는 용어들임.
+이 용어들은 스프링에 한정된 용어가 아니라 여러 AOP 프레임워크에서 통상적으로 사용되는 용어들이며, 개념을 알야둬야 함.
 
 | 용어 | 설명 |
 |:---:|---|
 | Aspect | 횡단 관심사의 모듈화 |
-| JoinPint | 프로그램 실행 중에 AOP가 적용될 특징 지점 <br> 메소드 실행, Exception 처리 등 |
-| Advice | 특정 JoinPoint에 적용될 코드 |
+| Target Object | 부가 기능(crosss concerns)을 적용할 대상 <br> 주로 비즈니스 기능을 구현한 클래스임. |
+| Advice | 부가 기능(crosss concerns)이 적용될 위치를 선정하는 기능 |
+| JoinPint | 프로그램 실행 중에 AOP가 적용될 특정 위치 <br> 주로 메소드가 실행될 때, Exception을 처리해야 할 때 등이 있음 <br> 스프링에서는 메소드가 실행될 때로 한정하고 있음. |
+| PointCut | 여러 JoinPoint 중에 Advice가 적용될 지점 |
 | Introduction (inter-type) | Aspect 모듈 내부에 선언한 클래스 혹은 인터페이스와 그 외의 변수와 메소드 |
-| PointCut | 여러 JoinPoint 중에 Advice를 적용할 특정 위치 |
-| Target Object | Advice가 적용될 핵심 객체 <br> 비즈니스 기능을 구현한 클래스 |
 | AOP Proxy | Aspect를 대신 수행하기 위해 AOP 프레임워크에 의해 성성된 객체 |
 | Weaving | Target Object에 Advice 해서 횡단 관심사 코드가 포함된 객체가 생성되는 일련의 과정 |
 
@@ -95,6 +91,16 @@ Aspect = Advice + PointCut + Introduction(inter-type)
 ![AOP-2](/assets/images/post/java/2024-12-30-springstudy-06/aop2.png){: width="60%"}
 
 ![AOP-1](/assets/images/post/java/2024-12-30-springstudy-06/aop1.png){: width="60%"}
+
+## Advice 종류
+
+Advice는 어떤 JoinPoint에 코드를 적용할지 결정하는 것으로 다섯 종류가 있음:
+
+* **Before** : 대상이 호출되기 전에 Advice 기능을 수행함
+* **After** : 대상이 호출된 후에 Advice 기능을 수행함
+* **After-returning** : 대상이 성공적으로 호출된 후에 Advice 기능을 수행함
+* **After-throwing** : 대상이 예외를 던진 후에 Advice 기능을 수행함
+* **Around** : Advice가 대상 작업을 감싸서 호출 전과 호출 후에 할 기능을 정의함
 
 # 스프링에서 간단한 Aspects 구현하기
 
@@ -162,8 +168,12 @@ public class 기술지원구성 {
 @Component
 public class LoggingAspect {
 
-  // 어드바이스 애너테이션인 `@Around`를 붙여서 어떤 메소드를 가로챌지 지시함
-  // 여기서는 무슨 값을 반환하든 관계없이 service 패키지에 있는 모든 클래스의 모든 메소드가 실행(execution)될 때마다 가로채도록 함.
+  // @Around 애너테이션
+  // : AOP의 Advice에 해당하는 부분임
+  // : 메소드 실행 전후에 적용됨
+  // execution(* service.*.*(..))
+  // : AOP의 PointCut에 해당하는 부분으로 AspectJ 표현식으로 작성되어 있음
+  // : 무슨 값을 반환하든 관계없이 service 패키지에 있는 모든 클래스의 모든 메소드가 실행(execution)될 때마다 가로챔
   @Around("execution(* service.*.*(..))")
   public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
 
@@ -199,9 +209,32 @@ Middleware솔루션작업자 가 노트북으로 작업을 완료했습니다.
 파일에 Middleware솔루션작업자의 작업 보고서를 저장합니다.
 ```
 
+## 어노테이션 기반으로 PointCut 적용하기
+
+앞에 예에서 작성한 애스펙트 클래스에 PointCut을 애노테이션 기반으로도 변경할 수 있음
+
+만약 `@LoggingCheck`라는 사용자 정의 애너테이션을 만들어뒀다면 아래 코드처럼 AspectJ 표현식 대신 애너테이션을 사용하게 수정할 수 있음.
+
+```java
+@Aspect
+@Component
+public class LoggingAspect {
+
+  // @Around 애너테이션
+  // : AOP의 Advice에 해당하는 부분임
+  // : 메소드 실행 전후에 적용됨
+  // execution("@annotation(LoggingCheck)")
+  // : 만약 
+  @Around("execution(* service.*.*(..))")
+  public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
+    ... 생략 ...
+  }
+}
+```
 
 # 참고
 
 * [Spring AOP 블로그1](https://kha0213.github.io/spring/spring-aop/)
 * [Spring AOP 블로그2](https://velog.io/@chullll/Spring-AOP-95fce9zs)
 * [AOP : Aspect Oriented Programming 개념](https://gmoon92.github.io/spring/aop/2019/01/15/aspect-oriented-programming-concept.html)
+* [제이의 Spring AOP](https://youtu.be/Hm0w_9ngDpM?si=fsVitsh73EnY20ll)
