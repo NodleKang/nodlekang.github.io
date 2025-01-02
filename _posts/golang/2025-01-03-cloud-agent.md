@@ -1,7 +1,7 @@
 ---
 layout: single
-title: "GOLANG 개발환경 설정(작성중)"
-date: 2025-01-03 09:00:00 +0900
+title: "Cloud Agent 구조"
+date: 2025-01-03 17:00:00 +0900
 categories: 
   - Go
 tag: 
