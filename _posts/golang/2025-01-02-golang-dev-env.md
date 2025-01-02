@@ -168,14 +168,14 @@ Go 모듈은 특정 디렉토리에서 시작되며, 이 디렉토리에는 **'g
 
 ```
 my_project/
-+--- go.mod
-+--- go.sum
-+--- app.go
-+--- agent/
-|   +--- agent_server.go
-|   +--- config_manager.go
-+--- apiclient/
-|   +--- remote-api-endpoints.go
+    +--- go.mod
+    +--- go.sum
+    +--- app.go
+    +--- agent/
+    |   +--- agent_server.go
+    |   +--- config_manager.go
+    +--- apiclient/
+    |   +--- remote-api-endpoints.go
 ```
 
 ## Go Modules 사용 방법
