@@ -78,7 +78,8 @@ set GOOS=windows
     * ![Windows환경변수](/assets/images/post/golang/2025-01-02-golang-dev-env/windows_env.png)
   * GOBIN
     * Go 바이너리 파일이 설치될 디렉토리를 지정합니다.
-    * 특정 디렉토리를 설정하지 않으면 Go에서 생성된 바이너리 파일은 **'$GOPATH/bin'** 디렉토리에 생성됩니다.
+    * 특정 디렉토리를 설정하지 않으면 Go에서 생성된 바이너리 파일은 모듈과 같은 디렉토리에 생성됩니다.
+    * 만약 바이너리 파일이 모듈과 같은 디렉토리에 생성되지 않았다면, '$GOPATH/bin' 디렉토리에 생성될 수도 있습니다.
   * GOARCH
     * Go 프로그램이 빌드될 대상 시스템의 아키텍처를 지정합니다.
     * 이 환경 변수는 CPU 아키텍처에 따라 다르게 설정됩니다.
@@ -98,7 +99,9 @@ set GOOS=windows
 
 Go 언어 1.10 버전까지는 환경 변수 **'GOPATH'**에 정의된 경로에서만 의존성을 관리했습니다. ($GOPATH/src 디렉토리에서만 프로젝트를 생성할 수 있었음)
 
-Go Mudules가 Go 1.11 버전부터 옵션 기능으로 등장했다가 Go 1.13 버전부터는 디렉토리에 **'go.mod'** 파일이 있으면 기본적으로 모듈 모드로 동작하게 되었습니다.
+관리 복잡성 떄문에 Go Mudules 기능이 등장했습니다. 
+
+Go Mudules는 Go 1.11 버전부터 옵션 기능으로 등장했다가 Go 1.13 버전부터는 디렉토리에 **'go.mod'** 파일이 있으면 기본적으로 모듈 모드로 동작하는 기능이 되었습니다.
 
 Go Modules는 간단히 생각하면 Go 언어가 의존성을 관리하는 방법으로 Java의 Maven과 유사합니다.
 
@@ -136,7 +139,7 @@ my_project/
     |   +--- agent_server.go
     |   +--- config_manager.go
     +--- apiclient/
-    |   +--- remote-api-endpoints.go
+        +--- remote-api-endpoints.go
 ```
 
 ## Go Modules 사용 방법
