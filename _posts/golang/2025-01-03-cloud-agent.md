@@ -36,7 +36,7 @@ flowchart TD
     Clippers -->|클라우드 메트릭 <br> 데이터 수집과 전달| UDPSender
     UDPSender -->|데이터 전송| CollectServer[수집 서버]
 
-    RemoteHealthCheck -->|주기적으로 수집서버 상태 점검| CollectServer[수집 서버]
+    RemoteHealthCheck -->|주기적으로 <br>수집서버 상태 점검| CollectServer[수집 서버]
 </pre>
 
 <script type="module">
