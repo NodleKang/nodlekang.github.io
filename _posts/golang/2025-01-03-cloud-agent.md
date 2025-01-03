@@ -14,7 +14,7 @@ toc_sticky: true
 
 본 포스트는 Cloud SDK를 이용해서 Cloud Metrics 데이터를 수집해서 서버로 전송하는 agent 프로그램 구조를 설명한 것 입니다.
 
-# 프로그램 흐름도
+# 프로그램 흐름
 
 <pre class="mermaid">
 flowchart TD
