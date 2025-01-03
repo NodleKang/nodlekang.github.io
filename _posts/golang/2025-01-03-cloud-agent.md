@@ -12,7 +12,7 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 Cloud SDK를 이용해서 Cloud Metrics 데이터를 수집해서 서버로 전송하는 Agent 프로그램 구조를 설명한 것 입니다.
+본 포스트는 제가 개발한 Cloud SDK를 이용해서 Cloud Metrics 데이터를 수집해서 서버로 전송하는 Agent 프로그램 구조를 설명한 것 입니다.
 
 # 프로그램 흐름
 
