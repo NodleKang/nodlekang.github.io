@@ -53,15 +53,13 @@ flowchart TD
 <pre class="mermaid">
 sequenceDiagram
     autonumber
-    participant Client as Client
-    participant Server as 수집서버
     participant C as StartClippersWithCloudConfiguration
+    participant Server as 수집서버
     participant M as StartClippers
     participant CW as CloudWatchClipper
     participant R as ResourceClipper
     participant U as UDPSender
 
-    Client->>C: StartClippersWithCloudConfiguration()
     C->>Server: 구성 정보 요청
     Server-->>C: 구성 정보 반환
     C->>M: StartClippers(구성 정보)
