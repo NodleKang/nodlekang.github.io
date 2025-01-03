@@ -28,7 +28,7 @@ flowchart TD
 
     AgentInfo -->|주기적으로 <br> Agent 정보 보내기| CollectServer[수집 서버]
 
-    APIserver --> Q{요청 수신?}
+    APIserver --> Q{Cloud <br> Configuration <br> 수신?}
 
     Q -->|예| Clippers[Clipper들 실행]
     Q -->|아니오| W[대기상태]
