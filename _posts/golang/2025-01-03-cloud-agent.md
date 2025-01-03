@@ -18,18 +18,26 @@ toc_sticky: true
 
 <pre class="mermaid">
 flowchart TD
-    App[app] --> Config[configure]
-    App --> APIserver[apiserver]
-    App --> HealthCheck[healthchecker]
+flowchart TD
+    App[app] --> Config[Configure]
+    App --> APIserver[APIServer]
+    App --> AgentInfo[AgentInfo]
+    App --> RemoteHealthCheck[RemoteHealthCheck]
 
     Config -->|주기적으로 <br> conf 파일 읽기| Config1[설정 정보 변경]
     Config1 -->|변경 사항 반영| Config
 
-    APIserver -->|클라우드 데이터 수집 설정 수신<br>Clipper 실행| Clipper[clipper]
+    AgentInfo -->|주기적으로 <br> Agent 정보 보내기| CollectServer[수집 서버]
+
+    APIserver --> Q{요청 수신?}
+
+    Q -->|예| Clipper[Clipper 실행]
+    Q -->|아니오| W[대기상태]
+    
     Clipper -->|클라우드 메트릭 <br> 데이터 수집과 전달| UDPSender
     UDPSender -->|데이터 전송| CollectServer[수집 서버]
 
-    HealthCheck -->|에이전트 <br> 헬스체크 전송| CollectServer[수집 서버]
+    RemoteHealthCheck -->|주기적으로 수집서버 상태 점검| CollectServer[수집 서버]
 </pre>
 
 <script type="module">
