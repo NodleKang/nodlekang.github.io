@@ -22,7 +22,7 @@ flowchart TD
     App --> APIserver[apiserver]
     App --> HealthCheck[healthchecker]
 
-    Config -->|주기적으로 <br> tuna.conf 파일 읽기| Config1[설정 정보 변경]
+    Config -->|주기적으로 <br> conf 파일 읽기| Config1[설정 정보 변경]
     Config1 -->|변경 사항 반영| Config
 
     APIserver -->|Clipper 실행| Clipper[clipper]
