@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Cloud Agent 프로그램 설계"
+title: "Cloud Agent 어플리케이션 구조와 데이터 수집 흐름"
 date: 2025-01-03 14:00:00 +0900
 categories: 
   - Go
@@ -46,7 +46,7 @@ flowchart TD
 	});
 </script>
 
-# 메트릭 데이터 수집 시퀀스
+# 데이터 수집 시퀀스
 
 이 프로그램에서 가장 중요한 부분은 Cloud Configuration에 맞춰서 Metrics와 Resource 정보를 수집하는 것 입니다.
 
