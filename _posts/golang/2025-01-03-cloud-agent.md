@@ -18,7 +18,6 @@ toc_sticky: true
 
 <pre class="mermaid">
 flowchart TD
-flowchart TD
     App[app] --> Config[Configure]
     App --> APIserver[APIServer]
     App --> AgentInfo[AgentInfo]
