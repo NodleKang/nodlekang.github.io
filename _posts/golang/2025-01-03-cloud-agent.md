@@ -16,6 +16,13 @@ toc_sticky: true
 
 # 프로그램 흐름
 
+<script type="module">
+	import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+	mermaid.initialize({
+		startOnLoad: true
+	});
+</script>
+
 <pre class="mermaid">
 flowchart TD
     App[app] --> Config[Configure]
@@ -38,13 +45,6 @@ flowchart TD
 
     RemoteHealthCheck -->|주기적으로 <br>수집서버 상태 점검| CollectServer[수집 서버]
 </pre>
-
-<script type="module">
-	import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-	mermaid.initialize({
-		startOnLoad: true
-	});
-</script>
 
 # 데이터 수집 시퀀스
 
