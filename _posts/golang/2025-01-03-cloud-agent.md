@@ -33,7 +33,7 @@ flowchart TD
     Q -->|예| Clippers[Clipper들 실행]
     Q -->|아니오| W[대기상태]
     
-    Clippers -->|클라우드 메트릭 <br> 데이터 수집과 전달| UDPSender
+    Clippers -->|메트릭과 리소스 <br> 데이터 수집과 전달| UDPSender
     UDPSender -->|데이터 전송| CollectServer[수집 서버]
 
     RemoteHealthCheck -->|주기적으로 <br>수집서버 상태 점검| CollectServer[수집 서버]
