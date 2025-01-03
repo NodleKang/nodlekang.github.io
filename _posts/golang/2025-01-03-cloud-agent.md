@@ -83,4 +83,4 @@ sequenceDiagram
 
 # 참고
 
-[github pages에 mermaid 적용용](https://akuszyk.com/2023-05-03-yet-another-mermaid-in-github-pages-guide.html)
+[github pages에 mermaid 적용하기](https://akuszyk.com/2023-05-03-yet-another-mermaid-in-github-pages-guide.html)
