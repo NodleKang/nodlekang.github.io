@@ -25,7 +25,7 @@ flowchart TD
     Config -->|주기적으로 <br> conf 파일 읽기| Config1[설정 정보 변경]
     Config1 -->|변경 사항 반영| Config
 
-    APIserver -->|Clipper 실행| Clipper[clipper]
+    APIserver -->|클라우드 데이터 수집 설정 수신<br>Clipper 실행| Clipper[clipper]
     Clipper -->|클라우드 메트릭 <br> 데이터 수집과 전달| UDPSender
     UDPSender -->|데이터 전송| CollectServer[수집 서버]
 
