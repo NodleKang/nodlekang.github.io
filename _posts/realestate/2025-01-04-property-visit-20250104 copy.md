@@ -14,7 +14,7 @@ toc_sticky: true
 
 <script>
 var password = prompt("Enter the password:");
-if (password !== "0917") {
+if (password !== "2233") {
     document.body.innerHTML = "Access Denied";
 }
 </script>
