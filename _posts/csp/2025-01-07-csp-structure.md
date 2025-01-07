@@ -53,9 +53,9 @@ flowchart TD
         CommonService --> CS3[감사]
 
         direction TB
-        Dep1 --> A1[보안]
-        Dep1 --> B1[관리]
-        Dep1 --> C1[감사]
+        Dep1 --> A1[운영]
+        Dep1 --> B1[검수]
+        Dep1 --> C1[개발]
     end
 
     subgraph RealResourceGroup["실제 자원 또는 클라우드 서비스"]
