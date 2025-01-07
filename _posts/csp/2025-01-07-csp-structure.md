@@ -14,7 +14,7 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 CSP 자원 구조를 학습한 내용을 정리한 것입니다.
+본 포스트는 CSP(Cloud Service Providers) 자원 구조를 학습한 내용을 정리한 것입니다.
 
 # CSP 자원 구조
 
