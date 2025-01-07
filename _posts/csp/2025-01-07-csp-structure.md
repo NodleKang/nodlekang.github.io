@@ -40,13 +40,11 @@ flowchart TD
         CommonService[공통서비스]
         Dep1[부서1]
         Dep2[부서N]
-        Dep3[부서3]
     end
 
     MyCompany --> CommonService
     MyCompany --> Dep1
     MyCompany --> Dep2
-    MyCompany --> Dep3
 
     subgraph GroupPerEnv["실제 자원이 구성되는 단위"]
         direction TB
