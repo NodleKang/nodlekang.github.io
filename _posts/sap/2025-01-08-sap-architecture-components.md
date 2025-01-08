@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "[SAP 아키텍처] 주요 컴포넌트"
-date: 2025-01-08 14:30:00 +0900
+date: 2025-01-08 14:00:00 +0900
 categories: 
   - SAP
 tag: 

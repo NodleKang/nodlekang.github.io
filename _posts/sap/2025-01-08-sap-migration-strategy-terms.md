@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "[SAP HANA DB] Migration 전략 유형"
-date: 2025-01-08 15:00:00 +0900
+date: 2025-01-08 14:30:00 +0900
 categories: 
   - SAP
 tag: 
