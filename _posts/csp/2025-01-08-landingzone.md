@@ -34,12 +34,21 @@ Landing Zone은 일반적으로 다음과 같은 요소들로 구성됩니다:
 - **모니터링 및 로깅**: 클라우드 환경의 상태를 추적하기 위한 CloudWatch, CloudTrail, Azure Monitor 등의 도구 설정.
 - **자동화 도구**: Terraform, AWS CloudFormation, Azure Resource Manager(ARM) 템플릿 등을 사용해 환경을 자동화.
 
-# 왜 중요한가?
-Landing Zone은 클라우드 환경을 처음부터 체계적으로 설계하고 관리할 수 있도록 도와줍니다. 이를 통해 다음과 같은 이점을 얻을 수 있습니다:
-- 클라우드 리소스의 **효율적인 관리**.
-- 보안 및 규정 준수 문제를 **사전에 방지**.
-- 클라우드 환경의 **확장성과 유연성** 확보.
-- 운영 비용과 시간 절약.
+# 사용 이유
+
+Landing Zone은 클라우드 환경을 처음부터 체계적으로 설계하고 관리할 수 있도록 도와줍니다. 
+
+Landing Zone 을 사용하면 다음과 같은 이점을 얻을 수 있습니다:
+- 고객사 Private Network(내부망) 연결을 사용하여 Private 통신을 통한 통신 암호화가 가능합니다.
+- Landing Zone 내에 CSP Account 에 관한 설정 및 정보를 확인하여 CSP Account 관리가 용이합니다.
+- Landing Zone 에서 사용중인 보안장비(Appliance)를 사용해서 통합 보안 관리가 가능합니다.
+- Landing Zone 안에서 서비스되는 Account들의 Log에 대해서 로그 저장소를 통합으로 운영합니다.
+
+Landing Zone 이 없으면 다음과 같이 작업해야 합니다:
+- Dev, QA, PRD 등으로 구분하여 각각 Cloud Account 사용하고, IAM Account에 대해서 개별 권한을 관리해야 합니다.
+- 보안 관련 Appliance에 대해서 필요한 Cloud Account마다 보안 구성을 해야 합니다.
+- Dev, QA, PRD 등 각 환경에서 각각 IAM 계정과 권한 관리를 수행해야 합니다.
+- 내부망(Private Network) 연결을 위한 Direct Connect 혹은 VPN 연결 작업을 따로 해야 합니다.
 
 # 예시
 - **AWS Control Tower**: AWS에서 제공하는 Landing Zone 솔루션으로, 멀티 계정 환경을 쉽게 설정하고 관리할 수 있도록 지원합니다.
