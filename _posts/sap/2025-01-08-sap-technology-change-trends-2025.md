@@ -21,7 +21,7 @@ toc_sticky: true
 
 본 포스트는 2025년 1월에 SAP 사업과 기술 방향 전환을 학습한 내용입니다.
 
-# SAP의 사업 밯향 전환
+# SAP의 사업 방향 전환
 
 전통적으로 SAP는 온프레미스(On-Premise) ERP 솔루션(SAP ECC 등)을 제공해왔습니다. 
 
