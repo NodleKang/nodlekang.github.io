@@ -96,3 +96,18 @@ CSP 자원 구조는 절대적인 것은 아니며, 실제 환경에 따라 적�
   * 클라우드 정책을 정의하는 논리 그룹은 'SolutionDepartment'라는 **Organizational Units(OU)** 입니다.
   * 실제 자원이 구성되는 단위는 프로젝트와 같은 'NewAPM'라는 **Account** 입니다.
   * 'NewAPM' **Account** 하위에 실제 사용할 자원이나 클라우드 서비스를 구성합니다.
+
+# CSP 스토리지 선택
+
+CSP에서 스토리지를 선택할 떄는 워크로드 요건에 따라 성능 최적화, 효율적인 비용을 고려해서 스터리지 타입과 옵션을 고려해야 합니다.
+
+| 구분 | 요구사항 | CSP 스토리지 | 워크 로드 |
+|:---:|:---:|:---:|:---|
+| 블록 <br> 스토리지 | 고성능 <br> 범용성 | AWS EBS <br> Azure Disk <br> GCP Persistent Disk | 관계형 혹은 NoSQL 데이터베이스 <br> 데이터 웨어하우징, 엔터프라이즈 어플리케이션 <br> 로컬 백업 및 복구 |
+| 파일 <br> 스토리지 | 파일공유 <br> 확장성 | AWS EFS / Fsx <br> Azure Files <br> GCP Cloud FileStore | 웹 지원 어플리케이션 <br> 콘텐츠 관리 시스템(CMS) <br> 빅 데이터 분석 <br> 컨테이너 스토리지 |
+| 오브젝트 <br> 스토리지 | 가용성 <br> 저비용 <br> 확장성 | AWS S3 <br> Azure Blob Storage <br> GCP Cloud Storage | 데이터 레이크와 빅데이터 분석 <br> 아카이브 <br> 서버리스 컴퓨팅 <br> 백업 및 복구, 재해복구(DR) |
+
+* 참고 - CSP 별 DISK 유형과 성능
+  * AWS : https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/ebs-volume-types.html
+  * Azure : https://learn.microsoft.com/ko-kr/azure/virtual-machines/disks-types
+  * GCP : https://cloud.google.com/compute/docs/disks?hl=ko#disk-types
