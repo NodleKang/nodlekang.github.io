@@ -1,11 +1,11 @@
 ---
 layout: single
-title: "[부동산] 보라매 매도 계약"
+title: "[부동산] 매도 계약"
 date: 2025-01-11 16:30:00 +0900
 categories: 
   - 부동산
 tag: 
-  - 보라매
+  - 매도
 toc: false
 toc_label: 목차
 toc_sticky: true
