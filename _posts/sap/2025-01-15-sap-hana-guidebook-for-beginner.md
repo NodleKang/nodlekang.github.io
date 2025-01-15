@@ -123,3 +123,40 @@ CBO는 크게 다섯가지 유형이 있습니다:
 # SAP의 3계층 구조
 
 ![SAP의 3계층 구조](/assets/images/post/sap/2025-01-15-sap-hana-guidebook-for-beginner/sap_3tier.png)
+
+# SAP Workbench
+
+SAP Workbench는 SAP 시스템에서 ABAP 개발을 위해 사용되는 모든 개발툴의 모음입니다.
+
+화면에 접근할 때는 T-Code <span style="color:red">**SE80**</span> 을 사용합니다.
+
+# ABAP 개발자가 자주 사용하는 T-Code 모음
+
+| T-Code | 이름 | 설명 |
+|:---|:---|:---|
+| SE80 | Object Navigater | ABAP 개발자가 사용하는 대부분의 기능을 제공합니다. (aka. SAP Workbench) |
+| SE38 | ABAP 편집기 | ABAP 프로그램 소스 코드를 만들고 관리합니다. |
+| SE37 | Function Builder | ABAP Function(함수)를 만들고 관리합니다. |
+| SE24 | Class Builder | ABAP 클래스를 만들고 관리합니다. |
+| SE18 | BAdi Builder | Business Add-Ins를 관리합니다. |
+| SE19 | BAdi Builder | Business Add-Ins를 (더 자세하게) 관리합니다. |
+| SE91 | Message Maintenance | 메시지 클래스 관리 |
+| SE93 | 트랜잭션 유지보수 | T-Code 관리 |
+| SE11 | ABAP Dictionary | 테이블, 뷰, 데이터 유형을 등을 만들고 관리합니다. |
+| SE16 | 데이터 브라우저 | 테이블 데이터 조회합니다.(조회 위주) |
+| SE16N | 일반 테이블 조회 | 테이블 데이터 관리합니다.(생성/변경/조회) |
+| ST22 | ABAP 런타임 에러 | ABAP 프로그램 수행 중 오류를 조회합니다. (덤프 확인) |
+| SHDB | 트랜잭션 리코더 | 트랜잭션을 녹은하듯이 기록합니다. (BDC 레코딩) |
+| SPRO | 커스터마이징 | 컨설턴트가 회사별 설정 사항을 세팅하는 곳입니다. |
+| SMARTFORMS | 스마트폼 | 각종 양식 문서를 디자인하는 곳입니다. |
+| SPROXY | PROXY 관리 | 다른 시스템과의 데이터 인터페이스를 관리합니다. |
+| SXI_MONITOR | XML Message Processing | PO를 통한 다른 시스템과의 인터페이스 이력을 조회합니다. |
+| S000 | 표준 메뉴 | SAP가 제공하는 기본 메뉴 트리로 돌아갑니다. |
+| SE43 | Edit Area Menu | 영역 메뉴를 관리합니다. |
+| SM37 | Job Selection | 백그라운드 잡 로그와 계획을 조회하고 관리합니다. |
+| SE09 | Transport Organizer | CTS 릴리즈/생성/변경 |
+| STMS | Transport 관리 시스템 | 전송 관리 시스템(이관) |
+| SU01 | User Maintenance | 사용자 관리(비밀번호 초기화 등) |
+| SU01D | User Maintenance | 사용자 조회(조회 전용) |
+| BAPI | BAPI Explorer | BAPI 탐색기 |
+| ABAPDOCU | ABAP Documentation | ABAP 도움말(F1) |
