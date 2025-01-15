@@ -111,7 +111,7 @@ CBO는 크게 다섯가지 유형이 있습니다:
 
 # SAP S/4HANA 구축 과정
 
-![SAP S/4HANA 구축 과정](/assets/images/post/sap/2025-01-15-sap-hana-guidebook-for-beginner/sap-fit-gap.jpg)
+![SAP S/4HANA 구축 과정](/assets/images/post/sap/2025-01-15-sap-hana-guidebook-for-beginner/sap_fit_gap.jpg)
 
 1. 커스터마이징(Customizing)/컨피그레이션(Configuration)
   - 모든 프로세스가 포함돼 있는 S/4HANA에서 기업이 필요한 프로세스만 추출하는 과정
@@ -119,3 +119,7 @@ CBO는 크게 다섯가지 유형이 있습니다:
   - SAP가 처음부터 일부 기능을 추가할 수 있게 열어 놓은 기능 확장
 3. CBO(Customer Bolt-On)
   - 완전히 새로운 프로그램을 개발해서 추가
+
+# SAP의 3계층 구조
+
+![SAP의 3계층 구조](/assets/images/post/sap/2025-01-15-sap-hana-guidebook-for-beginner/sap_3tier.png)
