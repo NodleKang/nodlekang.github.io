@@ -6,7 +6,6 @@ categories:
   - SAP
 tag: 
   - SAP
-  - CDS
 toc: true
 toc_label: 목차
 toc_sticky: true
