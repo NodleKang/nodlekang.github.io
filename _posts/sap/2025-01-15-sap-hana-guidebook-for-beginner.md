@@ -66,6 +66,8 @@ SAP S/4HANA가 고객에게 제공되는 방식은 다음과 같습니다.
 
 ![SAP 어플리케이션 영역 구조](/assets/images/post/sap/2025-01-15-sap-hana-guidebook-for-beginner/application_area_structure.jpg){: width="50%"}
 
+SAP에서 <span style="color:red">**표준**</span>은 <span style="color:red">**핵심모듈(Standard)와 산업특화 영역(IS)**</span>을 포함합니다.
+
 # SAP CBO(Customer Bolt-On)
 
 CBO는 사용자의 필요에 의해 더해지는 영역입니다.
@@ -84,3 +86,36 @@ CBO는 크게 다섯가지 유형이 있습니다:
 - 인터페이스: 다른 시스템과 데이터를 주고 받기
 - BDC: 반복 작업(엑셀의 매크로 기능과 유사)
 - Migration: 시스템 이관시 필요
+
+# SAP를 사용하는 이유
+
+- 문제가 발생하면 CBO 영역만 분석하면 됩니다.
+- 'SAP 표준의 데이터는 맞다'는 믿음이 전 세계적으로 인정됩니다.
+- 사용자가 데이터를 마음대로 변경할 수 없습니다.
+
+# SAP 컨설턴트가 하는 일
+
+- 현재 일하는 방법(AS-IS) 정리하기
+- 미래 일하는 방법(TO-BE) 만들기
+- 차이(Fit-Gap) 분석하기
+  - Fit: 회사가 일하는 방식을 SAP솔루션이 제시하는 방식으로 맞추기
+  - Gap: 회사가 일하는 방식에 맞게 추가 프로그램을 만들거나 보완하기
+- 추가할 프로그램 설계하기
+- ABAP 개발자와 협업하기
+
+# ABAP 개발자가 하는 일
+
+- SAP 컨설턴트의 설계서 이해하기
+- 프로그램 개발하기
+- 테스트하기
+
+# SAP S/4HANA 구축 과정
+
+![SAP S/4HANA 구축 과정](/assets/images/post/sap/2025-01-15-sap-hana-guidebook-for-beginner/sap-fit-gap.jpg){: width="75%"}
+
+1. 커스터마이징(Customizing)/컨피그레이션(Configuration)
+  - 모든 프로세스가 포함돼 있는 S/4HANA에서 기업이 필요한 프로세스만 추출하는 과정
+2. 확장(Enhancement)
+  - SAP가 처음부터 일부 기능을 추가할 수 있게 열어 놓은 기능 확장
+3. CBO(Customer Bolt-On)
+  - 완전히 새로운 프로그램을 개발해서 추가
