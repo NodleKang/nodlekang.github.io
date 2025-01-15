@@ -64,7 +64,7 @@ SAP S/4HANA가 고객에게 제공되는 방식은 다음과 같습니다.
 
 # SAP 어플리케이션 영역 구조
 
-![SAP 어플리케이션 영역 구조](/assets/images/post/sap/2025-01-15-sap-hana-guidebook-for-beginner/application_area_structure.jpg){: width="50%"}
+![SAP 어플리케이션 영역 구조](/assets/images/post/sap/2025-01-15-sap-hana-guidebook-for-beginner/application_area_structure.jpg)
 
 SAP에서 <span style="color:red">**표준**</span>은 <span style="color:red">**핵심모듈(Standard)와 산업특화 영역(IS)**</span>을 포함합니다.
 
@@ -111,7 +111,7 @@ CBO는 크게 다섯가지 유형이 있습니다:
 
 # SAP S/4HANA 구축 과정
 
-![SAP S/4HANA 구축 과정](/assets/images/post/sap/2025-01-15-sap-hana-guidebook-for-beginner/sap-fit-gap.jpg){: width="75%"}
+![SAP S/4HANA 구축 과정](/assets/images/post/sap/2025-01-15-sap-hana-guidebook-for-beginner/sap-fit-gap.jpg)
 
 1. 커스터마이징(Customizing)/컨피그레이션(Configuration)
   - 모든 프로세스가 포함돼 있는 S/4HANA에서 기업이 필요한 프로세스만 추출하는 과정
