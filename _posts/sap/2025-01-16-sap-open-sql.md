@@ -1,18 +1,102 @@
 ---
 layout: single
-title: "[SAP] HANA DB 기반 CDS 데이터 모델링"
-date: 2025-01-17 13:30:00 +0900
+title: "[SAP] Open SQL"
+date: 2025-01-16 13:30:00 +0900
 categories: 
   - SAP
 tag: 
   - SAP
-  - CDS
+  - Open SQL
 toc: true
 toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 2025년 1월에 [2030을 위한 ERP 이야기 - 8. HANA DB기반 CDS 데이터 모델링](https://brunch.co.kr/@lifeisex/10) 포스트를 읽고 정리한 내용입니다.
+본 포스트는 2025년 1월에 SAP Open SQL을 학습한 내용을 정리하는 것입니다.
+
+# Open SQL 이란?
+
+Open SQL은 SAP ABAP(Advanced Business Application Programming) 언어에서 제공하는 DB 독립적인 SQL 인터페이스 입니다.
+
+SAP 시스템에서 DB와 상호 작용하기 위해 사용됩니다.
+
+# Open SQL 특징
+
+1. **데이터베이스 독립성**
+  - SAP 시스템에서 사용하는 모든 데이터베이스에서 동일하게 작동합니다.
+  - 즉, 특정 데이터베이스에 종속되지 않습니다.
+2. **ANSI SQL과 유사한 문법**
+  - ANSI SQL과 비슷한 문법을 사용하지만, SAP에서 정의한 제한된 SQL 명령어 집합만 사용할 수 있습니다.
+  - SELECT, INSERT, UPDATE, DELETE 같은 기본적인 SQL 명령어를 지원합니다.
+3. **내장 데이터 캐싱**
+  -  SAP 애플리케이션 서버의 **테이블 버퍼(Table Buffer)**를 활용하여 데이터베이스 접근을 최적화합니다.
+4. **보안 및 데이터 무결성**
+  - Open SQL은 SAP의 권한 관리 시스템과 통합되어 있어, 데이터 접근 권한을 자동으로 확인합니다.
+
+# Java 개발자 관점에서 Open SQL 이해하기
+
+Java에서 JDBC를 사용해 데이터베이스와 상호작용하는 것과 비슷하다고 생각하면 됩니다.
+
+# Open SQL 기본 문법
+
+## SELECT
+
+```abap
+SELECT * FROM mara INTO TABLE @DATA(lt_mara)
+  WHERE matnr = '123456'.
+```
+
+- `mara`: SAP의 표준 테이블
+- `INTO TABLE`: 데이터를 ABAP 내부 테이블에 저장
+- `@DATA(lt_mara)`: 최신 ABAP 문법으로 내부 테이블 선언 및 데이터 저장
+
+## INSERT
+
+```abap
+INSERT INTO ztable (field1, field2)
+  VALUES ('value1', 'value2').
+```
+
+- `ztable`: 사용자 정의 테이블
+- `field1`, `field2`: 테이블의 필드
+
+## UPDATE
+
+```abap
+UPDATE ztable
+  SET field1 = 'new_value'
+  WHERE field2 = 'value2'.
+```
+
+## DELETE
+
+```abap
+DELETE FROM ztable
+  WHERE field1 = 'value1'.
+```
+
+
+
+
+# CDS(Core Data Services)란 무엇인가요?
+
+CDS는 **SAP에서 제공하는 데이터 모델링 프레임워크**로, SAP HANA DB와 같은 데이터베이스에서 데이터를 효율적으로 정의하고 관리하기 위해 사용됩니다.
+
+아주 간단히 생각하면 **데이터를 정의하고 조작하는 고급 SQL 기반 언어**라고 생각해도 됩니다.
+
+CDS는 **SAP의 ABAP 프로그래밍 모델과 SAP HANA에서 모두 사용**됩니다.
+
+<div class="notice-info" markdown="1">
+**CDS를 이해하기 위한 비유**
+
+CDS는 데이터베이스와 어플리케이션 사이의 스마트 데이터 정의서 입니다.
+
+기존 SQL로 데이터를 정의하는 것은 "수작업으로 건물을 짓는 것"과 비슷합니다.
+
+반면, CDS는 "건축설계도"를 작성하는 것과 같습니다. 설계도를 기반으로 데이터베이스가 효율적으로 데이터를 처리하도록 돕습니다.
+</div>
+
+
 
 1. CDS 개요
   1) CDS 기본 개념
@@ -75,8 +159,6 @@ toc_sticky: true
   4) Meta Data Extension을 통한 필드 UI Annotaion 추가
 
 
-
-아래는 위의 목차를 참고하여 초보자를 위한 CDS 기초 문서를 작성하기 위한 목차입니다. 이 목차는 복잡한 내용을 간소화하고, 초보자가 CDS의 기본 개념부터 실무 활용까지 점진적으로 이해할 수 있도록 구성되었습니다.
 
 ---
 
