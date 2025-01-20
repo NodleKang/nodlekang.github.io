@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "[SAP] Open SQL"
-date: 2025-01-16 13:30:00 +0900
+date: 2025-01-21 13:30:00 +0900
 categories: 
   - SAP
 tag: 
