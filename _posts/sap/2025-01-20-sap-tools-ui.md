@@ -19,7 +19,7 @@ SAP 기본 화면 구성은 그림과 같습니다.
 
 `커맨드필드`에 T-CODE(트랜잭션코드)를 입력해서 프로그램을 실행합니다.
 
-![SAP GUI](/assets/images/post/sap/2025-01-20-begin-sap/sap_gui.png)
+![SAP GUI](/assets/images/post/sap/2025-01-20-sap-tools-ui/sap_gui.png)
 
 ## ABAP Workbench
 
@@ -29,7 +29,7 @@ ABAP 프로그램 구현을 위해서는 `ABAP Workbench` 를 사용해야 합�
 
 `ABAP Workbench`에는 ABAP Program, Function, Table 등을 생성할 수 있는 많은 개발 도구가 구성되어 있습니다.
 
-![ABAP Workbench](/assets/images/post/sap/2025-01-20-begin-sap/abap_workbench.png){: width="50%"}
+![ABAP Workbench](/assets/images/post/sap/2025-01-20-sap-tools-ui/abap_workbench.png){: width="50%"}
 
 ABAP Workbench Tool에서 자주 사용되는 개발관련 T-CODE(Transaction Code)들은 아래와 같습니다.
 
@@ -66,7 +66,7 @@ ABAP Dictionary는 Object들의 정보(metadata, data, definition)를 중앙 집
   - ABAP Dictionary 내에 변경된 Object의 metadata는 모든 시스템 Object에게 알려집니다.
   - 모든 데이터를 중앙집중식으로 관리하여 데이터의 무결정, 일관성, 안정성을 보장합니다.
 
-![ABAP Dictionary](/assets/images/post/sap/2025-01-20-begin-sap/abap_dictionary.png)
+![ABAP Dictionary](/assets/images/post/sap/2025-01-20-sap-tools-ui/abap_dictionary.png)
 
 ABAP Dictionary 관련 화면에 대한 추가 설명은 [https://pickylog.tistory.com/5](https://pickylog.tistory.com/5) 블로그를 참고하면 좋습니다.
 
