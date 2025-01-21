@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "[SAP] 도구들"
+title: "[SAP] 사용자 도구"
 date: 2025-01-20 13:30:00 +0900
 categories: 
   - SAP
@@ -11,7 +11,7 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-본 포스트는 2025년 1월에 SAP 관련 기초 개념과 화면을 학습한 내용입니다.
+본 포스트는 2025년 1월에 SAP ERP 구현을 위해서 사용되는 도구들을 찾아본 내용입니다.
 
 # SAP GUI
 
