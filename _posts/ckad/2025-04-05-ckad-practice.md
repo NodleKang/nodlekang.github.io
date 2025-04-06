@@ -338,7 +338,7 @@ kubectl config use-context k8s
 ```bash
 # 동작중인 서비스 확인
 kubectl get svc
-``
+```
 
 ```bash
 # 동작중인 파드 내용을 소스로 받기
