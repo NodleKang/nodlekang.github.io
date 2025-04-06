@@ -76,43 +76,6 @@ kubectl desccribe resourcequotas my-quota -n mynamespace
 - 1000m (밀리코어) = 1 core = 1 CPU = 1 AWS vCPU = 1 GCP Core
 - 메모리는 bytes 혹은 mebibytes(MiB)
 
-## Resource Requests & Limits ★
-
-- **Resource Requests**: 컨테이너가 실행되기 위해 필요한 최소한의 자원을 정의하며, Kubernetes 스케줄러는 이를 기준으로 적절한 노드에 파드를 배치합니다.
-
-- **Resource Limits**: 컨테이너가 최대 사용할 수 있는 자원을 설정하며, 이를 초과하면 Kubernetes는 해당 컨테이너를 제한하거나 종료할 수 있습니다.
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: frontend
-  namespace: mynamespace
-spec:
-  containers:
-  - name: app
-    image: images.my-company.example/app:v4
-    resources:
-      requests:
-        memory: "30Mi" # 최대 메모리
-        cpu: "200m"    # 최대 CPU
-      limits:
-        memory: "50Mi" # 최소 메모리
-        cpu: "200m"    # 최소 CPU
-```
-
-```bash
-kubectl apply -f frontend.yaml
-```
-
-```bash
-kubectl get pod frontend -n mynamespace
-```
-
-```bash
-kubectl describe pod frontend -n mynamespace
-```
-
 ## Security Context
 
 - Kubernetes의 Security Context는 Pod 또는 Container 수준에서 사용자 ID, 권한 상승 여부, 읽기 전용 파일 시스템 등과 같은 보안 관련 설정을 정의하는 구성 요소입니다.
@@ -309,6 +272,10 @@ kubectl exec configmap-pod -- cat /app/data/key2
 ## Resource Requests & Limits ★
 
 - k8s docs > limit 검색 > Resource Management for Pods and Containers
+
+- **Resource Requests**: 컨테이너가 실행되기 위해 필요한 최소한의 자원을 정의하며, Kubernetes 스케줄러는 이를 기준으로 적절한 노드에 파드를 배치합니다.
+
+- **Resource Limits**: 컨테이너가 최대 사용할 수 있는 자원을 설정하며, 이를 초과하면 Kubernetes는 해당 컨테이너를 제한하거나 종료할 수 있습니다.
 
 ```bash
 # 클러스터 설정
