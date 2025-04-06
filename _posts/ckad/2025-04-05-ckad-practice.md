@@ -76,7 +76,7 @@ kubectl desccribe resourcequotas my-quota -n mynamespace
 - 1000m (밀리코어) = 1 core = 1 CPU = 1 AWS vCPU = 1 GCP Core
 - 메모리는 bytes 혹은 mebibytes(MiB)
 
-## ★ Resource Requests & Limits
+## Resource Requests & Limits ★
 
 - **Resource Requests**: 컨테이너가 실행되기 위해 필요한 최소한의 자원을 정의하며, Kubernetes 스케줄러는 이를 기준으로 적절한 노드에 파드를 배치합니다.
 
@@ -203,7 +203,7 @@ kubectl run env-secret --image=nginx --env=FC_VARIABLE=value --dry-run -o yaml >
 vi pod.yaml
 ```
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -222,15 +222,52 @@ spec:
           key: key1
 ```
 
-```
+```bash
 kubectl apply -f pod.yaml
 ```
 
-```
+```bash
 kubectl get pod env-secret
 ```
 
-```
+```bash
 # 파드에 접속해서 env 확인하기
 kubectl exec env-secret -- env
+```
+
+## Pod Resource
+
+```bash
+kubectl config use-context microk8s
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-resources-demo
+  namespace: pod-resources-example
+spec:
+  resources:
+    limits:
+      cpu: "1"
+      memory: "200Mi"
+    requests:
+      cpu: "1"
+      memory: "100Mi"
+  containers:
+  - name: pod-resources-demo-ctr-1
+    image: nginx
+    resources:
+      limits:
+        cpu: "0.5"
+        memory: "100Mi"
+      requests:
+        cpu: "0.5"
+        memory: "50Mi"
+  - name: pod-resources-demo-ctr-2
+    image: fedora
+    command:
+    - sleep
+    - inf 
 ```
