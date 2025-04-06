@@ -34,17 +34,17 @@ spec:
     type: Container # 기본 설정은 Container 에만 적용 가능
 ```
 
-```
+```bash
 # 파일 반영
 kubectl apply -f my-limit-range.yaml
 ```
 
-```
+```bash
 # mynamespace 네임스페이스에 만든 my-limit-range 라는 Limit Range 확인
 kubectl get limitranges my-limit-range -n mynamespace
 ```
 
-```
+```bash
 # mynamespace 네임스페이스에 만든 my-limit-range 라는 Limit Range 상세 확인
 kubectl describe limitranges my-limit-range -n mynamespace
 ```
@@ -55,17 +55,17 @@ kubectl describe limitranges my-limit-range -n mynamespace
 
 [kubectl create quota 명령](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-quota-em-)
 
-```
+```bash
 # Resource Quotas 생성 - Pods 개수, Servoces 개수, 네임스페이스 지정
 kubectl create quota my-quota --hard=pods=10,services=5 -n mynamespace
 ```
 
-```
+```bash
 # mynamespace 네임스페이스에 만든 my-quota 라는 Resource Quotas 확인
 kubectl get resourcequotas my-quota -n mynamespace
 ```
 
-```
+```bash
 # mynamespace 네임스페이스에 만든 my-quota 라는 Resource Quotas 상세 확인
 kubectl desccribe resourcequotas my-quota -n mynamespace
 ```
@@ -101,15 +101,15 @@ spec:
         cpu: "200m"    # 최소 CPU
 ```
 
-```
+```bash
 kubectl apply -f frontend.yaml
 ```
 
-```
+```bash
 kubectl get pod frontend -n mynamespace
 ```
 
-```
+```bash
 kubectl describe pod frontend -n mynamespace
 ```
 
@@ -127,7 +127,7 @@ kubectl describe pod frontend -n mynamespace
   - readOnlyRootFilesystem: 컨테이너의 루트 파일 시스템을 읽기 전용으로 설정하여 파일 수정 및 쓰기를 방지
   - supplementalGroups: 컨테이너가 추가적으로 속할 group ID를 지정하여 파일 시스템 접근 권한을 확장
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -149,15 +149,15 @@ spec:
         add: ["NET_ADMIN", "SYS_TIME"]
 ```
 
-```
+```bash
 kubectl apply -f security-context-demo.yaml
 ```
 
-```
+```bash
 kubectl get pod security-context-demo
 ```
 
-```
+```bash
 # security-context-demo 파드가 어떤 id로 동작 중인지 확인
 kubectl exec security-context-demo -- id
 ```
@@ -171,35 +171,35 @@ kubectl exec security-context-demo -- id
 
 ### Secret 생성
 
-```
+```bash
 # 클러스터 선택 - k8s
 kubectl config use-context k8s
 ```
 
-```
+```bash
 # Secret 생성:
 #   이름: my-secret
 #   키=밸류: key1=value3
 kubectl create secret generic my-secret --from-literal=key1=value3
 ```
 
-```
+```bash
 # Secret 확인
 kubectl get secrets
 ```
 
-```
+```bash
 # Secret 확인
 kubectl describe secrets my-secret
 ```
 
-### Pod에서 Secret 사용해서 환경변수 설정
+### Secret 사용해서 Pod에 환경변수 설정
 
-```
-kubectl run env-secret --image=nginx --env=FC_VARIABLE=value --dry-run -o yaml > pod.yaml
+```bash
+kubectl run env-secret --image=nginx --env=FC_VARIABLE=value --dry-run=client -o yaml > pod.yaml
 ```
 
-```
+```bash
 vi pod.yaml
 ```
 
@@ -237,37 +237,47 @@ kubectl exec env-secret -- env
 
 ## Pod Resource
 
+- k8s docs > limit 검색 > Resource Management for Pods and Containers
+
 ```bash
+# 클러스터 설정
 kubectl config use-context microk8s
+```
+
+```bash
+# namespace 확인
+kubectl get namespace myspace
+```
+
+```bash
+kubectl run pod-resources --image=nginx -n myspace --dry-run=client -o yaml > pod-resources.yaml
+```
+
+```bash
+vi pod-resources.yaml
 ```
 
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pod-resources-demo
-  namespace: pod-resources-example
+  name: pod-resources
+  namespace: myspace
 spec:
-  resources:
-    limits:
-      cpu: "1"
-      memory: "200Mi"
-    requests:
-      cpu: "1"
-      memory: "100Mi"
   containers:
-  - name: pod-resources-demo-ctr-1
+  - name: pod-resources
     image: nginx
     resources:
-      limits:
-        cpu: "0.5"
-        memory: "100Mi"
       requests:
-        cpu: "0.5"
-        memory: "50Mi"
-  - name: pod-resources-demo-ctr-2
-    image: fedora
-    command:
-    - sleep
-    - inf 
+        cpu: "200m"     # 최소 CPU
+        memory: "500Mi" # 최소 MEM
+```
+
+```bash
+kubectl apply -f pod-resources.yaml
+```
+
+```bash
+kubectl describe pod pod-resources -n myspace | grep -i cpu
+kubectl describe pod pod-resources -n myspace | grep -i mem
 ```
