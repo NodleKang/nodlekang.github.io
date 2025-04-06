@@ -76,7 +76,7 @@ kubectl desccribe resourcequotas my-quota -n mynamespace
 - 1000m (밀리코어) = 1 core = 1 CPU = 1 AWS vCPU = 1 GCP Core
 - 메모리는 bytes 혹은 mebibytes(MiB)
 
-## Resource Requests & Limits ★
+## ★ Resource Requests & Limits
 
 - **Resource Requests**: 컨테이너가 실행되기 위해 필요한 최소한의 자원을 정의하며, Kubernetes 스케줄러는 이를 기준으로 적절한 노드에 파드를 배치합니다.
 
@@ -160,4 +160,75 @@ kubectl get pod security-context-demo
 ```
 # security-context-demo 파드가 어떤 id로 동작 중인지 확인
 kubectl exec security-context-demo -- id
+```
+
+## Secret (generic)
+
+- 비밀번호, API 키, SSH 키와 같은 민감한 데이터를 안전하게 저장하고 컨테이너에 전달하기 위해 사용하는 리소스로, 
+- 데이터를 Base64로 인코딩하여 관리하며 ConfigMap과 유사한 방식으로 동작합니다.
+
+- 참고: kubectl references > create > secret generic
+
+### Secret 생성
+
+```
+# 클러스터 선택 - k8s
+kubectl config use-context k8s
+```
+
+```
+# Secret 생성:
+#   이름: another-secret
+#   키=밸류: key1=value3
+kubectl create secret generic another-secret --from-literal=key1=value3
+```
+
+```
+# Secret 확인
+kubectl get secrets
+```
+
+```
+# Secret 확인
+kubectl describe secrets another-secret
+```
+
+### Pod에서 사용
+
+```
+kubectl run nginx-secret --image=nginx --env=FC_VARIABLE=value --dry-run -o yaml > pod.yaml
+```
+
+```
+vi pod.yaml
+```
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-secret
+spec:
+  containers:
+  - name: nginx-secret
+    image: nginx
+    env:
+    - name: FC_VARIABLE
+      valueFrom:
+        secretKeyRef:
+          name: another-secret
+          key: key1
+```
+
+```
+kubectl apply -f pod.yaml
+```
+
+```
+kubectl get pod nginx-secret
+```
+
+```
+# 파드에 접속해서 env 확인하기
+kubectl exec nginx-secret -- env
 ```
