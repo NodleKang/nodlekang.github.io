@@ -404,3 +404,81 @@ curl http://:80/healthz
 # 클러스터 내부에서 앞에서 확인한 IP와 함께 /stared 엔드포인트 확인
 curl http://:80/stared
 ```
+
+## Service Account ★
+
+- k8s docs > serviceaccount
+
+- Kubernetes 클러스터 내에서 실행되는 애플리케이션(주로 Pod)이 Kubernetes API 서버와 안전하게 통신할 수 있도록 도와주는 특별한 계정입니다.
+- Service Account는 사람대신 **애플리케이션이 사용**합니다.
+
+- Service Account 사용 이유:
+  - 애플리케이션(주로 Pod)이 API 서버라는 중앙 시스템에 요청을 보낼 때, Service Account가 그 애플리케이션이 누구인지 확인해주고 필요한 권한을 부여할 수 있게 해줍니다.
+  - Kubernetes는 각 namespace마다 기본 Service Account을 자동으로 만들어줍니다. (default)
+  - Service Account를 사용하면, 어떤 애플리케이션이 어떤 작업을 할 수 있는지 쉽게 관리할 수 있습니다.
+
+```bash
+# 실행 중인 Deployment 확인하기
+kubectl get deployments.apps -n prod
+```
+
+```bash
+# 동작 중인 Pod 확인하기
+kubectl get pods -n prod
+```
+
+```bash
+# 존재하는 Service Accounts 확인하기
+kubectl get serviceaccounts -n prod
+```
+
+```bash
+# 실행중인 Pod를 통해서 Deployment가 어떤 Service Account로 실행했는지 확인하기
+kubectl get pod app-deploy-2a0c09afai -n prod -o yaml | grep -i serviceaccount
+```
+
+```bash
+# 동작중인 Deployment 소스 받기
+kubectl get deployments.apps -n prod app-deploy -o yaml > app-deploy.yaml
+```
+
+```bash
+vi app-deploy.yaml
+```
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deploy
+  namespace: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-deploy
+  template:
+    metadata:
+      labels:
+        app: app-deploy
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+      serviceAccountName: app-serviceaccount # Service Account 이름 설정
+```
+
+```
+# 동작 중이던 Deployment 삭제
+kubectl delete -f app-deploy.yaml
+```
+
+```
+# 새 Deployment 반영
+kubectl delete -f app-deploy.yaml
+```
+
+```bash
+# 실행중인 Pod를 통해서 Deployment가 어떤 Service Account로 실행했는지 확인하기
+kubectl get pod app-deploy-xxx129uuup -n prod -o yaml | grep -i serviceaccount
+```
