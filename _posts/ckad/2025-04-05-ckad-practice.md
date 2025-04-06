@@ -193,7 +193,7 @@ kubectl get secrets
 kubectl describe secrets my-secret
 ```
 
-### Pod에서 Secret 사용
+### Pod에서 Secret 사용해서 환경변수 설정
 
 ```
 kubectl run env-secret --image=nginx --env=FC_VARIABLE=value --dry-run -o yaml > pod.yaml
