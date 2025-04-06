@@ -355,3 +355,85 @@ kubectl apply -f pod-resources.yaml
 kubectl describe pod pod-resources -n myspace | grep -i cpu
 kubectl describe pod pod-resources -n myspace | grep -i mem
 ```
+
+## LivenessProbe & ReadinessProbes
+
+- k8s docs > livenessprobe
+
+- **LivenessProbe**: 컨테이너가 정상적으로 **살아있고** 작동 중인지 확인하며, 실패 시 Kubernetes가 해당 컨테이너를 **재시작**하여 장애 복구를 지원합니다. (재시작!)
+- **ReadinessProbe**: 컨테이너가 외부 요청을 처리할 **준비가 되었는지** 확인하며, 준비되지 않은 경우 서비스 트래픽에서 **제외**하여 안정성을 확보합니다. (제외!)
+
+```bash
+# 클러스터 변경
+kubectl config use-context k8s
+```
+
+```bash
+# 동작중인 서비스 확인
+kubectl get svc
+``
+
+```bash
+# 동작중인 파드 내용을 소스로 받기
+kubectl get pods probe-http-pod -o yaml > probe-http-pod.yaml
+```
+
+```bash
+vi probe-http-pod.yaml
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: probe-http-pod 
+  name: probe-http-pod
+spec:
+  containers:
+  - name: probe-http
+    image: registry.k8s.io/e2e-test-images/agnhost:2.40
+    ports:
+    - name: liveness-port
+      containerPort: 80
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: liveness-port # 숫자 80 으로 명시해도 됨
+      failureThreshold: 1   # 최소 1회, 기본 3회
+    readinessProbe:
+      httpGet:
+        path: /started
+        port: liveness-port # 숫자 80 으로 명시해도 됨
+      failureThreshold: 1   # 최소 1회, 기본 3회
+```
+
+```
+# 동작 중인 파드 삭제
+kubectl delete pod probe-http-pod
+```
+
+```
+# 수정한 파드 반영
+kubectl apply -f probe-http-pod.yaml
+```
+
+```bash
+# 파드에서 Probe 정보 확인
+kubectl describe pods probe-http-pod | grep -i liveness
+  Liveness:    http-get http://:80/healthz delay=0s timeout:1s period=10s # seccess=1 # failure=3
+kubectl describe pods probe-http-pod | grep -i readiness
+  Readiness:   http-get http://:80/started delay=0s timeout:1s period=10s # seccess=1 # failure=3
+```
+
+```bash
+# 파드의 IP주소 확인 (클러스터 내부 주소임)
+kubectl get pod probe-http-pod -o wide
+```
+
+```bash
+# 클러스터 내부에서 앞에서 확인한 IP와 함께 /healthz 엔드포인트 확인
+curl http://:80/healthz
+# 클러스터 내부에서 앞에서 확인한 IP와 함께 /stared 엔드포인트 확인
+curl http://:80/stared
+```
