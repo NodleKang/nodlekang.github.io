@@ -158,5 +158,6 @@ kubectl get pod security-context-demo
 ```
 
 ```
-kubectl describe pod security-context-demo
+# security-context-demo 파드가 어떤 id로 동작 중인지 확인
+kubectl exec security-context-demo -- id
 ```
