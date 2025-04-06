@@ -11,6 +11,38 @@ toc_label: 목차
 toc_sticky: true
 ---
 
+## K8S 리소스
+
+[5분만에 Kubernetes 리소스 9개 이해하기](https://youtu.be/bM6-AbChWPE?si=ls-zHVG-TSRIDivB)
+
+### Deployment
+
+- Pod를 자동으로 관리하는 컨트롤러
+
+### DeamonSet
+
+- 클러스터의 모든 노드별로 필수로 올려야 하는 Pod를 배포하는 리소스
+- 노드가 추가되면 자동으로 Pod를 배포함
+- 예: 로그수집기, 모니터링에이전트
+
+### StatefulSet
+
+- 쿠버네티스 Pod는 기본적으로 Stateless임
+- StatefulSet은 각각 유니크한 아이디가 배정되서 Pod가 삭제되거나 리스케줄링 되더라도 아이디를 유지하고, 각각 저장소를 배정받음
+- 예: 상태를 저장해야 하는 DB와 같은 Pod
+
+### Service
+
+- Pod들을 묶어주는 일종의 로드밸런서 (Pod 자체는 삭제되거나 리스케줄링되면서 IP가 계속 변경됨)
+- 종류: ClusterIP(내부 트래픽 관리용으로 주로 사용), NodePort, LoadBalancer, ExternalName
+
+### Ingress
+
+- 외부로 네트워크를 노출해야 한다면 엔드포인트를 하나로 묶어줘야 함
+- 최전방에서 요청을 받고 적절한 Service로 요청을 넘겨주는 역할
+
+# K8S 연습
+
 ## Limit Ranges
 
 특정 네임스페이스 내에서 Pod 또는 컨테이너가 사용할 수 있는 CPU, 메모리 등의 자원에 대해 최소값과 최대값을 제한하거나 기본값을 설정하는 정책
