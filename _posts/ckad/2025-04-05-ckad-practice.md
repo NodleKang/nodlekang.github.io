@@ -235,6 +235,14 @@ kubectl get pod env-secret
 kubectl exec env-secret -- env
 ```
 
+## ConfigMap
+
+- 애플리케이션에서 사용하는 비민감성 구성 데이터를 키-값 형태로 저장하여 컨테이너와 분리된 환경 설정을 관리하는 API 오브젝트
+- ConfigMap은 일반적인 설정 데이터를 평문으로 저장하는 반면, Secret은 민감한 정보를 Base64로 인코딩하여 저장하며, RBAC 및 암호화를 통해 더 높은 보안성을 제공합니다.
+
+- kubectl references > create > configmap
+- k8s docs > configmap 검색
+
 ### ConfigMap 생성
 
 ```bash
@@ -347,11 +355,3 @@ kubectl apply -f pod-resources.yaml
 kubectl describe pod pod-resources -n myspace | grep -i cpu
 kubectl describe pod pod-resources -n myspace | grep -i mem
 ```
-
-## ConfigMap
-
-- 애플리케이션에서 사용하는 비민감성 구성 데이터를 키-값 형태로 저장하여 컨테이너와 분리된 환경 설정을 관리하는 API 오브젝트
-- ConfigMap은 일반적인 설정 데이터를 평문으로 저장하는 반면, Secret은 민감한 정보를 Base64로 인코딩하여 저장하며, RBAC 및 암호화를 통해 더 높은 보안성을 제공합니다.
-
-- kubectl references > create > configmap
-- k8s docs > configmap 검색
