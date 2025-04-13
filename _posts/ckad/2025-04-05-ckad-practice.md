@@ -11,6 +11,8 @@ toc_label: 목차
 toc_sticky: true
 ---
 
+CKAD 시험 준비
+
 ## K8S 리소스
 
 [5분만에 Kubernetes 리소스 9개 이해하기](https://youtu.be/bM6-AbChWPE?si=ls-zHVG-TSRIDivB)
@@ -91,12 +93,6 @@ kubectl get resourcequotas my-quota -n mynamespace
 kubectl desccribe resourcequotas my-quota -n mynamespace
 ```
 
-## Pod Resource 단위
-
-- 쿠버네티스 CPU는 베어메탈 프로세서의 하이퍼스레드와 동일함 (AWS vCPU, GCP core, Azure vCore 등과 같음)
-- 1000m (밀리코어) = 1 core = 1 CPU = 1 AWS vCPU = 1 GCP Core
-- 메모리는 bytes 혹은 mebibytes(MiB)
-
 ## Security Context
 
 - Kubernetes의 Security Context는 Pod 또는 Container 수준에서 사용자 ID, 권한 상승 여부, 읽기 전용 파일 시스템 등과 같은 보안 관련 설정을 정의하는 구성 요소입니다.
@@ -152,6 +148,16 @@ kubectl exec security-context-demo -- id
 - 데이터를 Base64로 인코딩하여 관리하며 ConfigMap과 유사한 방식으로 동작합니다.
 
 - 참고: kubectl references > create > secret generic
+
+### 문제 샘플
+
+- my-secret라는 이름의 Secret을 생성하고, key/value 쌍으로 key1/value3를 추가합니다.
+- nginx 컨테이너 이미지를 사용하는 env-secret이라는 이름의 nginx Pod를 시작하고, Pod 내부에서 환경 변수 이름을 FC_VARIABLE 설정하여 Secret 키 key1의 값을 노출합니다.
+
+### 문제 키워드
+
+- Create a secret named
+- for the environment variable inside the pod
 
 ### Secret 생성
 
@@ -292,11 +298,33 @@ kubectl exec configmap-pod -- cat /app/data/key2
 
 ## Resource Requests & Limits ★
 
+### 개념
+
 - k8s docs > limit 검색 > Resource Management for Pods and Containers
 
 - **Resource Requests**: 컨테이너가 실행되기 위해 필요한 최소한의 자원을 정의하며, Kubernetes 스케줄러는 이를 기준으로 적절한 노드에 파드를 배치합니다.
 
 - **Resource Limits**: 컨테이너가 최대 사용할 수 있는 자원을 설정하며, 이를 초과하면 Kubernetes는 해당 컨테이너를 제한하거나 종료할 수 있습니다.
+
+## Pod Resource 단위
+
+- 쿠버네티스 CPU는 베어메탈 프로세서의 하이퍼스레드와 동일함 (AWS vCPU, GCP core, Azure vCore 등과 같음)
+- 1000m (밀리코어) = 1 core = 1 CPU = 1 AWS vCPU = 1 GCP Core
+
+### 문제 샘플
+
+- myspace 네임스페이스에 pod-resources라는 이름의 Pod를 생성하며, 컨테이너가 최소 100m CPU와 200Mi 메모리, 최대 200m CPU와 500Mi 메모리를 요청하도록 설정합니다.
+- 해당 Pod는 nginx 이미지를 사용해야 합니다.
+- myspace 네임스페이스는 이미 생성되어 있습니다.
+
+### 문제 키워드
+
+- a certain amount of CPU and memory
+- a minimum of 200m CPU and 1Gi memory for its container
+
+### Resource Requests & Limits 적용
+
+- 메모리는 bytes 혹은 mebibytes(MiB)
 
 ```bash
 # 클러스터 설정
