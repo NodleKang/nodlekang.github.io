@@ -669,9 +669,7 @@ __*개념*__
 
 - CKAD는 다음과 같은 작업을 할 수 있어야 합니다.:
   - Container Build
-  - 빌드된 이미지를 레지스트리에 업로드
-  - 레지스트리에서 Container 이미지 다운로드
-  - Container Running
+  - Container Run
   - Container Save & Export
   - 고객에게 Container 이미지를 아카이브 파일로 배포
 
@@ -693,6 +691,10 @@ __*문제 샘플*__
 - 앞에서 만든 컨테이너 이미지를 고객에게 전달해야 합니다.
 - 해당 이미지를 apache-php-test-v1.tar 파일로 저장하세요.
 - 저장 경로는 /data/apache-php-test-v1.tar 이어야 합니다.
+
+컨테이너 export
+- 빌드한 컨테이너를 apache-php 파일 이름으로 실행하시오.
+- 동작중인 apache-php 컨테이너를 /data/apache-php-container.tar 파일로 export 하시오.
 
 __*실습*__
 
@@ -764,6 +766,18 @@ docker images
 
 ```bash
 docker save -o /data/apache-php-test-v1.tar apache-php:test-v1
+```
+
+### 이미지를 컨테이너로 실행하고, export하기
+
+```bash
+# 이미지를 컨테이너로 실행
+docker run -d --name apache-php apache-php:test-v1
+```
+
+```bash
+# 동작중인 컨테이너를 export하기
+docker export -o /data/apache-php-container.tar apache-php
 ```
 
 ## 제목
