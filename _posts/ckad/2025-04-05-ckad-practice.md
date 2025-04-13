@@ -760,7 +760,7 @@ docker build -t apache-php:test-v1 .
 docker images
 ```
 
-### 컨테이너 이미지를 아카이브 파일로 저장
+### 이미지를 아카이브 파일로 저장
 
 ```bash
 docker save -o /data/apache-php-test-v1.tar apache-php:test-v1
