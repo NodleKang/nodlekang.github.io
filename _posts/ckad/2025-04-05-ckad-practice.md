@@ -718,7 +718,7 @@ __*주요 docker 명령들*__
 
 | 명령어           | 설명                                                     | 예시 |
 |------------------|----------------------------------------------------------|------|
-| `docker build`   | Dockerfile을 기반으로 이미지 생성                        | `docker build -t 이미지이름:태그 .` |
+| `docker build`   | -t 옵션, Dockerfile을 기반으로 이미지 생성                        | `docker build -t 이미지이름:태그 .` |
 | `docker save`    | -o 옵션, 이미지를 `.tar` 파일로 저장                              | `docker save -o myimg.tar 이미지이름:태그` |
 | `docker load`    | -i 옵션, 저장된 이미지 파일을 로드                                | `docker load -i myimg.tar` |
 | `docker export`  | 컨테이너를 `.tar`로 내보냄 (컨테이너 상태 저장)          | `docker export 컨테이너 > container.tar` |
@@ -742,7 +742,7 @@ __*주요 docker 명령들*__
 | `docker load`    | **이미지**                | `.tar` 파일로 저장된 이미지          | 저장된 이미지를 Docker에 불러오기 |
 | `docker import`  | **컨테이너 파일 시스템**  | 파일 시스템만 포함 (새 이미지 생성)  | 컨테이너의 파일 시스템으로부터 새로운 이미지 생성 |
 
-### Dockerfile을 이용한 컨테이너 빌드
+### Dockerfile을 이용한 이미지 빌드
 
 ```bash
 # 제시된 Dockerfile 확인
