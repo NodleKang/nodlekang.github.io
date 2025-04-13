@@ -227,11 +227,23 @@ kubectl exec env-secret -- env
 
 ## ConfigMap
 
+### 개념
+
 - 애플리케이션에서 사용하는 비민감성 구성 데이터를 키-값 형태로 저장하여 컨테이너와 분리된 환경 설정을 관리하는 API 오브젝트
 - ConfigMap은 일반적인 설정 데이터를 평문으로 저장하는 반면, Secret은 민감한 정보를 Base64로 인코딩하여 저장하며, RBAC 및 암호화를 통해 더 높은 보안성을 제공합니다.
 
 - kubectl references > create > configmap
 - k8s docs > configmap 검색
+
+### 문제 샘플
+
+- my-config라는 이름의 ConfigMap을 생성하고, key/value 쌍으로 key2/value4를 추가합니다.
+- nginx 이미지를 사용하는 단일 컨테이너를 포함하는 configmap-pod이라는 이름의 Pod를 시작하고, 방금 생성한 키를 Pod 내부의 /app/data 디렉터리에 마운트합니다.
+
+### 문제 키워드
+
+- ConfigMap
+- mount the key (VolumeMount)
 
 ### ConfigMap 생성
 
@@ -306,7 +318,7 @@ kubectl exec configmap-pod -- cat /app/data/key2
 
 - **Resource Limits**: 컨테이너가 최대 사용할 수 있는 자원을 설정하며, 이를 초과하면 Kubernetes는 해당 컨테이너를 제한하거나 종료할 수 있습니다.
 
-## Pod Resource 단위
+### Pod Resource 단위
 
 - 쿠버네티스 CPU는 베어메탈 프로세서의 하이퍼스레드와 동일함 (AWS vCPU, GCP core, Azure vCore 등과 같음)
 - 1000m (밀리코어) = 1 core = 1 CPU = 1 AWS vCPU = 1 GCP Core
