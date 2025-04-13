@@ -9,8 +9,8 @@ tag:
 toc: true
 toc_label: 목차
 toc_sticky: true
-toc_min_header: 1
-toc_max_header: 2
+toc_min_header_level: 1
+toc_max_header_level: 2
 ---
 
 CKAD 시험 준비
