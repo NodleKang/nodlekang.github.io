@@ -590,3 +590,222 @@ kubectl delete -f app-deploy.yaml
 # 실행중인 Pod를 통해서 Deployment가 어떤 Service Account로 실행했는지 확인하기
 kubectl get pod app-deploy-xxx129uuup -n prod -o yaml | grep -i serviceaccount
 ```
+
+## CronJob
+
+__*개념*__
+
+- 일정한 시간 간격으로 작업을 실행하도록 설정하는 리소스
+
+__*documents*__
+
+k8s docs > CronJob
+
+__*문제 키워드*__
+
+- CronJob
+
+__*문제 샘플*__
+
+- 매니페스트 파일 /data/test-cronjob.yaml에 Pod을 정의하세요. 이 Pod은 busybox:stable 컨테이너에서 uname 명령을 실행해야 합니다.
+- 명령은 매 분마다 실행되며, 10초 이내에 완료되지 않으면 Kubernetes에 의해 종료됩니다.
+- 크론잡 이름과 컨테이너 이름은 둘 다 cronjob-resource 로 설정해야 합니다.
+- 위 매니페스트에서 리소스를 생성하고, 잡이 최소 한 번 성공적으로 실행되는지 확인하세요.
+- 반드시 busybox:stable 이미지를 사용해야 합니다.
+
+__*실습*__
+
+```bash
+kubectl config use-context k8s
+```
+
+```bash
+vi /data/test-cronjob.yaml
+```
+
+```yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-resource
+spec:
+  schedule: "* * * * *" # 매 분마다 실행
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cronjob-resource
+            image: busybox:stable
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - uname; sleep 10         # 컨테이너 시작하고 10초 후에 종료
+          restartPolicy: OnFailure    # 컨테이너가 실피했을 때만 재시작
+          startingDeadlineSeconds: 10 # 10초 이내 실행 안 되면 건너뜀
+```
+
+```bash
+kubectl apply -f /data/test-cronjob.yaml
+```
+
+```bash
+kubectl get cronjob
+```
+
+```bash
+# CronJob으로 실행되고 있는 CronJob 확인
+kubectl get pod cronjob-resource-27667193-127398
+# Job 상황을 주기적으로 확인
+kubectl get jobs --watch
+# Job을 로그 확인
+kubectl logs <Pod이름>
+```
+
+## Docker Container 빌드 ★
+
+__*개념*__
+
+- CKAD는 다음과 같은 작업을 할 수 있어야 합니다.:
+  - Container Build
+  - 빌드된 이미지를 레지스트리에 업로드
+  - 레지스트리에서 Container 이미지 다운로드
+  - Container Running
+  - Container Save & Export
+  - 고객에게 Container 이미지를 아카이브 파일로 배포
+
+__*documents*__
+
+k8s docs > docker command > [kubectl for Docker Users](https://kubernetes.io/docs/reference/kubectl/docker-cli-to-kubectl/)
+
+__*문제 키워드*__
+
+- docker command
+
+__*문제 샘플*__
+
+도커 컨테이너 이미지 빌드 및 저장
+- /data/build/apache-php/Dockerfile 파일을 사용해 도커 이미지를 빌드하세요.
+- 이미지 이름은 apache-php, 태그는 test-v1로 지정하세요.
+
+컨테이너 이미지 저장
+- 앞에서 만든 컨테이너 이미지를 고객에게 전달해야 합니다.
+- 해당 이미지를 apache-php-test-v1.tar 파일로 저장하세요.
+- 저장 경로는 /data/apache-php-test-v1.tar 이어야 합니다.
+
+__*실습*__
+
+### docker 명령
+
+__*docker run*__
+
+```bash
+# nginx 웹 서버를 포트 80에 띄우고, 항상 실행되도록 한 컨테이너 실행
+docker run -d --restart=always -e DOMAIN=cluster --name nginx-app -p 80:80 nginx
+```
+
+- -d: 컨테이너를 백그라운드(Detached) 모드로 실행
+- --restart=always: Docker 데몬이 재시작되거나 컨테이너가 종료돼도 자동 재시작
+- -e DOMAIN=cluster: 컨테이너 내부에 DOMAIN=cluster 환경 변수 설정
+- --name nginx-app: 컨테이너 이름을 nginx-app으로 지정
+- -p 80:80: 호스트의 80 포트를 컨테이너의 80 포트에 바인딩
+- nginx: 사용하는 이미지는 공식 nginx 이미지
+
+__*주요 docker 명령들*__
+
+다음은 요청하신 Docker 명령어들의 기능과 예시를 정리한 표입니다:
+
+| 명령어           | 설명                                                     | 예시 |
+|------------------|----------------------------------------------------------|------|
+| `docker build`   | Dockerfile을 기반으로 이미지 생성                        | `docker build -t 이미지이름:태그 .` |
+| `docker save`    | -o 옵션, 이미지를 `.tar` 파일로 저장                              | `docker save -o myimg.tar 이미지이름:태그` |
+| `docker load`    | -i 옵션, 저장된 이미지 파일을 로드                                | `docker load -i myimg.tar` |
+| `docker export`  | 컨테이너를 `.tar`로 내보냄 (컨테이너 상태 저장)          | `docker export 컨테이너 > container.tar` |
+| `docker import`  | 내보낸 `.tar` 파일로 이미지 생성                         | `docker import container.tar 이미지이름:태그` |
+| `docker run`     | 새 컨테이너 생성 및 실행                                 | `docker run -d --name 컨테이너이름 nginx` |
+| `docker attach`  | 실행 중인 컨테이너에 연결 (표준 입력/출력 공유)         | `docker attach 컨테이너이름` |
+| `docker exec`    | 실행 중인 컨테이너 안에서 명령 실행                      | `docker exec 컨테이너이름 ls /` |
+| `docker logs`    | 컨테이너의 로그 출력                                     | `docker logs 컨테이너이름` |
+| `docker stop`    | 실행 중인 컨테이너 중지                                  | `docker stop 컨테이너이름` |
+| `docker rm`      | 중지된 컨테이너 삭제                                     | `docker rm 컨테이너이름` |
+| `docker version` | 클라이언트와 데몬의 Docker 버전 확인   | Docker 버전 출력 |
+| `docker --help`    | Docker 명령어 전체 도움말 확인          | Docker 도움말 |
+
+- `docker save`/`docker load`는 이미지와 관련된 명령어
+- `docker export`/`docker import`는 컨테이너와 관련된 명령어
+
+| 명령어           | 대상                     | 포함 정보                           | 사용 목적                     |
+|------------------|--------------------------|------------------------------------|--------------------------------|
+| `docker save`    | **이미지**                | 이미지의 모든 레이어, 태그, 히스토리 등 메타데이터 포함 | 이미지를 백업하거나 이동할 때 |
+| `docker export`  | **컨테이너**              | 컨테이너의 파일 시스템만 포함         | 컨테이너의 파일 시스템만 추출  |
+| `docker load`    | **이미지**                | `.tar` 파일로 저장된 이미지          | 저장된 이미지를 Docker에 불러오기 |
+| `docker import`  | **컨테이너 파일 시스템**  | 파일 시스템만 포함 (새 이미지 생성)  | 컨테이너의 파일 시스템으로부터 새로운 이미지 생성 |
+
+### Dockerfile을 이용한 컨테이너 빌드
+
+```bash
+# 제시된 Dockerfile 확인
+cd /data/build/apache-php/
+cat Dockerfile
+```
+
+```bash
+# Dockerfile 이용해서 컨테이너 빌드
+docker build -t apache-php:test-v1 .
+```
+
+```bash
+# 컨테이너 이미지 목록 출력
+docker images
+```
+
+### 컨테이너 이미지를 아카이브 파일로 저장
+
+```bash
+docker save -o /data/apache-php-test-v1.tar apache-php:test-v1
+```
+
+## 제목
+
+__*개념*__
+
+__*documents*__
+
+k8s docs > 
+
+__*문제 키워드*__
+
+__*문제 샘플*__
+
+__*실습*__
+
+
+## 제목
+
+__*개념*__
+
+__*documents*__
+
+k8s docs > 
+
+__*문제 키워드*__
+
+__*문제 샘플*__
+
+__*실습*__
+
+
+## 제목
+
+__*개념*__
+
+__*documents*__
+
+k8s docs > 
+
+__*문제 키워드*__
+
+__*문제 샘플*__
+
+__*실습*__
