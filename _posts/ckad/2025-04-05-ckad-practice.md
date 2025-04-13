@@ -153,12 +153,12 @@ __*documents*__
 
 - kubectl references > create > secret generic
 
-__*문제 키워드*__
+__*키워드*__
 
 - Create a secret named
 - for the environment variable inside the pod
 
-__*문제 샘플*__
+__*샘플*__
 
 - my-secret라는 이름의 Secret을 생성하고, key/value 쌍으로 key1/value3를 추가합니다.
 - nginx 컨테이너 이미지를 사용하는 env-secret이라는 이름의 nginx Pod를 시작하고, Pod 내부에서 환경 변수 이름을 FC_VARIABLE 설정하여 Secret 키 key1의 값을 노출합니다.
@@ -241,12 +241,12 @@ __*documents*__
 - kubectl references > create > configmap
 - k8s docs > configmap 검색
 
-__*문제 키워드*__
+__*키워드*__
 
 - ConfigMap
 - mount the key (VolumeMount)
 
-__*문제 샘플*__
+__*샘플*__
 
 - my-config라는 이름의 ConfigMap을 생성하고, key/value 쌍으로 key2/value4를 추가합니다.
 - nginx 이미지를 사용하는 단일 컨테이너를 포함하는 configmap-pod이라는 이름의 Pod를 시작하고, 방금 생성한 키를 Pod 내부의 /app/data 디렉터리에 마운트합니다.
@@ -331,12 +331,12 @@ __*documents*__
 
 - k8s docs > limit 검색 > Resource Management for Pods and Containers
 
-__*문제 키워드*__
+__*키워드*__
 
 - a certain amount of CPU and memory
 - a minimum of 200m CPU and 1Gi memory for its container
 
-__*문제 샘플*__
+__*샘플*__
 
 - myspace 네임스페이스에 pod-resources라는 이름의 Pod를 생성하며, 컨테이너가 최소 100m CPU와 200Mi 메모리, 최대 200m CPU와 500Mi 메모리를 요청하도록 설정합니다.
 - 해당 Pod는 nginx 이미지를 사용해야 합니다.
@@ -403,13 +403,13 @@ __*documents*__
 
 - k8s docs > livenessprobe
 
-__*문제 키워드*__
+__*키워드*__
 
 - restart the pod
 - endpoint
 - The service *** should never send traffic
 
-__*문제 샘플*__
+__*샘플*__
 
 - 클러스터에서 실행 중인 Pod가 응답하지 않을 경우, /healthz 엔드포인트가 HTTP 500을 반환하면 Kubernetes가 해당 Pod를 재시작하도록 설정합니다.
 
@@ -514,11 +514,11 @@ __*documents*__
 
 - k8s docs > serviceaccount
 
-__*문제 키워드*__
+__*키워드*__
 
 - Service Account
 
-__*문제 샘플*__
+__*샘플*__
 
 - prod 네임스페이스에 있는 app-deploy Deployment를 업데이트하여 app-serviceaccount Service Account로 실행되도록 설정합니다.
 - 해당 Service Account는 이미 생성되어 있습니다.
@@ -601,11 +601,11 @@ __*documents*__
 
 k8s docs > CronJob
 
-__*문제 키워드*__
+__*키워드*__
 
 - CronJob
 
-__*문제 샘플*__
+__*샘플*__
 
 - 매니페스트 파일 /data/test-cronjob.yaml에 Pod을 정의하세요. 이 Pod은 busybox:stable 컨테이너에서 uname 명령을 실행해야 합니다.
 - 명령은 매 분마다 실행되며, 10초 이내에 완료되지 않으면 Kubernetes에 의해 종료됩니다.
@@ -677,11 +677,11 @@ __*documents*__
 
 k8s docs > docker command > [kubectl for Docker Users](https://kubernetes.io/docs/reference/kubectl/docker-cli-to-kubectl/)
 
-__*문제 키워드*__
+__*키워드*__
 
 - docker command
 
-__*문제 샘플*__
+__*샘플*__
 
 도커 컨테이너 이미지 빌드 및 저장
 - /data/build/apache-php/Dockerfile 파일을 사용해 도커 이미지를 빌드하세요.
@@ -788,24 +788,9 @@ __*documents*__
 
 k8s docs > 
 
-__*문제 키워드*__
+__*키워드*__
 
-__*문제 샘플*__
-
-__*실습*__
-
-
-## 제목
-
-__*개념*__
-
-__*documents*__
-
-k8s docs > 
-
-__*문제 키워드*__
-
-__*문제 샘플*__
+__*샘플*__
 
 __*실습*__
 
@@ -818,8 +803,23 @@ __*documents*__
 
 k8s docs > 
 
-__*문제 키워드*__
+__*키워드*__
 
-__*문제 샘플*__
+__*샘플*__
+
+__*실습*__
+
+
+## 제목
+
+__*개념*__
+
+__*documents*__
+
+k8s docs > 
+
+__*키워드*__
+
+__*샘플*__
 
 __*실습*__
