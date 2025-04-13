@@ -144,21 +144,21 @@ kubectl exec security-context-demo -- id
 
 ## Secret (generic)
 
-> 개념
+#### 개념
 
 - 비밀번호, API 키, SSH 키와 같은 민감한 데이터를 안전하게 저장하고 컨테이너에 전달하기 위해 사용하는 리소스로, 
 - 데이터를 Base64로 인코딩하여 관리하며 ConfigMap과 유사한 방식으로 동작합니다.
 
-> documents
+#### documents
 
 - kubectl references > create > secret generic
 
-> 문제 키워드
+#### 문제 키워드
 
 - Create a secret named
 - for the environment variable inside the pod
 
-> 문제 샘플
+#### 문제 샘플
 
 - my-secret라는 이름의 Secret을 생성하고, key/value 쌍으로 key1/value3를 추가합니다.
 - nginx 컨테이너 이미지를 사용하는 env-secret이라는 이름의 nginx Pod를 시작하고, Pod 내부에서 환경 변수 이름을 FC_VARIABLE 설정하여 Secret 키 key1의 값을 노출합니다.
