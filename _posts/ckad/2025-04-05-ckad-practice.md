@@ -11,6 +11,8 @@ toc_label: 목차
 toc_sticky: true
 ---
 
+{% include toc.html html=content sanitize=true class="inline_toc" id="my_toc" h_min=2 h_max=3 %}
+
 CKAD 시험 준비
 
 ## K8S 리소스
