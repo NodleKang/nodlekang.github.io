@@ -144,21 +144,21 @@ kubectl exec security-context-demo -- id
 
 ## Secret (generic)
 
-### 개념
+__*개념*__
 
 - 비밀번호, API 키, SSH 키와 같은 민감한 데이터를 안전하게 저장하고 컨테이너에 전달하기 위해 사용하는 리소스로, 
 - 데이터를 Base64로 인코딩하여 관리하며 ConfigMap과 유사한 방식으로 동작합니다.
 
-### documents
+__*documents*__
 
 - kubectl references > create > secret generic
 
-### 문제 키워드
+__*문제 키워드*__
 
 - Create a secret named
 - for the environment variable inside the pod
 
-### 문제 샘플
+__*문제 샘플*__
 
 - my-secret라는 이름의 Secret을 생성하고, key/value 쌍으로 key1/value3를 추가합니다.
 - nginx 컨테이너 이미지를 사용하는 env-secret이라는 이름의 nginx Pod를 시작하고, Pod 내부에서 환경 변수 이름을 FC_VARIABLE 설정하여 Secret 키 key1의 값을 노출합니다.
@@ -231,22 +231,22 @@ kubectl exec env-secret -- env
 
 ## ConfigMap
 
-> 개념
+__*개념*__
 
 - 애플리케이션에서 사용하는 비민감성 구성 데이터를 키-값 형태로 저장하여 컨테이너와 분리된 환경 설정을 관리하는 API 오브젝트
 - ConfigMap은 일반적인 설정 데이터를 평문으로 저장하는 반면, Secret은 민감한 정보를 Base64로 인코딩하여 저장하며, RBAC 및 암호화를 통해 더 높은 보안성을 제공합니다.
 
-> documents
+__*documents*__
 
 - kubectl references > create > configmap
 - k8s docs > configmap 검색
 
-> 문제 키워드
+__*문제 키워드*__
 
 - ConfigMap
 - mount the key (VolumeMount)
 
-> 문제 샘플
+__*문제 샘플*__
 
 - my-config라는 이름의 ConfigMap을 생성하고, key/value 쌍으로 key2/value4를 추가합니다.
 - nginx 이미지를 사용하는 단일 컨테이너를 포함하는 configmap-pod이라는 이름의 Pod를 시작하고, 방금 생성한 키를 Pod 내부의 /app/data 디렉터리에 마운트합니다.
@@ -316,33 +316,33 @@ kubectl exec configmap-pod -- cat /app/data/key2
 
 ## Resource Requests & Limits ★
 
-> 개념
+__*개념*__
 
 - **Resource Requests**: 컨테이너가 실행되기 위해 필요한 최소한의 자원을 정의하며, Kubernetes 스케줄러는 이를 기준으로 적절한 노드에 파드를 배치합니다.
 
 - **Resource Limits**: 컨테이너가 최대 사용할 수 있는 자원을 설정하며, 이를 초과하면 Kubernetes는 해당 컨테이너를 제한하거나 종료할 수 있습니다.
 
-> Pod Resource 단위
+__*Pod Resource 단위*__
 
 - 쿠버네티스 CPU는 베어메탈 프로세서의 하이퍼스레드와 동일함 (AWS vCPU, GCP core, Azure vCore 등과 같음)
 - 1000m (밀리코어) = 1 core = 1 CPU = 1 AWS vCPU = 1 GCP Core
 
-> document
+__*documents*__
 
 - k8s docs > limit 검색 > Resource Management for Pods and Containers
 
-> 문제 키워드
+__*문제 키워드*__
 
 - a certain amount of CPU and memory
 - a minimum of 200m CPU and 1Gi memory for its container
 
-> 문제 샘플
+__*문제 샘플*__
 
 - myspace 네임스페이스에 pod-resources라는 이름의 Pod를 생성하며, 컨테이너가 최소 100m CPU와 200Mi 메모리, 최대 200m CPU와 500Mi 메모리를 요청하도록 설정합니다.
 - 해당 Pod는 nginx 이미지를 사용해야 합니다.
 - myspace 네임스페이스는 이미 생성되어 있습니다.
 
-### 실습
+__*실습*__
 
 - 메모리는 bytes 혹은 mebibytes(MiB)
 
@@ -394,22 +394,22 @@ kubectl describe pod pod-resources -n myspace | grep -i mem
 
 ## LivenessProbe & ReadinessProbes
 
-> 개념
+__*개념*__
 
 - **LivenessProbe**: 컨테이너가 정상적으로 **살아있고** 작동 중인지 확인하며, 실패 시 Kubernetes가 해당 컨테이너를 **재시작**하여 장애 복구를 지원합니다. (재시작!)
 - **ReadinessProbe**: 컨테이너가 외부 요청을 처리할 **준비가 되었는지** 확인하며, 준비되지 않은 경우 서비스 트래픽에서 **제외**하여 안정성을 확보합니다. (제외!)
 
-> document
+__*documents*__
 
 - k8s docs > livenessprobe
 
-> 문제 키워드
+__*문제 키워드*__
 
 - restart the pod
 - endpoint
 - The service *** should never send traffic
 
-> 문제 샘플
+__*문제 샘플*__
 
 - 클러스터에서 실행 중인 Pod가 응답하지 않을 경우, /healthz 엔드포인트가 HTTP 500을 반환하면 Kubernetes가 해당 Pod를 재시작하도록 설정합니다.
 
@@ -421,7 +421,7 @@ kubectl describe pod pod-resources -n myspace | grep -i mem
 - 제공된 probe-http-pod Pod에 위 엔드포인트를 사용하는 프로브를 구성합니다.
 - 프로브는 포트 80을 사용해야 합니다.
 
-### 실습
+__*실습*__
 
 ```bash
 # 클러스터 변경
@@ -500,7 +500,7 @@ curl http://:80/stared
 
 ## Service Account ★
 
-> 개념
+__*개념*__
 
 - Kubernetes 클러스터 내에서 실행되는 애플리케이션(주로 Pod)이 Kubernetes API 서버와 안전하게 통신할 수 있도록 도와주는 특별한 계정입니다.
 - Service Account는 사람대신 **애플리케이션이 사용**합니다.
@@ -510,20 +510,20 @@ curl http://:80/stared
   - Kubernetes는 각 namespace마다 기본 Service Account을 자동으로 만들어줍니다. (default)
   - Service Account를 사용하면, 어떤 애플리케이션이 어떤 작업을 할 수 있는지 쉽게 관리할 수 있습니다.
 
-> document
+__*documents*__
 
 - k8s docs > serviceaccount
 
-> 문제 키워드
+__*문제 키워드*__
 
 - Service Account
 
-> 문제 샘플
+__*문제 샘플*__
 
 - prod 네임스페이스에 있는 app-deploy Deployment를 업데이트하여 app-serviceaccount Service Account로 실행되도록 설정합니다.
 - 해당 Service Account는 이미 생성되어 있습니다.
 
-### 실습
+__*실습*__
 
 ```bash
 # 실행 중인 Deployment 확인하기
