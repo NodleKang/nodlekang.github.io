@@ -34,44 +34,6 @@ CKAD 시험 준비
   - 외부로 네트워크를 노출해야 한다면 엔드포인트를 하나로 묶어줘야 함
   - 최전방에서 요청을 받고 적절한 Service로 요청을 넘겨주는 역할
 
-## Limit Ranges
-
-특정 네임스페이스 내에서 Pod 또는 컨테이너가 사용할 수 있는 CPU, 메모리 등의 자원에 대해 최소값과 최대값을 제한하거나 기본값을 설정하는 정책
-
-```yaml
-apiVersion: v1
-kind: LimitRange
-metadata:
-  name: my-limit-range
-  namespace: mynamespace
-spec:
-  limits:
-  - default: # 기본 CPU 제한 (CPU: 500 밀리코어, MEM: 50 Mi)
-      cpu: 500m
-      memory: 50Mi
-    defaultRequest: # 기본 요청 제한 (CPU: 500 밀리코어, MEM: 50 Mi)
-      cpu: 500m
-      memory: 50Mi
-    min:
-      cpu: 100m
-    type: Container # 기본 설정은 Container 에만 적용 가능
-```
-
-```bash
-# 파일 반영
-kubectl apply -f my-limit-range.yaml
-```
-
-```bash
-# mynamespace 네임스페이스에 만든 my-limit-range 라는 Limit Range 확인
-kubectl get limitranges my-limit-range -n mynamespace
-```
-
-```bash
-# mynamespace 네임스페이스에 만든 my-limit-range 라는 Limit Range 상세 확인
-kubectl describe limitranges my-limit-range -n mynamespace
-```
-
 ## Resource Quotas
 
 네임스페이스 전체에서 생성할 수 있는 오브젝트의 수와 총 자원 사용량(예: CPU, 메모리, 스토리지 등)에 제한을 두어, 특정 팀이나 애플리케이션이 클러스터 자원을 독점하지 못하도록 하는 정책
@@ -780,6 +742,62 @@ docker run -d --name apache-php apache-php:test-v1
 docker export -o /data/apache-php-container.tar apache-php
 ```
 
+## Limit Ranges
+
+__*개념*__
+
+특정 네임스페이스의 리소스 쿼터 안에서 Pod 또는 컨테이너가 사용할 수 있는 CPU, 메모리 등의 최소값과 최대값을 제한하는 정책
+
+__*documents*__
+
+k8s docs > Limit Ranges
+
+__*키워드*__
+
+- LimitRange
+- default memory request
+- memory limit
+
+__*샘플*__
+
+my-limit-range라는 LimitRange를 생성하세요:
+- prod 네임스페이스에서 컨테이너가 생성될 때, 컨테이너가 리소스 요청(request)이나 제한(limit)을 따로 지정하지 않은 경우에는 기본으로 메모리 요청은 256Mi, 메모리 제한은 512Mi가 자동 설정되도록 합니다.
+
+__*실습*__
+
+```
+vi my-limit-range.yaml
+```
+
+```yaml
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: my-limit-range
+  namespace: prod
+spec:
+  limits:
+  - default:
+      memory: 512Mi
+    defaultRequest:
+      memory: 256Mi
+    type: Container
+```
+
+```bash
+kubectl apply -f my-limit-range.yaml
+```
+
+```bash
+# prod 네임스페이스에 만든 my-limit-range 라는 Limit Range 확인
+kubectl get limitranges my-limit-range -n prod
+```
+
+```bash
+# prod 네임스페이스에 만든 my-limit-range 라는 Limit Range 상세 확인
+kubectl describe limitranges my-limit-range -n mynamespace
+```
+
 ## 제목
 
 __*개념*__
@@ -809,17 +827,3 @@ __*샘플*__
 
 __*실습*__
 
-
-## 제목
-
-__*개념*__
-
-__*documents*__
-
-k8s docs > 
-
-__*키워드*__
-
-__*샘플*__
-
-__*실습*__
