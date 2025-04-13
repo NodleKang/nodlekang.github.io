@@ -9,6 +9,7 @@ tag:
 toc: true
 toc_label: 목차
 toc_sticky: true
+toc_max_header: 2
 ---
 
 CKAD 시험 준비
@@ -143,6 +144,8 @@ kubectl exec security-context-demo -- id
 ```
 
 ## Secret (generic)
+
+### 개념
 
 - 비밀번호, API 키, SSH 키와 같은 민감한 데이터를 안전하게 저장하고 컨테이너에 전달하기 위해 사용하는 리소스로, 
 - 데이터를 Base64로 인코딩하여 관리하며 ConfigMap과 유사한 방식으로 동작합니다.
