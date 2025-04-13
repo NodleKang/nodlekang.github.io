@@ -260,7 +260,7 @@ kubectl config use-context k8s
 
 ```bash
 kubectl create configmap my-config --from-literal=key2=value4
-``
+```
 
 ```bash
 kubectl describe configmap my-config
