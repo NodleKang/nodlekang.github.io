@@ -765,6 +765,11 @@ my-limit-range라는 LimitRange를 생성하세요:
 
 __*실습*__
 
+```bash
+# namespace 확인
+kubectl get namespaces prod
+```
+
 ```
 vi my-limit-range.yaml
 ```
@@ -795,7 +800,7 @@ kubectl get limitranges my-limit-range -n prod
 
 ```bash
 # prod 네임스페이스에 만든 my-limit-range 라는 Limit Range 상세 확인
-kubectl describe limitranges my-limit-range -n mynamespace
+kubectl describe limitranges my-limit-range -n prod
 ```
 
 ## 제목
