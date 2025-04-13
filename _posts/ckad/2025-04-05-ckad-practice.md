@@ -386,10 +386,32 @@ kubectl describe pod pod-resources -n myspace | grep -i mem
 
 ## LivenessProbe & ReadinessProbes
 
+### 개념
+
 - k8s docs > livenessprobe
 
 - **LivenessProbe**: 컨테이너가 정상적으로 **살아있고** 작동 중인지 확인하며, 실패 시 Kubernetes가 해당 컨테이너를 **재시작**하여 장애 복구를 지원합니다. (재시작!)
 - **ReadinessProbe**: 컨테이너가 외부 요청을 처리할 **준비가 되었는지** 확인하며, 준비되지 않은 경우 서비스 트래픽에서 **제외**하여 안정성을 확보합니다. (제외!)
+
+### 문제 샘플
+
+- 클러스터에서 실행 중인 Pod가 응답하지 않을 경우, /healthz 엔드포인트가 HTTP 500을 반환하면 Kubernetes가 해당 Pod를 재시작하도록 설정합니다.
+
+- 서비스 probe-http-pod는 Pod가 실패 상태일 때 절대로 트래픽을 보내지 않아야 합니다.
+
+- 애플리케이션에는 다음과 같은 두 개의 엔드포인트가 있습니다:
+  - /healthz: 애플리케이션이 정상적으로 작동 중인지 확인하며, HTTP 200을 반환하면 정상 상태를 의미하고, HTTP 500을 반환하면 응답하지 않는 상태를 나타냅니다.
+  - /started: 애플리케이션이 트래픽을 수락할 준비가 되었는지 확인하며, HTTP 200을 반환하면 초기화가 완료된 상태를 나타내고, HTTP 500을 반환하면 초기화가 완료되지 않은 상태를 나타냅니다.
+- 제공된 probe-http-pod Pod에 위 엔드포인트를 사용하는 프로브를 구성합니다.
+- 프로브는 포트 80을 사용해야 합니다.
+
+### 문제 키워드
+
+- restart the pod
+- endpoint
+- The service *** should never send traffic
+
+### 실습
 
 ```bash
 # 클러스터 변경
