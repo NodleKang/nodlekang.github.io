@@ -11,8 +11,6 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-{% include toc.html html=content h_max=2 %}
-
 CKAD 시험 준비
 
 ## K8S 리소스
