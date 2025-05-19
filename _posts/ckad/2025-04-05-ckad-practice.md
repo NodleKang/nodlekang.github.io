@@ -803,24 +803,384 @@ kubectl get limitranges my-limit-range -n prod
 kubectl describe limitranges my-limit-range -n prod
 ```
 
-## 제목
+## Pod 생성 (args, env)
 
-__*개념*__
+__*요점*__
+
+- 여러 가지 파드 생성에 관련한 다양한 패턴을 알아야 합니다.
+- 특정 조건에 맞는 **아규먼트를 담아서** 파드를 실행할 수 있어야 합니다.
+- **환경 변수를 담아서** 파드를 실행할 수 있어야 합니다.
 
 __*documents*__
 
-k8s docs > 
+k8s docs > Define a Command and Arguments for a Container
 
 __*키워드*__
 
+Arguments
+
 __*샘플*__
+
+- `qa-app`이라는 이름의 파드를 생성하는 YAML 형식의 파드 매니페스트 파일 `/data/ckad/qapod.yml`을 작성하세요. 이 파드는 `qa-cont`라는 이름의 컨테이너를 실행하며, `busybox` 이미지를 사용하고 `/bin/sh -c "while true; do echo hello; sleep 18; done"` 명령어 인자를 실행해야 합니다:
+- 위에서 생성한 YAML 파일을 사용하여 `kubectl` 명령어로 파드를 생성하세요.
+- 파드가 실행 중이면 `kubectl` 명령어를 사용해 해당 파드의 요약 정보를 JSON 형식으로 출력하고, 그 결과를 `/data/ckad/qa-app_out.json` 파일로 리디렉션 하세요.
+- 참고: 작업에 필요한 모든 파일은 이미 비어 있는 상태로 생성되어 있으니, 바로 작업하시면 됩니다. 컨테이너 명령(command)은 지정할 필요 없으며, **인자(args)만!!** 지정하면 됩니다.
 
 __*실습*__
 
+```bash
+kubectl config use context k8s
+```
+
+```bash
+# 기본 yaml 파일 만들기
+kubectl run qa-app --image=busybox --dry-run=client -o yaml > /data/ckad/qapod.yml
+```
+
+```bash
+vi /data/ckad/qapod.yml
+```
+
+```yaml
+apiVersion: v1
+bind: Pod
+metadata:
+  labels:
+    run: qa-app
+  name: qa-app
+spec:
+  containers:
+  - image: busybox
+    name: qa-cont
+    args: ["/bin/sh", "-c", "while true; do echo hello; sleep 18; done"]
+```
+
+```bash
+kubectl apply -f /data/ckad/qapod.yml
+```
+
+```bash
+kubectl get pods qa-app
+```
+
+```bash
+kubectl get pods qa-app -o json > /data/ckad/qa-app_out.json
+```
+
+참고: 환경변수를 이용한 Pod 생성
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: qa-app
+  name: qa-app
+spec:
+  containers:
+  - image: busybox
+    name: qa-cont
+    env:
+    - name: LOOP_DELAY
+      value: "18"
+    command: ["/bin/sh", "-c"]
+    args: ["while true; do echo hello; sleep $LOOP_DELAY; done"]
+```
+
+## Deployment (K8S API변경)
+
+__*요점*__
+
+- Kubernetes 1.16 버전 전후로 API이 변경되면서, `beta` 키워드가 포함된 모든 API가 없어졌습니다.
+- Kubernetes 에서 API가 꾸준히 변하는데, 과거에서 운영되던 yaml을 변경된 버전에 맞춰서 수정할 수 있어야 합니다.
+
+__*documents*__
+
+k8s docs > Deployments > Creating a Deployment
+
+__*키워드*__
+
+Deployment
+
+__*샘플*__
+
+- Kubernetes 1.15 버전에서 동작하는 `/data/ckad/nginx-deployment.yaml` 파일이 있습니다.
+- 그 파일이 Kubernetes 1.23 버전에서도 실행될 수 있도록 수정해주세요.
+- **API 버전과 selector 사용**에 주의해야 합니다.
+
+__*실습*__
+
+```bash
+kubectl config use context k8s
+```
+
+```bash
+vi /data/ckad/nginx-deployment.yaml
+```
+
+```yaml
+# 수정 전 yaml
+apiVersion: apps/v1beta1 # 과거 API
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    app: nginx # matchLabels 없었음
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```
+
+```yaml
+# 수정 후 yaml
+apiVersion: apps/v1 # 현재 API
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels: # matchLabels 필수로 사용
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```
+
+## Deployment (env)
+
+__*요점*__
+
+Deployment를 다루는 다양한 방법을 알아야 합니다.
+
+__*documents*__
+
+k8s docs > Deployments
+k8s docs > Define Environment Variables for a Container
+
+__*키워드*__
+
+Deplyment, env
+
+__*샘플*__
+
+nginx를 실행하기 위한 새로운 Deployment를 다음과 같은 조건으로 생성합니다:
+- Deployment는 이미 생성된 `nms` 네임스페이스(namespace)에서 실행됩니다.
+- Deployment의 이름은 `web이며`, `레플리카 수는 6개`로 설정합니다.
+- 파드(Pod)는 `nginx:1.14` 이미지를 사용하는 컨테이너로 구성합니다.
+- 컨테이너에 환경 변수 `NGINX_PORT=80`을 설정하고, 해당 포트(80번)를 외부에 `노출(expose)`합니다.
+
+__*실습*__
+
+```bash
+kubectl config use context k8s
+```
+
+```bash
+# Deployment 생성 템플릿 작성
+kubectl create deployment web -n nms --image=nginx:1.14 --replicas=6 --dry-run=client -o yaml > web.yaml
+```
+
+```bash
+vi web.yaml
+```
+
+```yaml
+# env 추가 전 yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: nms
+  labels:
+    app: web
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web
+        image: nginx:1.14
+        ports:
+        - containerPort: 80
+```
+
+```yaml
+# env 추가 후 yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: nms
+  labels:
+    app: web
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web
+        image: nginx:1.14
+        ports:
+        - containerPort: 80 # containerPort에는 변수 사용 불가함.
+        env:
+        - name: NGINX_PORT
+          value: "80"
+```
+
+```bash
+kubectl apply -f web.yaml
+```
+
+```bash
+# Deployment 실행 확인
+kubectl get deployments.apps -n nms
+```
+
+```bash
+kubectl get pod -n nms -o wide
+```
+
+```bash
+# 개별 Pod 상세보기에서 환경변수 확인하기
+kubectl describe pod web-s010fi101-xjlke -n nms
+```
+
+## Deployments (Rolling Update & Roll Back)
+
+__*요점*__
+
+실행 중인 애플리케이션(Pod)를 여러 옵션과 함께 롤링 업데이트와 롤백을 할 수 있어야 합니다.
+
+__*개념*__
+
+- maxSurge
+  - 롤링 업데이트 중 새로 생성할 수 있는 파드 수의 최대치
+  - 현재 replicas가 2이고, maxSurge가 4이면, 최대 4개까지 Pod를 실행할 수 있음 = 실행 중인 Pod가 2개이면, 추가로 한번에 2개의 Pod 실행 가능함
+  - yaml 중 `spec > strategy` 영역에서 정의
+  - 퍼센트나 정수로 설정 가능
+- maxUnavailable
+  - 얼마나 빠르게 Pod를 터미네이트할 지에 대한 수치
+  - 롤링 업데이트 중 동시에 사용할 수 없게 되는 파드 수의 최대치
+  - yaml 중 `spec > strategy` 영역에서 정의
+
+__*documents*__
+
+k8s docs > Deployments > Rollover (aka multiple updates in-flight)
+
+k8s docs > Deployments > Rolling Back a Deployment
+
+__*키워드*__
+
+Deployments
+
+__*샘플*__
+
+다음 작업을 수행하세요:
+- devops 네임스페이스에 있는 `order-deploy` 디플로이먼트를 `maxSurge가 4`이고 `maxUnavailable이 10%`가 되도록 업데이트하세요.
+- webapp 디플로이먼트에 대해 `롤링 업데이트`를 수행하여 `nginx` 이미지 버전을 `1.27`으로 변경하세요.
+- `webapp` 디플로이먼트를 이전 버전으로 `롤백`하세요.
+
+__*실습*__
+
+```bash
+kubectl config use context k8s
+```
+
+```bash
+# 실행중인 Deployments 확인
+kubectl get deployments.apps -n devops
+```
+
+```bash
+kubectl edit deployments.apps order-deploy -n devops
+```
+
+```bash
+# Deployments 수정 - 저장하고 나오면 즉시 반영됨
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-deploy
+  namespace: devops
+  labels:
+    app: order
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: order
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 4
+      maxUnavailable: "10%" # 퍼센트 사용시 따옴표로 묶기
+  template:
+    metadata:
+      labels:
+        app: order
+    spec:
+      containers:
+      - name: order
+        image: nginx:1.27 # 이미지 버전 수정
+        ports:
+        - containerPort: 80
+```
+
+```bash
+kubectl get pods -n devops
+```
+
+```bash
+# 롤아웃(업데이트) 상태 모니터링
+kubectl rollout status deployment order-deploy -n devops
+```
+
+```bash
+# 롤아웃(업데이트) 이력 모니터링
+kubectl rollout history deployment order-deploy -n devops
+```
+
+```bash
+# 롤아웃(업데이트)을 되돌리기(undo) = 롤백
+kubectl rollout undo deployment order-deploy -n devops
+```
 
 ## 제목
 
-__*개념*__
+__*요점*__
 
 __*documents*__
 
