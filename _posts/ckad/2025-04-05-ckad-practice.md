@@ -1178,6 +1178,236 @@ kubectl rollout history deployment order-deploy -n devops
 kubectl rollout undo deployment order-deploy -n devops
 ```
 
+## Pod 보안 설정 (root 권한)
+
+__*요점*__
+
+Pod 안에서 동작하는 root 계정: 
+- 권한이 최소화된 root
+- kernel에 대한 access 혹은 시스템 하드웨어 구성에 대해서 제한을 받음
+
+securityContext 설정
+- capabilities: Network Admin 기능 혹은 시스템 시간 바꾸는 기능을 Pod에 부여하면, 그 Pod 안에서 실제 호스트쪽에 영향을 주는 구성을 할 수도 있음
+- root 유저가 아닌 특정 UID를 가진 유저로 실행해야 하는 경우도 있어야 함
+- 권한 상승을 방지하는 설정도 있음
+
+__*documents*__
+
+k8s docs > Pod Security Standards
+
+k8s docs > Configure a Security Context for a Pod or Container
+
+__*키워드*__
+
+Pod Security, securityContext, NET_ADMIN, SYS_TIME, UID, runAsUser, runAsNonRoot
+
+__*샘플*__
+
+보안 컨텍스트를 `/data/exam/pod-security.yaml` 파일을 사용하여 다음과 같이 구성하세요:
+- 컨테이너 내에서 네트워크 구성을 설정하고 시스템 시간을 변경할 수 있도록 `NET_ADMIN` 및 `SYS_TIME` 권한(capabilities)을 추가합니다.
+- `컨테이너`는 root 사용자로 실행되어서는 안 됩니다.
+- `컨테이너`는 UID 405로 실행되어야 합니다.
+
+__*실습*__
+
+```bash
+kubectl config use context k8s
+```
+
+```bash
+vi /data/exam/pod-security.yaml
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo
+spec:
+  securityContext: # Pod 레벨 보안 설정
+    runAsUser: 1000
+    runAsGroup: 3000
+  containers:
+  - name: sec-ctx-demo
+    image: busybox
+    command: [ "sh", "-c", "sleep 1h" ]
+    securityContext:
+      runAsUser: 405                # UID 405로 실행
+      runAsNonRoot: true            # root로 실행되면 실패
+      capabilities:
+        add: ["NET_ADMIN", "SYS_TIME"] # 네트워크 및 시스템 시간 권한 추가
+      allowPrivilegeEscalation: false  # 권한 상승 방지
+```
+
+```bash
+kubectl apply -f /data/exam/pod-security.yaml
+```
+
+```bash
+kubectl get pod security-context-demo
+```
+
+```bash
+# Pod인 security-context-demo 내의 기본 컨테이너에서,
+# id 명령어를 실행하여,
+# 컨테이너 내부의 현재 사용자 정보 (UID, GID, 그룹 등) 를 출력
+kubectl exec -it security-context-demo -- id
+```
+
+## Network Policies (방화벽 비슷)
+
+__*요점*__
+
+Pod에 방화벽 설정을 할 수 있어야 합니다.
+
+__*documents*__
+
+k8s docs > Network Policies
+
+__*키워드*__
+
+Network Policies
+
+__*Network Policies*__
+
+Pod가 통신할 수 있는 엔티티(대상)는 다음 세 가지 식별자를 조합하여 정의됩니다:
+- 허용된 다른 Pod들 (예외: 하나의 Pod는 자신에 대한 접근을 차단할 수 없습니다)
+- 허용된 네임스페이스(Namespace)
+- IP 블록들 (예외: Pod가 실행 중인 노드와의 트래픽은 Pod나 노드의 IP 주소와 관계없이 항상 허용됩니다)
+
+```yaml
+# yaml로는 보는 Network Policies 설정 구조
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: default
+spec:
+  podSelector:   # 정책을 적용할 대상 Pod 선택
+    matchLabels:
+      role: db
+  policyTypes:
+  - Ingress       # 들어오는 Rule
+  - Egress        # 나가는 Rule
+  ingress:        # 들어오는 Rule 설정
+  - from:
+    - ipBlock:
+        cidr: 172.17.0.0/16
+        except:
+        - 172.17.1.0/24
+    - namespaceSelector:
+        matchLabels:
+          project: myproject
+    - podSelector:
+        matchLabels:
+          role: frontend
+    ports:
+    - protocol: TCP
+      port: 6379
+  egress:        # 나가는 Rule 설정
+  - to:
+    - ipBlock:
+        cidr: 10.0.0.0/24
+    ports:
+    - protocol: TCP
+      port: 5978
+```
+
+__*샘플*__
+
+인프라에 새로운 파드를 롤아웃한 상태이며, 이제 해당 파드가 `cache` 및 `was` 파드와만 통신하도록 설정해야 합니다. 그 외의 파드들과는 통신이 불가능해야 합니다.
+
+기존에 실행 중인 `db` 파드를 수정하여, **네트워크 정책(Network Policy)** 을 사용해 `db` 파드가 오직 `cache` 및 `was` 파드와만 트래픽을 송수신할 수 있도록 설정하십시오.
+
+* 모든 작업은 `myproject` 네임스페이스에서 수행되어야 합니다.
+* 필요한 모든 **NetworkPolicy** 리소스는 이미 생성되어 있으며, 적절히 준비되어 있습니다. 이 작업을 수행하는 동안 **NetworkPolicy를 생성, 수정 또는 삭제해서는 안 됩니다**.
+
+__*실습*__
+
+```bash
+kubectl config use context k8s
+```
+
+```bash
+kubectl get pod -n myproject
+```
+
+```bash
+# 생성되어 있는 NetworkPolicy 확인
+kubectl get networkpolices -n myproject
+```
+
+```bash
+# 생성되어 있는 NetworkPolicy 내용 확인
+kubectl describe networkpolices -n myproject
+```
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db
+  namespace: myproject
+  labels:        # 레이블 설정 추가
+    app: webwas
+    tier: database
+spec:
+  podSelector:   # 정책을 적용할 대상 Pod 선택
+    matchLabels:
+      role: db
+  policyTypes:
+  - Ingress       # 들어오는 Rule
+  ingress:        # 들어오는 Rule 설정
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          project: myproject
+    - podSelector:
+        matchLabels:
+          app: webwas
+          tier: application
+```
+
+```bash
+# 다른 Pod의 레이블 설정 확인
+kubectl describe pod was -n myproject | grep -i -A 2 labels
+```
+
+```bash
+# 다른 Pod의 레이블 설정 확인
+kubectl describe pod cache -n myproject | grep -i -A 2 labels
+```
+
+```bash
+# Pod에 레이블 설정을 하기 위해 edit로 열기
+kubectl edit pod db -n myproject
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db
+  namespace: myproject
+  labels:  # Pod에 레이블 설정 추가 
+    app: webwas    # NetworkPolicies 적용을 받을 수 있게 됨
+    tier: database # NetworkPolicies 적용을 받을 수 있게 됨
+spec:
+  containers:
+  - name: db
+    image: mysql:5.7
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: rootpass
+    ports:
+    - containerPort: 3306
+```
+
+```bash
+# Pod의 IP 확인 (wide 옵션 사용)
+kubectl get pod db -n myproject -o wide
+```
+
 ## 제목
 
 __*요점*__
