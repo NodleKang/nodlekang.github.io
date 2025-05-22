@@ -1254,6 +1254,63 @@ kubectl get pod security-context-demo
 kubectl exec -it security-context-demo -- id
 ```
 
+## Pod Security Polices
+
+__*요점*__
+
+Pod 기반의 securityContext 설정하기
+
+__*documents*__
+
+k8s docs > 
+
+__*키워드*__
+
+security policies
+
+__*샘플*__
+
+- Pod `sleeper`를 `user ID 1010`으로 `sleep` 프로세스를 실행하도록 수정하세요.
+- 필요한 변경만 수행하세요. Pod의 이름이나 이미지는 수정하지 마세요.
+
+__*실습*__
+
+```bash
+kubectl config use context k8s
+```
+
+```bash
+kubectl get pod sleeper -o yaml > sleeper.yml
+```
+
+```bash
+vi sleeper.yml
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo
+spec:
+  securityContext:
+    runAsUser: 1010
+  containers:
+  - name: sec-ctx-demo
+    image: busybox:1.28
+    command: [ "sh", "-c", "sleep 1h" ]
+    securityContext:
+      allowPrivilegeEscalation: false
+```
+
+```bash
+kubectl delete -f sleeper.yaml --force
+```
+
+```bash
+kubectl apply -f sleeper.yaml
+```
+
 ## Network Policies (방화벽 비슷)
 
 __*요점*__
@@ -1408,6 +1465,180 @@ spec:
 kubectl get pod db -n myproject -o wide
 ```
 
+## Deployment, sidecar
+
+__*요점*__
+
+Deployment에 sidecar를 사용해서 logging architecture를 구성할 수 있어야 합니다. 추가로 configMap을 볼륨마운드 할 수 있어야 합니다.
+
+__*documents*__
+
+k8s docs > Logging Architecture (sidecar 검색을 거쳐서 접근)
+k8s docs > Configure a Pod to Use a ConfigMap
+
+__*키워드*__
+
+Deployment, sidecar, configMap
+
+__*샘플*__
+
+주어진 컨테이너는 **로그 파일을 A 형식으로 작성**하고, 다른 컨테이너는 **로그 파일을 A 형식에서 B 형식으로 변환**합니다. 첫 번째 컨테이너의 로그 파일을 두 번째 컨테이너가 변환하여 B 형식의 로그를 생성하는 Deployment를 생성하세요.
+
+파일 이름: `/data/ckad/deployment-ckad.yml`
+
+기본(default) 네임스페이스에 `deployment.ckad`라는 이름의 Deployment를 생성하세요. 이 Deployment는 다음을 포함합니다:
+
+* `main`이라는 이름의 **기본 `busybox:stable` 컨테이너**
+* `log-adapter`라는 이름의 **사이드카 `fluentd:v1.14.1` 컨테이너**
+* 두 컨테이너 모두에 `/tmp/log` **공유 볼륨을 마운트**하며, 이 볼륨은 Pod가 삭제되어도 유지되지 않습니다.
+* `main` 컨테이너가 다음 명령어를 실행하도록 지시합니다:
+    ```
+    while true; do
+      echo "hello ckad" >> /tmp/log/input.log;
+      sleep 10;
+    done
+    ```
+* 위 명령어는 `/tmp/log/input.log`에 일반 텍스트 형식으로 로그를 출력해야 하며, 예시 값은 다음과 같습니다:
+    ```
+    hello ckad
+    hello ckad
+    hello ckad
+    ```
+* `log-adapter` 사이드카 컨테이너는 `/tmp/log/input.log`를 읽고 해당 데이터를 `/tmp/log/output.log`로 출력해야 합니다.
+
+**참고:** 이 작업을 완료하기 위해 Fluentd에 대한 지식은 필요하지 않습니다.
+
+* 이를 위해 필요한 모든 것은 `/data/ckad/fluentd-conf-configmap.yml`에 제공된 사양 파일에서 **ConfigMap을 생성**하고, 해당 ConfigMap을 `log-adapter` 사이드카 컨테이너의 `/fluentd/etc`에 **마운트**하는 것입니다.
+
+__*실습*__
+
+```bash
+kubectl config use context k8s
+```
+
+```bash
+vi /data/ckad/deployment-ckad.yml
+```
+
+```yaml
+# 수정 전
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment.ckad
+  labels:
+    app: deployment.ckad
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deployment.ckad
+  template:
+    metadata:
+      labels:
+        app: deployment.ckad
+    spec:
+      volumes:
+        - name: tmplog
+          emptyDir: {}
+      containers:
+      - name: main
+        image: busybox:stable
+        command: ["sh", "-c", "while true; do echo "hello ckad" >> /tmp/log/input.log; sleep 10; done"]
+        volumeMounts:
+        - name: tmplog
+          mountPath: /tmp/log
+```
+
+```yaml
+# cat /data/ckad/fluentd-conf-configmap.yaml
+apiVersion: v1
+kind: configMap
+metadata:
+  name: fluent-conf
+data:
+  fluent.conf: |
+    <source>
+      @type tail
+      <parse>
+        @type none
+      </parse>
+      path /tmp/log/*
+      path_key filename
+      tag backend.application
+    </source>
+```
+
+```bash
+# configMap 확인
+kubectl get configmap
+```
+
+```yaml
+# 수정 후
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment.ckad
+  labels:
+    app: deployment.ckad
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deployment.ckad
+  template:
+    metadata:
+      labels:
+        app: deployment.ckad
+    spec:
+      volumes:
+        - name: fluentd-conf # configMap 볼륨 추가
+          configMap:
+            name: fluentd-conf-configmap
+        - name: tmplog
+          emptyDir: {}
+      containers:
+      - name: main
+        image: busybox:stable
+        command: ["sh", "-c", "while true; do echo 'hello ckad' >> /tmp/log/input.log; sleep 10; done"]
+        volumeMounts:
+        - name: tmplog
+          mountPath: /tmp/log
+      - name: log-adapter # sidecar 컨테이너
+        image: fluentd:v1.14.1
+        command: ["sh", "-c", "tail -f /tmp/log/input.log >> /tmp/log/output.log"] # 볼륨에 있는 파일을 읽어서 쓰기
+        volumeMounts:
+        - name: tmplog
+          mountPath: /tmp/log
+        - name: fluentd-conf # configMap 볼륨을 컨테이너 안에서 마운트
+          mountPath: /fluentd/etc
+```
+
+```bash
+# 기존에 만든 deployment 삭제
+kubectl delete -f /data/ckad/fluentd-conf-configmap.yml
+```
+
+```bash
+# deployment 파일 반영
+kubectl apply -f /data/ckad/fluentd-conf-configmap.yml
+```
+
+```bash
+kubectl get pods
+```
+
+```bash
+# Pod에서 log-adapter 컨테이너의 로그 확인 
+kubectl exec -it deployment deployment-ckad-sjafkljdkj-asds -c log-adapter -- cat /tmp/log/output.log
+```
+
+```bash
+# Pod에서 log-adapter 컨테이너의 볼륨 확인 
+kubectl exec -it deployment deployment-ckad-sjafkljdkj-asds -c log-adapter -- ls /fluentd/etc
+```
+
 ## 제목
 
 __*요점*__
@@ -1421,4 +1652,3 @@ __*키워드*__
 __*샘플*__
 
 __*실습*__
-
