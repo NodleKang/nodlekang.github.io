@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "CKAD 연습"
-date: 2025-04-05 10:00:00 +0900
+date: 2025-05-25 10:00:00 +0900
 categories:
   - Kubernetes
 tag:
