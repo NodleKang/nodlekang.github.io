@@ -248,6 +248,83 @@ kubectl describe pod nginx -n mynamespace | grep -i restart
 
 ---
 
+__*직전에 생성한 Pod의 IP를 가져오고, 임시 busybox 이미지를 실행해서 생성한 Pod의 '/'에 wget 하기*__
+
+파드 정보에서 `-o wide` 옵션을 사용해서 IP를 확인합니다.
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl get pod nginx -n mynamespace -o wide
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl run busybox --image=busybox -it --rm -n mynamespace -- /bin/sh -c "wget -O - 192.168.1.4:80/"
+kubectl run -it --rm busybox --image=busybox -n mynamespace --command -- wget -O - 192.168.1.4:80/
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*Pod 로그 가져오기*__
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl logs <파드이름>
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*Pod가 crash 되고 다시 시작된 경우, 이전 인스턴스에 대한 로그 가져오기*__
+
+`--previous` 옵션 사용
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl logs <파드이름> --previous
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*Pod에서 shell 실행하기*__
+
+`kubectl exec` 명령에서 `-- /bin/sh`와 같이 `실행할 명령`은 맨 끝에 적어야 합니다.
+
+`--`(더블 대시)는 kubectl에게 "지금부터는 파드 안에서 실행될 명령어를 전달할 것이니 혼동하지 마라"고 알려주는 역할을 합니다.
+
+`kubectl exec <파드이름> -- <컨테이너 내부에서 실행할 명령> <그 명령의 인자들>`
+
+{% highlight bash %}
+kubectl exec -it <파드이름> -- /bin/sh
+{% endhighlight %}
+
+---
+
+__*'hello world'를 echo 한후에 종료하는 busybox Pod를 생성하기*__
+
+`--restart=Never` 옵션이 없으면 Pod를 계속 재시작하니, 해당 옵션을 포함해야 합니다.
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl run busybox --image=busybox -n mynamespace --restart=Never -it -- echo "hello world"
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
 __*연습*__
 
 `명령`
