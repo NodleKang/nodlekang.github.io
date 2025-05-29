@@ -185,9 +185,11 @@ kubectl logs envpod -n mynamespace
 
 __*CPU 1개, 메모리 1G, Pod 2개 hard limits이 있는 'myrq'라는 ResourceQuota 생성 YAML 작성하기*__
 
-ResourceQuota는 **네임스페이스** 전체적으로 사용할 수 있는 총 **리소스 양**을 제한합니다.
+ResourceQuota는 **네임스페이스** 전체적으로 사용할 수 있는 **리소스 양**을 제한합니다.
 
-`kubectl create resourcequota <리소스쿼터이름> --hard='cpu=1,memory=1Gi,pods=2'` 같은 명령에서 `pods`와 같이 복수형으로 명시해야 합니다.
+생성 명령은 `kubectl create resourcequota <리소스쿼터이름> --hard='cpu=1,memory=1Gi,pods=2'`와 같습니다.
+
+`--hard` 옵션에서 파드 갯수는 `pods` 같이 복수형으로 명시해야 합니다.
 
 <details><summary>보기</summary>
 
