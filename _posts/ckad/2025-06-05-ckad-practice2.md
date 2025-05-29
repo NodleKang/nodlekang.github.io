@@ -187,8 +187,6 @@ __*CPU 1개, 메모리 1G, Pod 2개 hard limits이 있는 'myrq'라는 ResourceQ
 
 ResourceQuota는 **네임스페이스** 전체적으로 사용할 수 있는 **리소스 양**을 제한합니다.
 
-생성 명령은 `kubectl create resourcequota <리소스쿼터이름> --hard='cpu=1,memory=1Gi,pods=2'`와 같습니다.
-
 `--hard` 옵션에서 파드 갯수는 `pods` 같이 복수형으로 명시해야 합니다.
 
 <details><summary>보기</summary>
@@ -215,14 +213,14 @@ spec:
 
 ---
 
-__*nginx 이미지로 Pod를 생성하고 80 Port로 트래픽을 노출합니다.*__
+__*nginx 이미지로 Pod를 생성하고 80 Port로 트래픽 노출(expose)하기*__
 
-`kubectl run pod <파드이름> --image=<이미지이름> --port=<포트번호>`
+`kubectl run <파드이름>` 명령과 함께 `--port` 옵션으로 포트번호를 지정합니다.
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-kubectl run pod nginx --image=nginx --port=80 -n mynamespace
+kubectl run nginx --image=nginx --port=80 -n mynamespace
 {% endhighlight %}
 
 </details>
@@ -230,14 +228,19 @@ kubectl run pod nginx --image=nginx --port=80 -n mynamespace
 
 ---
 
-__*연습*__
+__*Pod 이미지를 nginx:1.24.0으로 변경하기. 이미지를 가져오는 즉시 컨테이너 다시 시작하기*__
 
-`명령`
+`kubectl set image pod/<파드이름> <컨테이너이름>=<이미지이름:태그>`
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl set image pod/nginx nginx=nginx:1.24.0 -n mynamespace
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl describe pod nginx -n mynamespace | grep -i image
+kubectl describe pod nginx -n mynamespace | grep -i restart
 {% endhighlight %}
 
 </details>
