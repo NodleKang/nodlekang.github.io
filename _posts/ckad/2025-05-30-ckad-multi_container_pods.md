@@ -15,7 +15,7 @@ CKAD 연습(Multi-Container Pods)
 
 ## 연습소스
 
-[github에 CKAD-exercises 저장소 연습](https://github.com/dgkanatsios/CKAD-exercises)
+[github에 CKAD-exercises](https://github.com/dgkanatsios/CKAD-exercises)
 
 ## 참고 사이트
 
