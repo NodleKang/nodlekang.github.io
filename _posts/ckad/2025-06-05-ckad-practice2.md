@@ -325,6 +325,35 @@ kubectl run busybox --image=busybox -n mynamespace --restart=Never -it -- echo "
 
 ---
 
+__*직전과 동일한 작업을 하되, 완료되면 Pod를 자동으로 삭제하기*__
+
+`--rm` 옵션을 사용합니다.
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl run busybox --image=busybox -n mynamespace --restart=Never --rm -it -- echo "hello world"
+{% endhighlight %}
+
+</details>
+<p></p>
+
+__*nginx 파드를 생성하고 env 값을 'var1=value1'으로 설정하기. Pod 안에 env 값이 있는지 확인하기*__
+
+`kubectl exec -it <파드이름> -- 명령어` 는 대화형(interactive)하게 파드의 특정 **컨테이너**에 접속해서 명령을 실행합니다.
+
+컨테이너가 둘 이상이면 `kubectl exec -it <파드이름> -c <컨테이너이름> -- <실행할 명령>` 으로 실행합니다.
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl run nginx --image=nginx --env="var1=value1" -n mynamespace
+kubectl exec -it nginx -n mynamespace -- env
+{% endhighlight %}
+
+</details>
+<p></p>
+
 __*연습*__
 
 `명령`
