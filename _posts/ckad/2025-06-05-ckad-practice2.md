@@ -165,6 +165,7 @@ kubectl logs envpod -n mynamespace
 {% endhighlight %}
 
 </details>
+<p></p>
 
 __*연습*__
 
@@ -173,7 +174,46 @@ __*연습*__
 <details><summary>보기</summary>
 
 {% highlight bash %}
-kubectl run nginx --image=nginx --restart=Never -n mynamespace --dry-run=client -o yaml > nginx.yml
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
 {% endhighlight %}
 
 </details>
