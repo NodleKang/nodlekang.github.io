@@ -104,14 +104,10 @@ __*'mynamespace' 네임스페이스에 nginx 이미지가 있는 Pod 생성하�
 `kubectl run <파드이름>`
 
 <details><summary>보기</summary>
-<p>
-
 {% highlight bash %}
 kubectl create namespace mynamespace
 kubectl run nginx --image=nginx --restart=Never -n mynamespace
 {% endhighlight %}
-
-</p>
 </details>
 
 __*방금 설명한 Pod를 YAML로 작성하기*__
