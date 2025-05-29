@@ -99,6 +99,8 @@ https://github.com/dgkanatsios/CKAD-exercises
 
 ### Core Concepts
 
+---
+
 __*'mynamespace' 네임스페이스에 nginx 이미지가 있는 Pod 생성하기*__
 
 `kubectl run <파드이름>`
@@ -113,6 +115,8 @@ kubectl run nginx --image=nginx --restart=Never -n mynamespace
 </details>
 <p></p>
 
+---
+
 __*방금 설명한 Pod를 YAML로 작성하기*__
 
 `kubectl run <파드이름> --dry-run=client -o yaml`
@@ -125,6 +129,8 @@ kubectl run nginx --image=nginx --restart=Never -n mynamespace --dry-run=client 
 
 </details>
 <p></p>
+
+---
 
 __*'env' 명령을 실행하는 busybox Pod 생성하기(kubectl 명령 사용)*__
 
@@ -167,18 +173,7 @@ kubectl logs envpod -n mynamespace
 </details>
 <p></p>
 
-__*연습*__
-
-`명령`
-
-<details><summary>보기</summary>
-
-{% highlight bash %}
-명령
-{% endhighlight %}
-
-</details>
-<p></p>
+---
 
 __*연습*__
 
@@ -193,6 +188,8 @@ __*연습*__
 </details>
 <p></p>
 
+---
+
 __*연습*__
 
 `명령`
@@ -205,6 +202,23 @@ __*연습*__
 
 </details>
 <p></p>
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
 
 __*연습*__
 
