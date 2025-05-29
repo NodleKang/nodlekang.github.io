@@ -109,6 +109,7 @@ kubectl create namespace mynamespace
 kubectl run nginx --image=nginx --restart=Never -n mynamespace
 {% endhighlight %}
 </details>
+<p></p>
 
 __*방금 설명한 Pod를 YAML로 작성하기*__
 
