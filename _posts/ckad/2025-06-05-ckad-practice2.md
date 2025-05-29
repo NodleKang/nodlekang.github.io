@@ -213,14 +213,14 @@ spec:
 
 ---
 
-__*연습*__
+__*nginx 이미지로 Pod를 생성하고 80 Port로 트래픽을 노출합니다.*__
 
-`명령`
+`kubectl run pod <파드이름> --image=<이미지이름> --port=<포트번호>`
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl run pod nginx --image=nginx --port=80 -n mynamespace
 {% endhighlight %}
 
 </details>
