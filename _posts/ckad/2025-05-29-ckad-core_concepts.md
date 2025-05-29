@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "CKAD 연습(Core Concepts)"
-date: 2025-05-29 10:00:00 +0900
+date: 2025-05-29 17:00:00 +0900
 categories:
   - Kubernetes
 tag:
@@ -13,11 +13,17 @@ toc_sticky: true
 
 CKAD 연습(Core Concepts)
 
+## 연습소스
+
+[github에 CKAD-exercises 저장소 연습](https://github.com/dgkanatsios/CKAD-exercises)
+
 ## 참고 사이트
 
 [쿠버네티스 연습사이트 - Kubernetes Playground (Killercoda)](https://killercoda.com/playgrounds/scenario/kubernetes)
 
-## K8S 리소스
+## 기초 지식
+
+### K8S 리소스
 
 [5분만에 Kubernetes 리소스 9개 이해하기](https://youtu.be/bM6-AbChWPE?si=ls-zHVG-TSRIDivB)
 
@@ -38,7 +44,7 @@ CKAD 연습(Core Concepts)
   - 외부로 네트워크를 노출해야 한다면 엔드포인트를 하나로 묶어줘야 함
   - 최전방에서 요청을 받고 적절한 Service로 요청을 넘겨주는 역할
 
-## Pod 편집
+### Pod 편집
 
 실행 중인 Pod에서 편집할 수 있는 spec:
 - `spec.containers[*].image`
@@ -64,7 +70,7 @@ __*yaml 파일로 받아서 반영하는 방법*__
 
 `kubectl create -f <파일이름>`
 
-## Deployment 편집
+### Deployment 편집
 
 Deployment에서는 Pod 템플릿의 모든 속성을 편집할 수 있습니다.
 
@@ -72,7 +78,7 @@ Pod 템플릿은 Deployment의 spec에 속하는 하위 요소이므로, 변경�
 
 `kubectl edit deployment <디플로이먼트이름>`
 
-## Secrets
+### Secrets
 
 __*Secret의 기본 동작*__
 
@@ -91,23 +97,17 @@ __*Kubernetes의 Secret 처리 방식*__
 - Kubelet은 Secret 데이터를 디스크에 쓰지 않고, 메모리 기반인 tmpfs(임시파일시스템)에 저장합니다.
 - Secret에 의존하는 Pod가 삭제되면 Kubelet은 Secret 데이터의 로컬 복사본도 삭제합니다.
 
-## ResourceQuota
+### ResourceQuota
 
 **네임스페이스** 전체적으로 사용할 수 있는 총 **리소스 양**을 제한합니다.
 
 오브젝트가 생성될 때 적용되며, 이미 실행 중인 오브젝트에는 소급 적용되지 않습니다.
 
-## LimitRange
+### LimitRange
 
 **개별 Pod의 최소/최대 리소스 양**을 제한합니다.
 
-## CKAD-exercises
-
-github에 CKAD-exercises 저장소 연습
-
-https://github.com/dgkanatsios/CKAD-exercises
-
-### Core Concepts
+## Core Concepts
 
 ---
 
