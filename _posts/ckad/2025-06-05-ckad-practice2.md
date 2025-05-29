@@ -104,10 +104,12 @@ __*'mynamespace' 네임스페이스에 nginx 이미지가 있는 Pod 생성하�
 `kubectl run <파드이름>`
 
 <details><summary>보기</summary>
+
 {% highlight bash %}
 kubectl create namespace mynamespace
 kubectl run nginx --image=nginx --restart=Never -n mynamespace
 {% endhighlight %}
+
 </details>
 <p></p>
 
@@ -116,14 +118,13 @@ __*방금 설명한 Pod를 YAML로 작성하기*__
 `kubectl run <파드이름> --dry-run=client -o yaml`
 
 <details><summary>보기</summary>
-<p>
 
-```bash
+{% highlight bash %}
 kubectl run nginx --image=nginx --restart=Never -n mynamespace --dry-run=client -o yaml > nginx.yml
-```
+{% endhighlight %}
 
-</p>
 </details>
+<p></p>
 
 __*'env' 명령을 실행하는 busybox Pod 생성하기(kubectl 명령 사용)*__
 
@@ -132,13 +133,12 @@ __*'env' 명령을 실행하는 busybox Pod 생성하기(kubectl 명령 사용)*
 이 옵션을 `--dry-run=client`와 같은 다른 옵션보다 앞에 사용하면 YAML 파일이 생성되기 전에 Pod가 실제로 생성될 수 있습니다.
 
 <details><summary>보기</summary>
-<p>
 
-```bash
+{% highlight bash %}
 kubectl run envpod --image=busybox -n mynamespace --dry-run=client -o yaml --command -- env  > envpod.yml
-```
+{% endhighlight %}
 
-```yaml
+{% highlight yaml %}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -157,110 +157,24 @@ spec:
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
-```
+{% endhighlight %}
 
-```bash
+{% highlight bash %}
 kubectl apply -f envpod.yml
 kubectl logs envpod -n mynamespace
-```
+{% endhighlight %}
 
-</p>
 </details>
 
-__* *__
+__*연습*__
 
-``
+`명령`
 
 <details><summary>보기</summary>
-<p>
 
-```bash
+{% highlight bash %}
+kubectl run nginx --image=nginx --restart=Never -n mynamespace --dry-run=client -o yaml > nginx.yml
+{% endhighlight %}
 
-```
-
-</p>
 </details>
-
-__* *__
-
-``
-
-<details><summary>보기</summary>
-<p>
-
-```bash
-
-```
-
-</p>
-</details>
-
-__* *__
-
-``
-
-<details><summary>보기</summary>
-<p>
-
-```bash
-
-```
-
-</p>
-</details>
-
-__* *__
-
-``
-
-<details><summary>보기</summary>
-<p>
-
-```bash
-
-```
-
-</p>
-</details>
-
-__* *__
-
-``
-
-<details><summary>보기</summary>
-<p>
-
-```bash
-
-```
-
-</p>
-</details>
-
-__* *__
-
-``
-
-<details><summary>보기</summary>
-<p>
-
-```bash
-
-```
-
-</p>
-</details>
-
-__* *__
-
-``
-
-<details><summary>보기</summary>
-<p>
-
-```bash
-
-```
-
-</p>
-</details>
+<p></p>
