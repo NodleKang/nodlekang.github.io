@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "CKAD 연습"
+title: "CKAD 시험 연습 1"
 date: 2025-05-25 10:00:00 +0900
 categories:
   - Kubernetes
@@ -11,7 +11,7 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-CKAD 시험 준비
+CKAD 시험 연습 1
 
 ## K8S 리소스
 
@@ -1638,17 +1638,3 @@ kubectl exec -it deployment deployment-ckad-sjafkljdkj-asds -c log-adapter -- ca
 # Pod에서 log-adapter 컨테이너의 볼륨 확인 
 kubectl exec -it deployment deployment-ckad-sjafkljdkj-asds -c log-adapter -- ls /fluentd/etc
 ```
-
-## 제목
-
-__*요점*__
-
-__*documents*__
-
-k8s docs > 
-
-__*키워드*__
-
-__*샘플*__
-
-__*실습*__
