@@ -148,11 +148,11 @@ __*'env' 명령을 실행하는 busybox Pod 생성하기(kubectl 명령 사용)*
 
 이 옵션을 `--dry-run=client`와 같은 다른 옵션보다 앞에 사용하면 YAML 파일이 생성되기 전에 Pod가 실제로 생성될 수 있습니다.
 
-<details><summary>보기</summary>
-
 {% highlight bash %}
 kubectl run envpod --image=busybox -n mynamespace --dry-run=client -o yaml --command -- env  > envpod.yml
 {% endhighlight %}
+
+<details><summary>보기</summary>
 
 {% highlight yaml %}
 apiVersion: v1
@@ -189,11 +189,11 @@ ResourceQuota는 **네임스페이스** 전체적으로 사용할 수 있는 **�
 
 `--hard` 옵션에서 파드 갯수는 `pods` 같이 복수형으로 명시해야 합니다.
 
-<details><summary>보기</summary>
-
 {% highlight bash %}
 kubectl create resourcequota myrq --hard='cpu=1,memory=1Gi,pods=2' -n mynamespace --dry-run=client -o yaml > myrq.yml
 {% endhighlight %}
+
+<details><summary>보기</summary>
 
 {% highlight yaml %}
 apiVersion: v1
@@ -217,13 +217,10 @@ __*nginx 이미지로 Pod를 생성하고 80 Port로 트래픽 노출(expose)하
 
 `kubectl run <파드이름>` 명령과 함께 `--port` 옵션으로 포트번호를 지정합니다.
 
-<details><summary>보기</summary>
-
 {% highlight bash %}
 kubectl run nginx --image=nginx --port=80 -n mynamespace
 {% endhighlight %}
 
-</details>
 <p></p>
 
 ---
@@ -232,11 +229,11 @@ __*Pod 이미지를 nginx:1.24.0으로 변경하기. 이미지를 가져오는 �
 
 `kubectl set image pod/<파드이름> <컨테이너이름>=<이미지이름:태그>`
 
-<details><summary>보기</summary>
-
 {% highlight bash %}
 kubectl set image pod/nginx nginx=nginx:1.24.0 -n mynamespace
 {% endhighlight %}
+
+<details><summary>보기</summary>
 
 {% highlight bash %}
 kubectl describe pod nginx -n mynamespace | grep -i image
@@ -349,19 +346,6 @@ __*nginx 파드를 생성하고 env 값을 'var1=value1'으로 설정하기. Pod
 {% highlight bash %}
 kubectl run nginx --image=nginx --env="var1=value1" -n mynamespace
 kubectl exec -it nginx -n mynamespace -- env
-{% endhighlight %}
-
-</details>
-<p></p>
-
-__*연습*__
-
-`명령`
-
-<details><summary>보기</summary>
-
-{% highlight bash %}
-명령
 {% endhighlight %}
 
 </details>
