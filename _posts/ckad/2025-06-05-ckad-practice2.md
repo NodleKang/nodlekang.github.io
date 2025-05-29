@@ -13,6 +13,10 @@ toc_sticky: true
 
 CKAD 시험 연습 2
 
+## 참고 사이트
+
+[쿠버네티스 연습사이트 - Kubernetes Playground (Killercoda)](https://killercoda.com/playgrounds/scenario/kubernetes)
+
 ## K8S 리소스
 
 [5분만에 Kubernetes 리소스 9개 이해하기](https://youtu.be/bM6-AbChWPE?si=ls-zHVG-TSRIDivB)
@@ -97,7 +101,7 @@ https://github.com/dgkanatsios/CKAD-exercises
 
 __*'mynamespace' 네임스페이스에 nginx 이미지가 있는 Pod 생성하기*__
 
-`kubectl run` 명령 사용
+`kubectl run <파드이름>`
 
 <details><summary>보기</summary>
 <p>
@@ -110,12 +114,155 @@ kubectl run nginx --image=nginx --restart=Never -n mynamespace
 </p>
 </details>
 
-__* *__
+__*방금 설명한 Pod를 YAML로 작성하기*__
+
+`kubectl run <파드이름> --dry-run=client -o yaml`
 
 <details><summary>보기</summary>
 <p>
 
 ```bash
+kubectl run nginx --image=nginx --restart=Never -n mynamespace --dry-run=client -o yaml > nginx.yml
+```
+
+</p>
+</details>
+
+__*'env' 명령을 실행하는 busybox Pod 생성하기(kubectl 명령 사용)*__
+
+`kubectl run` 또는 `kubectl create`와 같은 명령에서 `--command -- env` 옵션은 항상 명령의 가장 마지막에 배치해야 합니다.
+
+이 옵션을 `--dry-run=client`와 같은 다른 옵션보다 앞에 사용하면 YAML 파일이 생성되기 전에 Pod가 실제로 생성될 수 있습니다.
+
+<details><summary>보기</summary>
+<p>
+
+```bash
+kubectl run envpod --image=busybox -n mynamespace --dry-run=client -o yaml --command -- env  > envpod.yml
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: envpod
+  name: envpod
+  namespace: mynamespace
+spec:
+  containers:
+  - command:
+    - env
+    image: busybox
+    name: envpod
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+```
+
+```bash
+kubectl apply -f envpod.yml
+kubectl logs envpod -n mynamespace
+```
+
+</p>
+</details>
+
+__* *__
+
+``
+
+<details><summary>보기</summary>
+<p>
+
+```bash
+
+```
+
+</p>
+</details>
+
+__* *__
+
+``
+
+<details><summary>보기</summary>
+<p>
+
+```bash
+
+```
+
+</p>
+</details>
+
+__* *__
+
+``
+
+<details><summary>보기</summary>
+<p>
+
+```bash
+
+```
+
+</p>
+</details>
+
+__* *__
+
+``
+
+<details><summary>보기</summary>
+<p>
+
+```bash
+
+```
+
+</p>
+</details>
+
+__* *__
+
+``
+
+<details><summary>보기</summary>
+<p>
+
+```bash
+
+```
+
+</p>
+</details>
+
+__* *__
+
+``
+
+<details><summary>보기</summary>
+<p>
+
+```bash
+
+```
+
+</p>
+</details>
+
+__* *__
+
+``
+
+<details><summary>보기</summary>
+<p>
+
+```bash
+
 ```
 
 </p>
