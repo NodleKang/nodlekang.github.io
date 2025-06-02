@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "CKAD 연습(Multi-Container Pods)"
-date: 2025-05-29 17:00:00 +0900
+date: 2025-05-30 17:00:00 +0900
 categories:
   - Kubernetes
 tag:
@@ -63,3 +63,57 @@ kubectl exec multi-container-pod -it -c container1 -- /bin/sh -c ls
 {% endhighlight %}
 </details>
 <p></p>
+
+__*
+nginx 컨테이너를 포트 80으로 노출(expose)하는 파드 생성하기. 
+'echo "Test" > /work-dir/index.html' 를 사용해서 페이지를 다운로드하는 init 컨테이너를 추가하기.
+emptyDir 타입 볼륨을 생성하고 두 컨테이너 모두에서 마운드하기.
+nginx 컨테이너에서는 "/usr/share/nginx/html"에 마운트하고, init 컨테이너에서는 "/work-dir"에 마운트하기.
+작업이 완료되면 생성된 파드의 IP를 확인하고, bosybox 컨테이너를 생성한 다음 'wget -O- IP' 명령 실행하기'
+*__
+
+<details><summary>보기</summary>
+{% highlight bash %}
+kubectl run nginx --image=nginx --port=80 --dry-run=client -o yaml > nginx.yml
+vi nginx.yml
+{% endhighlight %}
+</details>
+<p></p>
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: common-volume
+    ports:
+    - containerPort: 80
+    resources: {}
+  initContainers:
+  - image: busybox
+    name: busybox
+    volumeMounts:
+    - mountPath: /work-dir
+      name: common-volume
+    command: ['sh', '-c', 'echo "Test" > /work-dir/index.html']
+  volumes:
+  - name: common-volume
+    emptyDir:
+      sizeLimit: 500Mi
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl get pod -o wide
+kubectl run busybox --image=bosybox --restart=Never --rm -it -- /bin/sh -c "wget -O- 192.168.1.4"
+{% endhighlight %}
