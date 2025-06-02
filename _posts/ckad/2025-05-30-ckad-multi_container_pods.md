@@ -64,13 +64,9 @@ kubectl exec multi-container-pod -it -c container1 -- /bin/sh -c ls
 </details>
 <p></p>
 
-__*
-nginx 컨테이너를 포트 80으로 노출(expose)하는 파드 생성하기. 
-'echo "Test" > /work-dir/index.html' 를 사용해서 페이지를 다운로드하는 init 컨테이너를 추가하기.
-emptyDir 타입 볼륨을 생성하고 두 컨테이너 모두에서 마운드하기.
-nginx 컨테이너에서는 "/usr/share/nginx/html"에 마운트하고, init 컨테이너에서는 "/work-dir"에 마운트하기.
-작업이 완료되면 생성된 파드의 IP를 확인하고, bosybox 컨테이너를 생성한 다음 'wget -O- IP' 명령 실행하기'
-*__
+---
+
+__*nginx 컨테이너를 포트 80으로 노출(expose)하는 파드 생성하기. 'echo "Test" > /work-dir/index.html' 를 사용해서 페이지를 다운로드하는 init 컨테이너를 추가하기. emptyDir 타입 볼륨을 생성하고 두 컨테이너 모두에서 마운드하기. nginx 컨테이너에서는 "/usr/share/nginx/html"에 마운트하고, init 컨테이너에서는 "/work-dir"에 마운트하기. 작업이 완료되면 생성된 파드의 IP를 확인하고, bosybox 컨테이너를 생성한 다음 'wget -O- IP' 명령 실행하기'*__
 
 <details><summary>보기</summary>
 {% highlight bash %}
