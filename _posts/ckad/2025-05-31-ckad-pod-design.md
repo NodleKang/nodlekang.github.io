@@ -34,6 +34,10 @@ CKAD 연습(Pod Design)
 - Pod의 **metadata.labels**와 ReplicaSet의 **spec.selector.matchLabels**가 일치하는 Pod들을 관리 대상으로 삼습니다.
 - **Deployment는 ReplicaSet의 버전 관리를 수행**하여 새로운 버전 배포 시 새 ReplicaSet을 만들고, 롤백 시 이전 ReplicaSet으로 돌아가도록 합니다.
 
+ReplicaSet 샘플
+
+<details><summary>보기</summary>
+
 {% highlight yaml %}
 apiVersion: apps/v1
 kind: ReplicaSet
@@ -57,6 +61,9 @@ spec:
         ports:
         - containerPort: 80
 {% endhighlight %}
+
+</details>
+<p></p>
 
 ReplicaSet 제어 명령
 {% highlight bash %}
@@ -254,14 +261,13 @@ kubectl get deployment nginx -o yaml
 
 ---
 
-__*연습*__
-
-`명령`
+__*Deployment로 생성된 ReplicaSet의 YAML 확인하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl get deployments.apps nginx --show-labels
+kubectl get rs --selector app=nginx -o yaml
 {% endhighlight %}
 
 </details>
