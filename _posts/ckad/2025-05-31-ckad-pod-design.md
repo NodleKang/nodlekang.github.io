@@ -118,7 +118,83 @@ __*파드의 애너테이션 제거하기*__
 {% highlight bash %}
 kubectl annotate po nginx description- owner-
 {% endhighlight %}
-## Pod Placement
+<p></p>
+
+## 파드 위치선정(Pod Placement)
+
+---
+
+__*'accelerator=nvidia-tesla-p100' 레이블이 있는 노드에 배포할 파드를 생성하기*__
+
+<details><summary>보기</summary>
+
+노드에 레이블을 추가합니다.
+{% highlight bash %}
+kubectl label nodes <노드이름> accelerator=nvidia-tesla-p100
+kubectl get nodes --show-labels
+{% endhighlight %}
+
+파드 YAML에 'nodeSelector' 속성을 사용합니다.
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cuda-test
+spec:
+  containers:
+    - name: cuda-test
+      image: "k8s.gcr.io/cuda-vector-add:v0.1"
+  nodeSelector: # ★ 추가 ★
+    accelerator: nvidia-tesla-p100 # 레이블 선택 조건
+{% endhighlight %}
+
+YAML에서 파드가 배치되어야 할 위치를 찾을 수 있습니다.
+{% highlight bash %}
+kubectl explain po.spec
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*`tier=frontend:NoSchedule`이라는 테인트(taint)를 노드에 적용하기. 그 노드에 파드가 스케줄링 될 수 있도록 톨러레이션(toleration) 설정하기*__
+
+<details><summary>보기</summary>
+
+테인트(taint)를 파드에 적용하기
+
+{% highlight bash %}
+kubectl taint node node1 tier=frontend:NoSchedule
+kubectl describe node node1
+{% endhighlight %}
+
+테인트(taint)를 가진 노드에 파드가 스케줄링될 수 있도록 톨러레이션(toleration) 설정하기
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  tolerations: # 톨러레이션 설정
+  - key: "tier"
+    operator: "Equal"
+    value: "frontend"
+    effect: "NoSchedule"
+{% endhighlight %}
+
+</details>
+<p></p>
+
+## Deployments
+
+---
+
+## Deployments
 
 ---
 
@@ -135,7 +211,20 @@ __*연습*__
 </details>
 <p></p>
 
-## Deployments
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
 
 ---
 
