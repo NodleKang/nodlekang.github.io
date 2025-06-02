@@ -21,6 +21,49 @@ CKAD 연습(Pod Design)
 
 [쿠버네티스 연습사이트 - Kubernetes Playground (Killercoda)](https://killercoda.com/playgrounds/scenario/kubernetes)
 
+
+## ReplicaSet 이란?
+
+쿠버네티스에서 "지정된 개수의 Pod(파드) 복제본을 항상 실행 상태로 유지" 하는 것을 목적으로 하는 **컨트롤러**입니다.
+
+사용자가 ReplicaSet을 직접 생성하고 관리하기보다는 **Deployment(배포)**라는 상위 개념의 오브젝트를 사용합니다.
+
+예를 들어, Pod가 3개 떠 있어야 한다고 정의했다면, ReplicaSet은 어떤 이유로든 Pod 개수가 3개 미만이 되면 자동으로 새로운 Pod를 생성해서 3개를 유지합니다.
+
+- ReplicaSet은 **selector** 필드를 사용하여 어떤 Pod를 관리할지 결정합니다. 
+- Pod의 **metadata.labels**와 ReplicaSet의 **spec.selector.matchLabels**가 일치하는 Pod들을 관리 대상으로 삼습니다.
+- **Deployment는 ReplicaSet의 버전 관리를 수행**하여 새로운 버전 배포 시 새 ReplicaSet을 만들고, 롤백 시 이전 ReplicaSet으로 돌아가도록 합니다.
+
+{% highlight yaml %}
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: my-app-replicaset
+  labels:
+    app: my-app
+spec:
+  replicas: 3 # 유지하고자 하는 Pod의 개수
+  selector:
+    matchLabels:
+      app: my-app # 이 레이블을 가진 Pod를 관리 대상으로 삼음
+  template: # Pod를 생성할 때 사용할 템플릿
+    metadata:
+      labels:
+        app: my-app # Pod에 부여될 레이블 (selector의 matchLabels와 일치해야 함)
+    spec:
+      containers:
+      - name: my-container
+        image: my-image:1.0
+        ports:
+        - containerPort: 80
+{% endhighlight %}
+
+ReplicaSet 제어 명령
+{% highlight bash %}
+kubectl get rs
+kubectl describe rs <리플리카셋이름>
+{% endhighlight %}
+
 ## Labels & Annotations
 
 ---
@@ -194,8 +237,149 @@ spec:
 
 ---
 
-## Deployments
+__*nginx:1.18.0 이미지를 사용하며, 2개의 replicas를 가지고, nginx 이름을 가진 Deployment 생성하기. 컨테이너는 80 포트로 노출(expose)하도록 정의하기 (이 Deployment에 대한 service 생성 안 함)*__
 
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl create deployment nginx --image=nginx:1.18.0 --replicas=2 --port=80
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl get deployment nginx -o yaml
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
 ---
 
 __*연습*__
@@ -240,6 +424,138 @@ __*연습*__
 
 </details>
 <p></p>
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+
+
+
 
 ## Jobs
 
