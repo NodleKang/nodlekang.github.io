@@ -102,8 +102,7 @@ spec:
     command: ['sh', '-c', 'echo "Test" > /work-dir/index.html']
   volumes:
   - name: common-volume
-    emptyDir:
-      sizeLimit: 500Mi
+    emptyDir: {} # emptyDir 타입 볼륨
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
