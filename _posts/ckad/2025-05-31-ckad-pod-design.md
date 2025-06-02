@@ -276,14 +276,12 @@ kubectl get rs --selector app=nginx -o yaml
 
 ---
 
-__*연습*__
-
-`명령`
+__*Rollout 상태 확인하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl rollout status deployment nginx
 {% endhighlight %}
 
 </details>
