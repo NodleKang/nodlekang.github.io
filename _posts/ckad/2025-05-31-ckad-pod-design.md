@@ -179,6 +179,7 @@ __*'accelerator=nvidia-tesla-p100' 레이블이 있는 노드에 배포할 파�
 <details><summary>보기</summary>
 
 노드에 레이블을 추가합니다.
+
 {% highlight bash %}
 kubectl label nodes <노드이름> accelerator=nvidia-tesla-p100
 kubectl get nodes --show-labels
