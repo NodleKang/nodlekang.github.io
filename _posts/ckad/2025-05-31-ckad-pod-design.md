@@ -25,7 +25,7 @@ CKAD 연습(Pod Design)
 
 ---
 
-__*'app=v1' 라벨을 가진 파드 생성하기*__
+__*'app=v1' 레이블을 가진 파드 생성하기*__
 
 {% highlight bash %}
 kubectl run nginx --image=nginx --restart=Never --labels=app=v1
@@ -33,7 +33,7 @@ kubectl run nginx --image=nginx --restart=Never --labels=app=v1
 
 ---
 
-__*파드의 모든 라벨보기*__
+__*파드의 모든 레이블보기*__
 
 {% highlight bash %}
 kubectl get pod --help | grep -i label
@@ -43,7 +43,7 @@ kubectl get pod --show-labels
 
 ---
 
-__*파드의 라벨을 'app=v2'로 변경하기*__
+__*파드의 레이블을 'app=v2'로 변경하기*__
 
 {% highlight bash %}
 kubectl edit <파드>
@@ -56,12 +56,84 @@ kubectl label po nginx app=v2
 
 ---
 
-__*특정 라벨의 값 확인하기*__
+__*특정 레이블의 값 확인하기*__
 
 {% highlight bash %}
 kubectl get pod --help | grep -i label
 kubectl get po nginx --label-columns=app
 {% endhighlight %}
+
+---
+
+__*레이블 제거하기*__
+
+{% highlight bash %}
+kubectl label po nginx app-
+혹은
+kubectl label po --selector "app=v2" app-
+{% endhighlight %}
+
+---
+
+__*'app=v2' 레이블을 가진 파드만 필터링하기*__
+
+레이블을 이용한 필터링에는 `--selector` 옵션을 사용합니다.
+
+{% highlight bash %}
+kubectl get pod --selector=app=v2 --show-labels
+{% endhighlight %}
+
+---
+
+__*'app=v1' 혹은 'app=v2'를 가진 파드들에 'tier=web' 레이블 추가하기*__
+
+{% highlight bash %}
+kubectl label po --selector "app in (v1,v2)" tier=web
+{% endhighlight %}
+
+---
+
+__*'app=v2' 레이블을 가진 모든 파드에 'owner:marketing' 애너테이션 추가하기*__
+
+애너테이션 관련 작업은 `kubectl annotate` 명령을 사용합니다.
+
+{% highlight bash %}
+kubectl annotate po --selector "app=v2" owner=marketing
+{% endhighlight %}
+
+---
+
+__*파드의 애너테이션 확인하기*__
+
+애너테이션 관련 작업은 `kubectl annotate` 명령을 사용합니다.
+
+{% highlight bash %}
+kubectl annotate po --selector "app=v2" --list
+{% endhighlight %}
+
+---
+
+__*파드의 애너테이션 제거하기*__
+
+{% highlight bash %}
+kubectl annotate po nginx description- owner-
+{% endhighlight %}
+## Pod Placement
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
 
 ## Deployments
 
