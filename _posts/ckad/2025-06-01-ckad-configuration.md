@@ -188,14 +188,21 @@ kubectl exec nginx -it -- /bin/sh
 
 ---
 
-__*연습*__
-
-`명령`
+__*user ID 101로 실행하는 nginx 파드 생성용 YAML 만들기*__
 
 <details><summary>보기</summary>
 
-{% highlight bash %}
-명령
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo
+spec:
+  securityContext:
+    runAsUser: 101
+  containers:
+  - name: nginx
+    image: nginx
 {% endhighlight %}
 
 </details>
@@ -203,14 +210,22 @@ __*연습*__
 
 ---
 
-__*연습*__
-
-`명령`
+__*NET_ADMIN, SYS_TIME 기능을 추가한 파드용 YAML 만들기*__
 
 <details><summary>보기</summary>
 
-{% highlight bash %}
-명령
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    securityContext:
+      capabilities:
+        add: ["NET_ADMIN", "SYS_TIME"]
 {% endhighlight %}
 
 </details>
@@ -220,14 +235,26 @@ __*연습*__
 
 ---
 
-__*연습*__
-
-`명령`
+__*cpu=100m, memory=256Mi 이고, 제한은 cpu=200m, memory=512Mi 인 nginx 파드 생성하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      limits:
+        cpu: "200m"
+        memory: "512Mi"
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
 {% endhighlight %}
 
 </details>
