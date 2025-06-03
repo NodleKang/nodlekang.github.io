@@ -239,7 +239,7 @@ __*cpu=100m, memory=256Mi 이고, 제한은 cpu=200m, memory=512Mi 인 nginx 파
 
 <details><summary>보기</summary>
 
-{% highlight bash %}
+{% highlight yaml %}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -264,20 +264,71 @@ spec:
 
 ---
 
-__*연습*__
+__*memory 제한이 최소 100Mi 에서 최대 500Mi 인 LimitRange를 가진 네임스페이스 limitrange 생성하기*__
 
-`명령`
+**LimitRange**: 네임스페이스 안에서 개별 파드나 컨테이너가 사용할 수 있는 리소스의 최소/최대값, 기본값
+
+**ResourceQuota**: 네임스페이스 전체에서 사용할 수 있는 리소스의 총량(예: CPU, 메모리, 오브젝트 수 등)을 제한
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl create namespace limitrange
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: my-limitrange
+  namespace: limitrange
+spec:
+  limits:
+  - max:
+      memory: 500Mi
+    min:
+      memory: 100Mi
+    type: Pod
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl describe limitranges -n limitrange
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*limitrange 네임스페이스에 memory requests가 250Mi 인 nginx 파드 생성하기*__
+
+<details><summary>보기</summary>
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  namespace: limitrange
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      requests:
+        memory: 250Mi # 네임스페이스에 LimitRange 설정의 min보다 크거나 같아야 함
+      limits:
+        memory: 500Mi # 네임스페이스에 LimitRange 설정의 max보다 작거나 같아야 함
 {% endhighlight %}
 
 </details>
 <p></p>
 
 ## Resource Quotas
+
+**LimitRange**: 네임스페이스 안에서 개별 파드나 컨테이너가 사용할 수 있는 리소스의 최소/최대값, 기본값
+
+**ResourceQuota**: 네임스페이스 전체에서 사용할 수 있는 리소스의 총량(예: CPU, 메모리, 오브젝트 수 등)을 제한
 
 ---
 
