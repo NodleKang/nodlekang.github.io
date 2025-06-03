@@ -363,6 +363,7 @@ __*one 네임스페이스에 CPU 1, 메모리 256Mi를 requests하고 CPU 2, 메
 
 <details><summary>보기</summary>
 
+{% highlight yaml %}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -379,6 +380,7 @@ spec:
       limits:
         memory: "512Mi"
         cpu: "2"
+{% endhighlight %}
 
 </details>
 <p></p>
