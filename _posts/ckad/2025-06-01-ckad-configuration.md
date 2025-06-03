@@ -23,6 +23,96 @@ CKAD 연습(Configuration)
 
 ## ConfigMaps
 
+key-value 쌍으로 비밀이 아닌 설정 데이터를 갖고 있는 리소스
+
+---
+
+__*foo=lala,foo2=lolo 값을 갖는 configmap 생성하기*__
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl create configmap my-config --from-literal=foo=lala --from-literal=foo2=lolo
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*configmap 값 확인하기*__
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl describe configmaps my-config
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*텍스트 파일을 사용해서 configmap 생성하기*__
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+echo -e "foo3=lili\nfoo4=lele" > config.txt
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl create configmap my-config --from-file=config.txt
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*env 파일을 사용해서 configmap 생성하기*__
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl create configmap my-config --from-env-file=config.env
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
 __*연습*__
 
 `명령`
@@ -37,6 +127,8 @@ __*연습*__
 <p></p>
 
 ## SecurityContext
+
+---
 
 __*연습*__
 
@@ -53,6 +145,8 @@ __*연습*__
 
 ## Requests and Limits
 
+---
+
 __*연습*__
 
 `명령`
@@ -68,6 +162,8 @@ __*연습*__
 
 ## Secrets
 
+---
+
 __*연습*__
 
 `명령`
@@ -82,6 +178,8 @@ __*연습*__
 <p></p>
 
 ## Service Accounts
+
+---
 
 __*연습*__
 
