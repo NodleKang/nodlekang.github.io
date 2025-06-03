@@ -102,10 +102,10 @@ spec:
   containers:
   - name: nginx
     image: nginx
-    env:
+    env: # 환경변수
       - name: option
-        valueFrom:
-          configMapKeyRef:
+        valueFrom:  # 값을 가져오기
+          configMapKeyRef:  # ConfigMap에 Key를 참조해서
             name: my-config
             key: var5
 {% endhighlight %}
@@ -138,8 +138,8 @@ spec:
   containers:
   - name: busybox
     image: busybox
-    envFrom:
-    - configMapRef:
+    envFrom: # 환경변수 가져오기
+    - configMapRef: # ConfigMap 참조해서
         name: anotherone
 {% endhighlight %}
 
@@ -387,6 +387,147 @@ spec:
 
 ## Secrets
 
+__*Secret의 기본 동작*__
+
+- Secret에 저장되는 데이터는 **Base64 형식으로 인코딩**되고, 쉽게 디코딩할 수 있습니다. (**암호화 아님**)
+- 일반 텍스트로 저장하는 것보다 안전한 정도입니다.
+  
+__*Kubernetes의 Secret 처리 방식*__
+
+- Secret은 해당 Secret을 필요로 하는 Pod가 실행되는 노드에만 전송됩니다.
+- Kubelet은 Secret 데이터를 디스크에 쓰지 않고, 메모리 기반인 tmpfs(임시파일시스템)에 저장합니다.
+- Secret에 의존하는 Pod가 삭제되면 Kubelet은 Secret 데이터의 로컬 복사본도 삭제합니다.
+
+---
+
+__*'password=mypass' 값을 가진 mysecret 이라는 Secret 생성하기*__
+
+<details><summary></summary>
+
+{% highlight bash %}
+kubectl create secret generic mysecret --from-literal=password=mypass
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*key/value를 파일에서 가져와서 mysecret2 이라는 시크릿 생성하기*__
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+echo -n admin > username
+
+kubectl create secret generic mysecret2 --from-file=username
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*mysecret2 의 값 확인하기*__
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl get secret mysecret2 -o yaml
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*mysecret2 시크릿을 /etc/foo 경로에 마운트하는 nginx 파드 생성하기*__
+
+Kubernetes Docs > Secrets
+
+<details><summary>보기</summary>
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    volumeMounts:
+    - name: secret-volume
+      mountPath: "/etc/foo"
+  volumes:
+  - name: secret-volume
+    secret:
+      secretName: mysecret2
+{% endhighlight %}
+
+</details>
+<p></p>
+
+__*방금 생성한 파드를 삭제하고, mysecret2 시크릿에서 username 변수를 가져와서 USERNAME 이라는 환경 변수로 nginx 파드에 마운트하기*__
+
+<details><summary>보기</summary>
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    env:
+    - name: USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: mysecret2
+          key: username
+{% endhighlight %}
+
+</details>
+<p></p>
+
+__*secret-ops 네임스페이스에 ext-service-secret이라는 이름의 Secret을 생성하기. 그런 다음, API_KEY=LmLHbYhsgWZwNifiqaRorH8T 키-값 쌍을 리터럴(literal)로 제공하기*__
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl create ns secret-ops
+kubectl create secret generic ext-service-secret --from-literal=API_KEY=LmLHbYhsgWZwNifiqaRorH8T -n secret-ops
+{% endhighlight %}
+
+</details>
+<p></p>
+
+__*secret-ops 네임스페이스에 nginx 이미지를 사용하는 consumer라는 이름의 Pod를 생성하고, 해당 Pod에서 Secret을 환경 변수로 사용하기*__
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consumer
+  namespace: secret-ops
+spec:
+  containers:
+  - name: consumer
+    image: nginx
+    envFrom:
+    - secretRef:
+        name: ext-service-secret
+{% endhighlight %}
+
+</details>
+<p></p>
+
+## Service Accounts
+
 ---
 
 __*연습*__
@@ -402,7 +543,35 @@ __*연습*__
 </details>
 <p></p>
 
-## Service Accounts
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
 
 ---
 
