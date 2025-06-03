@@ -467,7 +467,7 @@ kubectl delete hpa nginx
 
 __*canary deployement. nginx 인스턴스 2개(version=v1 및 version=v2)를 실행하여, 75%-25% 비율로 로드 밸런싱되는 카나리 배포 구현하기*__
 
-1. 3개 replicas를 가지는 'version=v1' Deployment 배포하기
+3개 replicas를 가지는 'version=v1' Deployment 배포하기
 
 <details><summary>보기</summary>
 
@@ -509,7 +509,7 @@ kubectl apply -f v1.yaml
 </details>
 <p></p>
 
-2. serive 생성하기
+serive 생성하기
 
 'Kubernetes Documentation > Service'에서 샘플 가져와서 사용하기(다음 항목은 필수로 설정하기):
 - spec.type
@@ -517,9 +517,9 @@ kubectl apply -f v1.yaml
 - spec.selector
 
 Service 유형:
-- ClusterIP: 클러스터 내부에서만 접근 가능한 서비스(기본값)
-- NodePort: 클러스터 외부에서 각 노드의 특정 포트로 접근할 수 있는 서비스
-- LoadBalancer: 클라우드 환경에서 외부 로드밸런서를 통해 접근 가능한 서비스
+- **ClusterIP**: 클러스터 내부에서만 접근 가능한 서비스(기본값)
+- **NodePort**: 클러스터 외부에서 각 노드의 특정 포트로 접근할 수 있는 서비스
+- **LoadBalancer**: 클라우드 환경에서 외부 로드밸런서를 통해 접근 가능한 서비스
 
 <details><summary>보기</summary>
 
@@ -561,7 +561,7 @@ kubectl run test-pod --image=busybox --restart=Never --rm -it -- /bin/sh
 </details>
 <p></p>
 
-3. 1개 replicas를 가지는 'version=v2' Deployment 배포하기
+1개 replicas를 가지는 'version=v2' Deployment 배포하기
 
 <details><summary>보기</summary>
 
@@ -603,8 +603,7 @@ kubectl apply -f v1.yaml
 </details>
 <p></p>
 
-
-4. Service를 통해 노출된 IP를 호출하면 request가 두 버전으로 로드밸런싱 되는지 확인하기
+Service를 통해 노출된 IP를 호출하면 request가 두 버전으로 로드밸런싱 되는지 확인하기
 
 <details><summary>보기</summary>
 
@@ -615,7 +614,7 @@ kubectl run test-pod --image=busybox --restart=Never --rm -it -- /bin/sh -c "whi
 </details>
 <p></p>
 
-5. v2 가 stable 하면, v2를 4개 replicas로 스케일링하고 v1 은 shutdown 하기
+v2 가 stable 하면, v2를 4개 replicas로 스케일링하고 v1 은 shutdown 하기
 
 `kubectl scale --replicas=<개수> deployment <디플로이이름>`
 
