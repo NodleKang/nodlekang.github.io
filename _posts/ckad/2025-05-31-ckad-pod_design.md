@@ -632,14 +632,31 @@ kubectl delete deployments.apps my-app
 
 ---
 
-__*연습*__
+__*perl:5.34 이미지를 사용하여 "perl -Mbignum=bpi -wle 'print bpi(2000)'" 명령어를 실행하는 pi라는 Job 생성하기*__
 
-`명령`
+Kubernetes Docs > Job
 
 <details><summary>보기</summary>
 
+{% highlight yaml %}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi
+spec:
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: perl:5.34.0
+        command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+      restartPolicy: Never
+  backoffLimit: 4
+{% endhighlight %}
+
+
 {% highlight bash %}
-명령
+kubectl logs jobs/pi
 {% endhighlight %}
 
 </details>
@@ -647,14 +664,28 @@ __*연습*__
 
 ---
 
-__*연습*__
-
-`명령`
+__*busybox 이미지를 사용하여 "echo hello;sleep 30;echo world" 명령을 실행하는 Job 생성하기*__
 
 <details><summary>보기</summary>
 
+{% highlight yaml %}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello
+spec:
+  template:
+    spec:
+      containers:
+      - name: hello
+        image: busybox
+        command: ["/bin/sh", "-c", "echo hello;sleep 30;echo world"]
+      restartPolicy: Never
+  backoffLimit: 4
+{% endhighlight %}
+
 {% highlight bash %}
-명령
+kubectl logs jobs/hello
 {% endhighlight %}
 
 </details>
@@ -662,14 +693,29 @@ __*연습*__
 
 ---
 
-__*연습*__
-
-`명령`
+__*실행 시간이 10초를 초과하면 자동으로 종료되는 잡(Job) 생성하기*__
 
 <details><summary>보기</summary>
 
+{% highlight yaml %}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: auto-terminate
+spec:
+  activeDeadlineSeconds: 10 # spec 바로 아래 추가
+  template:
+    spec:
+      containers:
+      - name: auto-terminate
+        image: busybox
+        command: ["/bin/sh", "-c", "while true; do echo hello; sleep 2;done"]
+      restartPolicy: Never
+  backoffLimit: 4
+{% endhighlight %}
+
 {% highlight bash %}
-명령
+kubectl logs jobs/auto-terminate
 {% endhighlight %}
 
 </details>
@@ -677,95 +723,80 @@ __*연습*__
 
 ---
 
-__*연습*__
-
-`명령`
+__*5번 실행되면 종료되는 잡(Job) 생성하기*__
 
 <details><summary>보기</summary>
 
-{% highlight bash %}
-명령
+{% highlight yaml %}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: auto-terminate
+spec:
+  completions: 5 # spec 바로 아래 추가
+  template:
+    spec:
+      containers:
+      - name: auto-terminate
+        image: busybox
+        command: ["/bin/sh", "-c", "echo completion"]
+      restartPolicy: Never
+  backoffLimit: 4
 {% endhighlight %}
 
-</details>
-<p></p>
-
----
-
-__*연습*__
-
-`명령`
-
-<details><summary>보기</summary>
-
 {% highlight bash %}
-명령
-{% endhighlight %}
-
-</details>
-<p></p>
-
----
-
-__*연습*__
-
-`명령`
-
-<details><summary>보기</summary>
-
-{% highlight bash %}
-명령
-{% endhighlight %}
-
-</details>
-<p></p>
-
----
-
-__*연습*__
-
-`명령`
-
-<details><summary>보기</summary>
-
-{% highlight bash %}
-명령
-{% endhighlight %}
-
-</details>
-<p></p>
-
----
-
-__*연습*__
-
-`명령`
-
-<details><summary>보기</summary>
-
-{% highlight bash %}
-명령
-{% endhighlight %}
-
-</details>
-<p></p>
-
----
-
-__*연습*__
-
-`명령`
-
-<details><summary>보기</summary>
-
-{% highlight bash %}
-명령
+kubectl logs jobs/auto-terminate
 {% endhighlight %}
 
 </details>
 <p></p>
 
 ## Cron Jobs
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*연습*__
+
+`명령`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+<p></p>
 
 ---
 
