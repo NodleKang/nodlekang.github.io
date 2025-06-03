@@ -530,14 +530,12 @@ spec:
 
 ---
 
-__*연습*__
-
-`명령`
+__*모든 네임스페이스에 모든 Service Accounts 확인하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl get serviceaccounts -A
 {% endhighlight %}
 
 </details>
@@ -545,14 +543,12 @@ __*연습*__
 
 ---
 
-__*연습*__
-
-`명령`
+__*'myuser' 라는 Service Account 생성하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl create serviceaccount myuser
 {% endhighlight %}
 
 </details>
@@ -560,14 +556,29 @@ __*연습*__
 
 ---
 
-__*연습*__
-
-`명령`
+__*'myuser' 라는 Service Account 를 사용하는 nginx 파드 생성하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl run nginx --image=nginx --dry-run=client -o yaml > n.yml
+vi n.yml
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  serviceAccountName: myuser
+  containers:
+  - image: nginx
+    name: nginx
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
 {% endhighlight %}
 
 </details>
@@ -575,14 +586,12 @@ __*연습*__
 
 ---
 
-__*연습*__
-
-`명령`
+__*'myuser' 라는 Service Account 를 위한 API token 만들기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl create token myuser
 {% endhighlight %}
 
 </details>
