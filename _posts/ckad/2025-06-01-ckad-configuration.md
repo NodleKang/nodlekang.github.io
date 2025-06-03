@@ -332,6 +332,62 @@ spec:
 
 ---
 
+__*one 네임스페이스에 requests cpu=1, memory=1Gi 하드 리퀘스트와 cpu=2, memory=2Gi 하드 리밋을 갖는 ResourceQuota를 생성하기*__
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl create ns one
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: my-rq
+  namespace: one
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: "1Gi"
+    limits.cpu: "2"
+    limits.memory: "2Gi"
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*one 네임스페이스에 CPU 1, 메모리 256Mi를 requests하고 CPU 2, 메모리 512Mi로 limits 하는 파드를 생성하기*__
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+명령
+{% endhighlight %}
+
+</details>
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-sample
+  namespace: one
+spec:
+  containers:
+  - name: pod-sample
+    image: busybox
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "1"
+      limits:
+        memory: "512Mi"
+        cpu: "2"
+<p></p>
+
+---
+
 __*연습*__
 
 `명령`
