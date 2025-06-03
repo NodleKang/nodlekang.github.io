@@ -289,127 +289,120 @@ kubectl rollout status deployment nginx
 
 ---
 
-__*연습*__
+__*nginx 이미지를 nginx:1.19.8로 업데이트 하기*__
 
-`명령`
+`kubectl set image (-f FILENAME | TYPE NAME) CONTAINER_NAME_1=CONTAINER_IMAGE_1 ... CONTAINER_MAME_N=CONTAINER_IMAGE_N [options]`
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+# yaml에서 image 부분 찾아서 수정 후 저장하고 나오기
+kubectl edit deployments.apps nginx
 {% endhighlight %}
 
 </details>
 <p></p>
 ---
 
-__*연습*__
+__*rollout 이력 및 replicas 상태 점검하기*__
 
-`명령`
+`kubectl rollout history`
+
+`kubectl get rs -o wide`
+
+<details><summary>보기</summary>
+{% highlight bash %}
+kubectl rollout history deployments.apps nginx
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl get rs -o wide
+{% endhighlight %}
+</details>
+<p></p>
+
+---
+
+__*최근 rollout 작업을 취소하고 새로운 파드들이 이전 이미지(nginx:1.18.0)으로 돌아갔는지 확인하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl rollout undo deployment nginx
+
+kubectl rollout history deployments.apps nginx
+kubectl get rs -o wide
 {% endhighlight %}
 
 </details>
 <p></p>
 ---
 
-__*연습*__
-
-`명령`
+__*의도적으로 없는 이미지로 Depolyment 갱신하기(nginx:1.91)*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl set image deployments nginx nginx=nginx:1.91
+
+kubectl get po
+kubectl rollout status deployment nginx
 {% endhighlight %}
 
 </details>
 <p></p>
 ---
 
-__*연습*__
-
-`명령`
+__*Deployment를 두 번째 리비전(Revision 2)으로 롤백하고 이미지 확인하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl rollout undo deployment nginx --to-revision=2
+
+kubectl get rs -o wide
 {% endhighlight %}
 
 </details>
 <p></p>
 ---
 
-__*연습*__
-
-`명령`
+__*네 번째 리비전(Revision 4) 상세보기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl rollout history deployment nginx --revision=4
 {% endhighlight %}
 
 </details>
 <p></p>
 ---
 
-__*연습*__
+__*Deployment를 5개 replicas로 스케일링하기*__
 
-`명령`
+`kubectl scale deployment <디플로이이름> --replicas=5`
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl scale deployment nginx --replicas=5
 {% endhighlight %}
 
 </details>
 <p></p>
 ---
 
-__*연습*__
+__*파드의 개수를 5-10개 사이로 오토스케일링하며, CPU 사용률을 80%로 타켓팅하는 Deployment 설정하기*__
 
-`명령`
-
-<details><summary>보기</summary>
-
-{% highlight bash %}
-명령
-{% endhighlight %}
-
-</details>
-<p></p>
----
-
-__*연습*__
-
-`명령`
+`kubectl autoscale deployment`
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
-{% endhighlight %}
+kubectl autoscale deployment nginx --min=5 --max=10 --cpu-percent=80
 
-</details>
-<p></p>
-
----
-
-__*연습*__
-
-`명령`
-
-<details><summary>보기</summary>
-
-{% highlight bash %}
-명령
+kubectl get hpa nginx # nginx의 HorizontalPodAutoscaler 확인
 {% endhighlight %}
 
 </details>
@@ -417,14 +410,12 @@ __*연습*__
 
 ---
 
-__*연습*__
-
-`명령`
+__*Deployment의 rollout 일시정지 시키기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl rollout pause deploy nginx
 {% endhighlight %}
 
 </details>
@@ -432,14 +423,14 @@ __*연습*__
 
 ---
 
-__*연습*__
-
-`명령`
+__*nginx 이미지를 1.19.9 버전으로 업데이트하고, 롤아웃을 일시 중지했으니 별다른 변경 사항이 없는지 확인하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl set image deploy nginx nginx=nginx:1.19.9
+
+kubectl rollout history deploy nginx # 새로운 리비전 없음
 {% endhighlight %}
 
 </details>
@@ -447,32 +438,197 @@ __*연습*__
 
 ---
 
-__*연습*__
-
-`명령`
+__*롤아웃을 다시 시작하고 nginx:1.19.9 이미지가 적용되었는지 확인하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl rollout resume deploy nginx
+kubectl rollout history deploy nginx
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*Deployment 및 Horizontal Pod Autoscaler 삭제하기*__
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl delete deploy nginx
+kubectl delete hpa nginx
 {% endhighlight %}
 
 </details>
 <p></p>
 ---
 
-__*연습*__
+__*canary deployement. nginx 인스턴스 2개(version=v1 및 version=v2)를 실행하여, 75%-25% 비율로 로드 밸런싱되는 카나리 배포 구현하기*__
 
-`명령`
+1. 3개 replicas를 가지는 'version=v1' Deployment 배포하기
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl create deployment my-app --image=nginx --replicas=3 --dry-run=client -o yaml > v1.yaml
+
+vi v1.yaml
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: my-app
+    version: v1
+  name: my-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: my-app
+        version: v1
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl apply -f v1.yaml
 {% endhighlight %}
 
 </details>
 <p></p>
+
+2. serive 생성하기
+
+'Kubernetes Documentation > Service'에서 샘플 가져와서 사용하기(다음 항목은 필수로 설정하기):
+- spec.type
+- spec.ports
+- spec.selector
+
+Service 유형:
+- ClusterIP: 클러스터 내부에서만 접근 가능한 서비스(기본값)
+- NodePort: 클러스터 외부에서 각 노드의 특정 포트로 접근할 수 있는 서비스
+- LoadBalancer: 클라우드 환경에서 외부 로드밸런서를 통해 접근 가능한 서비스
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+vi my-svc.yaml
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-svc
+spec:
+  type: ClusterIP # 클러스터 내부에서만 접근 가능한 서비스
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: my-app
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl apply -f my-svc.yaml
+
+kubectl get svc my-svc # Service의 IP 확인
+NAME     TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+my-svc   ClusterIP   10.108.186.79   <none>        80/TCP    7m26s
+{% endhighlight %}
+
+{% highlight bash %}
+# 서비스 테스트용 파드 실행
+kubectl run test-pod --image=busybox --restart=Never --rm -it -- /bin/sh
+
+/ # wget -O- 10.108.186.79:80 # 서비스 접근 테스트
+{% endhighlight %}
+
+</details>
+<p></p>
+
+3. 1개 replicas를 가지는 'version=v2' Deployment 배포하기
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl create deployment my-app-v2 --image=nginx --replicas=1 --dry-run=client -o yaml > v2.yaml
+
+vi v2.yaml
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: my-app-v2
+    version: v2
+  name: my-app-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app-v2
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: my-app-v2
+        version: v2
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl apply -f v1.yaml
+{% endhighlight %}
+
+</details>
+<p></p>
+
+
+4. Service를 통해 노출된 IP를 호출하면 request가 두 버전으로 로드밸런싱 되는지 확인하기
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl run test-pod --image=busybox --restart=Never --rm -it -- /bin/sh -c "while sleep 1; do wget -qO- 10.108.186.79:80; done"
+{% endhighlight %}
+
+</details>
+<p></p>
+
+5. v2 가 stable 하면, v2를 4개 replicas로 스케일링하고 v1 은 shutdown 하기
+
+`kubectl scale --replicas=<개수> deployment <디플로이이름>`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl scale --replicas=4 deploy my-app-v2
+kubectl delete deployments.apps my-app
+{% endhighlight %}
+
+</details>
+<p></p>
+
 ---
 
 __*연습*__
