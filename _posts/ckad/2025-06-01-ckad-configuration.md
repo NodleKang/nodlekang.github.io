@@ -363,11 +363,6 @@ __*one 네임스페이스에 CPU 1, 메모리 256Mi를 requests하고 CPU 2, 메
 
 <details><summary>보기</summary>
 
-{% highlight bash %}
-명령
-{% endhighlight %}
-
-</details>
 apiVersion: v1
 kind: Pod
 metadata:
@@ -384,19 +379,6 @@ spec:
       limits:
         memory: "512Mi"
         cpu: "2"
-<p></p>
-
----
-
-__*연습*__
-
-`명령`
-
-<details><summary>보기</summary>
-
-{% highlight bash %}
-명령
-{% endhighlight %}
 
 </details>
 <p></p>
