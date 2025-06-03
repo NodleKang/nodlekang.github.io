@@ -755,14 +755,30 @@ kubectl logs jobs/auto-terminate
 
 ---
 
-__*연습*__
-
-`명령`
+__*5분 간격으로 'date; echo Hello from the Kubernetes cluster'를 표준 출력으로 보내는 Cron Job을 busybox 이미지를 사용하여 생성하기*__
 
 <details><summary>보기</summary>
 
-{% highlight bash %}
-명령
+{% highlight yaml %}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox:1.28
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
 {% endhighlight %}
 
 </details>
@@ -770,14 +786,33 @@ __*연습*__
 
 ---
 
-__*연습*__
+__*5분 간격으로 'date; echo Hello from the Kubernetes cluster'를 표준 출력으로 보내는 Cron Job을 busybox 이미지를 사용하여 생성하기. 단, 이 CronJob은 예정된 시간 이후 17초가 초과하여 실행이 시작되면(즉, 예약된 시간을 놓친 경우) 종료되어야 함.*__
 
-`명령`
+Kubernetes Docs > Jobs > startingDeadlineSeconds
 
 <details><summary>보기</summary>
 
-{% highlight bash %}
-명령
+{% highlight yaml %}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob2
+spec:
+  schedule: "*/5 * * * *"
+  startingDeadlineSeconds: 17 # spec 바로 아래 추가
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cronjob2
+            image: busybox:1.28
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
 {% endhighlight %}
 
 </details>
@@ -785,14 +820,33 @@ __*연습*__
 
 ---
 
-__*연습*__
+__*1분 간격으로 'date; echo Hello from the Kubernetes cluster'를 표준 출력으로 보내는 Cron Job을 busybox 이미지를 사용하여 생성하기. 단, 이 CronJob이 성공적으로 시작했어도 12초 이상 실행되면 종료되어야 함.*__
 
-`명령`
+Kubernetes Docs > Jobs > activeDeadlineSeconds
 
 <details><summary>보기</summary>
 
-{% highlight bash %}
-명령
+{% highlight yaml %}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sample-cron-job
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 12 # jobTemplate 하위에 spec 에 설정
+      template:
+        spec:
+          containers:
+          - name: sample-cron-job
+            image: busybox:1.28
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
 {% endhighlight %}
 
 </details>
@@ -800,14 +854,12 @@ __*연습*__
 
 ---
 
-__*연습*__
-
-`명령`
+__*CronJob에서 Job 생성하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-명령
+kubectl create job --from=cronjob/sample-cron-job sample-cron-job
 {% endhighlight %}
 
 </details>
