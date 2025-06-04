@@ -134,12 +134,41 @@ kubectl delete pod nginx
 
 ---
 
-__*연습*__
+__*'dgkanatsios/simpleapp' 이미지로 foo 이름의 3개 replicas를 가진 Deployment 생성하기. 'app=foo' 레이블 붙이기. 파드에 컨테이너들은 8080 포트로 들어오는 트래픽은 허용하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl create deployment foo --image=dgkanatsios/simpleapp --replicas=3 --dry-run=client -o yaml > d.yml
+vi d.yml
+{% endhighlight %}
 
+{% highlight yaml %}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: foo # 레이블
+  name: foo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: foo # 레이블
+  template:
+    metadata:
+      labels:
+        app: foo  # 레이블
+    spec:
+      containers:
+      - image: dgkanatsios/simpleapp
+        name: simpleapp
+        ports:
+        - containerPort: 8080
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl get pod foo-78d4bc9b5f-xqv9g --show-labels
 {% endhighlight %}
 
 </details>
@@ -147,12 +176,14 @@ __*연습*__
 
 ---
 
-__*연습*__
+__*파드 IP를 가져와서, 임시 busybox 파드로 8080 포트로 접근하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl get pod --selector app=foo -o wide
 
+kubectl run busybox --image=busybox --restart=Never --rm -it -- wget -O- 192.168.1.10:8080
 {% endhighlight %}
 
 </details>
