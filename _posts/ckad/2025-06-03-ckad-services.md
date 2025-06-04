@@ -25,12 +25,17 @@ CKAD 연습(Services)
 
 ---
 
-__*연습*__
+__*80 포트로 노출(expose)된 nginx 파드 생성하기*__
 
 <details><summary>보기</summary>
 
+**`--expose` 옵션** :
+- 파드를 외부에 노출하기 위한 Service도 생성함. 
+- 기본적으로 ClusterIP 타입의 Service가 생성되어 클러스터 내부에서 해당 파드로 접근할 수 있게 함.
+- 이 옵션이 없으면 외부에서 파드에 접근하려면 Pod ID를 직접 알아야 함.
+
 {% highlight bash %}
-kubectl create token myuser
+kubectl run nginx --image=nginx --port=80 --expose
 {% endhighlight %}
 
 </details>
@@ -43,7 +48,7 @@ __*연습*__
 <details><summary>보기</summary>
 
 {% highlight bash %}
-kubectl create token myuser
+
 {% endhighlight %}
 
 </details>
@@ -56,7 +61,7 @@ __*연습*__
 <details><summary>보기</summary>
 
 {% highlight bash %}
-kubectl create token myuser
+
 {% endhighlight %}
 
 </details>
@@ -69,7 +74,7 @@ __*연습*__
 <details><summary>보기</summary>
 
 {% highlight bash %}
-kubectl create token myuser
+
 {% endhighlight %}
 
 </details>
@@ -82,7 +87,7 @@ __*연습*__
 <details><summary>보기</summary>
 
 {% highlight bash %}
-kubectl create token myuser
+
 {% endhighlight %}
 
 </details>
@@ -95,7 +100,7 @@ __*연습*__
 <details><summary>보기</summary>
 
 {% highlight bash %}
-kubectl create token myuser
+
 {% endhighlight %}
 
 </details>
@@ -108,7 +113,7 @@ __*연습*__
 <details><summary>보기</summary>
 
 {% highlight bash %}
-kubectl create token myuser
+
 {% endhighlight %}
 
 </details>
@@ -121,7 +126,7 @@ __*연습*__
 <details><summary>보기</summary>
 
 {% highlight bash %}
-kubectl create token myuser
+
 {% endhighlight %}
 
 </details>
