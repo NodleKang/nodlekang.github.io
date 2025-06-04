@@ -27,7 +27,7 @@ CKAD 연습(Services)
 
 __*80 포트로 노출(expose)된 nginx 파드 생성하기*__
 
-**`--expose` 옵션:**
+**파드 생성시 `--expose` 옵션:**
   - 파드를 외부에 노출하기 위한 Service도 생성함. 
   - 기본적으로 ClusterIP 타입의 Service가 생성되어 클러스터 내부에서 해당 파드로 접근할 수 있게 함.
   - 이 옵션이 없으면 외부에서 파드에 접근하려면 Pod ID를 직접 알아야 함.
@@ -197,12 +197,20 @@ kubectl run busybox --image=busybox --restart=Never --rm -it -- wget -O- 192.168
 
 ---
 
-__*연습*__
+__*앞에서 생성한 foo deployment에 대해 포트 6262로 노출(expose)하는 서비스 생성하기. 서비스 존재를 확인하고, 엔드포인트를 점검하기*__
+
+`kubectl expose --help`
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl expose deployment foo --port=6262 --target-port=8080
+{% endhighlight %}
 
+{% highlight bash %}
+kubectl get svc foo -o wide # 서비스의 CluserIP와 포트 확인
+kubectl describe service foo
+kubectl get endpoints foo # 서비스에 연결되어 있는 파드들의 IP와 컨테이너포트 확인
 {% endhighlight %}
 
 </details>
@@ -210,12 +218,63 @@ __*연습*__
 
 ---
 
-__*연습*__
+__*임시 busybox 파드를 생성하고 wget을 사용하여 foo 서비스에 연결하기. 연결할 때마다 다른 호스트 이름이 반환되는지 확인하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl get svc foo -o wide # 서비스의 CluserIP와 포트 확인
 
+kubectl run busybox --image=busybox --restart=Never --rm -it 
+/ # wget -O- 10.96.218.244:6262
+{% endhighlight %}
+
+</details>
+<p></p>
+
+---
+
+__*replicas 2개를 가진 nginx Deployment를 생성하고, 포트 80으로 ClusterIP 서비스를 통해 외부에 노출시키기. NetworkPolicy를 생성해서 'access:granted' 레이블을 가진 파드만 이 Deployment의 파드에 접근할 수 있게 설정하기.*__
+
+Kubernets > Declare Network Policy
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl create deployment nginx --image=nginx --replicas=2 --port=80
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl expose deployment nginx --port=80 --target-port=80 --name=my-svc --type=ClusterIP
+kubectl get svc my-svc
+kubectl get endpoints my-svc
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl get pods --show-labels
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: access-nginx
+spec:
+  podSelector: # 파드 선택
+    matchLabels:
+      app: nginx # 규칙을 적용시킬 레이블
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          access: granted # 접근을 허용할 레이블
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl get svc my-svc
+
+kubectl run busybox --image=busybox --restart=Never --labels=access=granted --rm -it 
+/ # wget -O- 10.111.160.89:80
 {% endhighlight %}
 
 </details>
