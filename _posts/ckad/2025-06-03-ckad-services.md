@@ -118,7 +118,8 @@ NAME    TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
 nginx   NodePort   10.111.33.164   <none>        80:30905/TCP   31m
 {% endhighlight %}
 
-`wget -O- <노드의IP>:<서비스가 expose하고 있는 포트>`
+`wget -O- <노드의IP>:<서비스의expose포트>`
+
 {% highlight bash %}
 # 리눅스면 루프백IP 사용
 wget -O- 127.0.0.1:30905
