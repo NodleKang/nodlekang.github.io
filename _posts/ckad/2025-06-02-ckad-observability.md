@@ -64,12 +64,25 @@ kubectl delete pod nginx
 
 ---
 
-__*연습*__
+__*컨테이너가 시작되고 5초 후에 liveness probe를 시작하고, 5초 간격으로 계속 liveness probe를 하도록 yaml 수정하기*__
 
 <details><summary>보기</summary>
 
-{% highlight bash %}
-
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    livenessProbe:
+      exec:
+        command:
+        - ls
+      initialDelaySeconds: 5 # 5초 후부터 헬스체크 시작
+      periodSeconds: 5 # 5초 간격으로 헬스체크
 {% endhighlight %}
 
 </details>
