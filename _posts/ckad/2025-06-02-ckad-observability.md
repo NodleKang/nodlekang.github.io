@@ -90,12 +90,25 @@ spec:
 
 ---
 
-__*연습*__
+__*포트 80을 포함하는 nginx 파드를 생성하고, 해당 파드에 포트 80의 '/' 경로로 HTTP 엔드포인트가 준비됐는지 하기*__
 
 <details><summary>보기</summary>
 
-{% highlight bash %}
-
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
 {% endhighlight %}
 
 </details>
@@ -103,12 +116,14 @@ __*연습*__
 
 ---
 
-__*연습*__
+__*많은 파드가 qa, alan, test, production 네임스페이스에서 실행 중이다. 모든 파드는 liveness probe가 구성되어 있다. liveness probe가 실패한 모든 파드 목록을 `<namespace>/<pod name>` 형식으로 출력하기*__
+
+`kubectl get events -o json`
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-
+kubectl get events -o json | jq -r '.items[] | select(.message | contains("Liveness probe failed")).involvedObject | .namespace + "/" + .name'
 {% endhighlight %}
 
 </details>
@@ -118,12 +133,30 @@ __*연습*__
 
 ---
 
-__*연습*__
+__*`i=0; while true; do echo "$1: $(date)"; i=$((i+1)); sleep 1; done` 명령을 실행하는 busybox 파드 생성하고, 로그 확인하기*__
+
+Kubernetes Docs > Define a Command and Arguments for a Container
 
 <details><summary>보기</summary>
 
-{% highlight bash %}
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: command-demo
+  labels:
+    purpose: demonstrate-command
+spec:
+  containers:
+  - name: command-demo-container
+    image: busybox
+    command: ["/bin/sh", "-c"]
+    args: ["i=0; while true; do echo '$1: $(date)'; i=$((i+1)); sleep 1; done"]
+  restartPolicy: OnFailure
+{% endhighlight %}
 
+{% highlight bash %}
+kubectl logs pod/command-demo
 {% endhighlight %}
 
 </details>
@@ -133,12 +166,29 @@ __*연습*__
 
 ---
 
-__*연습*__
+__*`ls /notetext` 명령을 실행하는 busybox 파드 생성하고, 에러가 있는지 확인하기*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: command-demo
+  labels:
+    purpose: demonstrate-command
+spec:
+  containers:
+  - name: command-demo-container
+    image: busybox
+    command: ["/bin/sh", "-c"]
+    args: ["ls /notetext"]
+  restartPolicy: OnFailure
+{% endhighlight %}
 
+{% highlight bash %}
+kubectl events --for pod/command-demo
+kubectl logs pods/command-demo
 {% endhighlight %}
 
 </details>
@@ -146,25 +196,12 @@ __*연습*__
 
 ---
 
-__*연습*__
+__*Node에 CPU/memory 사용량 확인하기(반드시 metrics-server 실행 중이어야 함)*__
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
-
-{% endhighlight %}
-
-</details>
-<p></p>
-
----
-
-__*연습*__
-
-<details><summary>보기</summary>
-
-{% highlight bash %}
-
+kubectl top nodes
 {% endhighlight %}
 
 </details>
