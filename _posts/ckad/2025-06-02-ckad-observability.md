@@ -170,7 +170,7 @@ __*`ls /notetext` 명령을 실행하는 busybox 파드 생성하고, 에러가 
 
 <details><summary>보기</summary>
 
-{% highlight bash %}
+{% highlight yaml %}
 apiVersion: v1
 kind: Pod
 metadata:
