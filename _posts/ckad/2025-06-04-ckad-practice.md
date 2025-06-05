@@ -419,25 +419,104 @@ kubectl rollout undo deployment app-deploy
 </details>
 <p></p>
 
----
+## Resource Quota
 
-__**__
+devops 네임스페이스에 Pods 10개, Service는 최대 5개까지 생성하게 제한하는 devops-quota 생성하기
+
+생성할 때는 `kubectl create quota` 사용하지만, 정보를 확인할 때는 `kubectl get resourcequotas` 사용함
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl create ns devops
+kubectl create quota devops-quota --hard=pods=10,services=5 -n devops
 {% endhighlight %}
 
 </details>
 <p></p>
 
----
+## Pod Resource 제한
 
-__**__
+nginx 컨테이너가 동작할 때, 최대 메모리 50Mi, CPU 200m을 넘지 못하도록 구성하기. 그리고 nginx 컨테이너는 동작을 위해 cpu 200m, memory 30Mi를 요청하기.
+
+<details><summary>보기</summary>
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-demo
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      limits:
+        cpu: "200m"
+        memory: "50Mi"
+      requests:
+        cpu: "200m"        
+        memory: "30Mi"
+{% endhighlight %}
+
+</details>
+<p></p>
+
+## LimitRange
+
+Pod 생성 시 리소스 limit과 request를 명시하지 않으면 CPU는 200m, memory는 50Mi가 기본으로 설정되도록 운영하기. 네임스페이스 이름은 devops, 자원 이름은 devops-limit 으로 사용하기
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl create ns devops
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: devops-limit
+  namespace: devops
+spec:
+  limits:
+  - default: # this section defines default limits
+      cpu: 200m
+      memory: "50Mi"
+    defaultRequest: # this section defines default requests
+      cpu: 200m
+      memory: "50Mi"
+    type: Container
+{% endhighlight %}
+
+</details>
+<p></p>
+
+## Security Context
+
+다음 조건을 만족하는 Security Context 구성하기
+- safe 컨테이너는 UID 0인 root로 실행 금지
+- safe 컨테이너를 실행할 때는 405 UID로 실행
+- safe 컨테이너는 root 권한으로 escalation 금지
+
+<details><summary>보기</summary>
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo
+spec:k
+  securityContext:
+    runAsUser: 405     # Pod 내의 모든 컨테이너가 기본적으로 405 UID로 실행
+    runAsNonRoot: true # Pod 내의 모든 컨테이너가 UID 0(root)으로 실행되는 것을 금지
+  containers:
+  - name: safe
+    image: busybox
+    securityContext:
+      runAsUser: 405     # safe 컨테이너가 기본적으로 405 UID로 실행
+      runAsNonRoot: true # safe 컨테이너가 UID 0(root)으로 실행되는 것을 금지
+      allowPrivilegeEscalation: false # root 권한으로의 권한 상승 금지
 {% endhighlight %}
 
 </details>
