@@ -17,11 +17,7 @@ CKAD 연습
 
 [쿠버네티스 연습사이트 - Kubernetes Playground (Killercoda)](https://killercoda.com/playgrounds/scenario/kubernetes)
 
-## 연습
-
----
-
-__*Blue/Green 배포 테스트*__
+## Blue/Green 배포 테스트
 
 - blue 라는 이름으로 smlinux/nginx:blue 이미지를 가진 파드 2개를 배포하기
 - 레이블은 version=blue 설정하고, 포트는 8080 포트 사용하기
@@ -187,7 +183,7 @@ curl <노드IP>:30086
 </details>
 <p></p>
 
----
+## Canary 배포
 
 __**__
 
