@@ -593,9 +593,7 @@ spec:
 - log-adapter 사이드카 컨테이너는 /tmp/log/input.log를 읽고 데이터를 /tmp/log/output.log로 출력해야 함
 - 필요한 모든 것은 /data/ckad/fluentd-conf-configmap.yaml에 제공된 사양 파일에서 ConfigMap을 생성하고, 해당 ConfigMap을 log-adapter 사이드카 컨테이너의 /fluentd/etc에 마운트하는 것임
 
-/data/ckad/fluentd-conf-configmap.yaml 파일을 사용해서 ConfigMap 생성하기
-
-<details><summary>보기</summary>
+<details><summary>보기 - /data/ckad/fluentd-conf-configmap.yaml 파일</summary>
 
 {% highlight yaml %}
 apiVersion: v1
