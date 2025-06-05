@@ -21,11 +21,167 @@ CKAD 연습
 
 ---
 
-__**__
+__*Blue/Green 배포 테스트*__
+
+- blue 라는 이름으로 smlinux/nginx:blue 이미지를 가진 파드 2개를 배포하기
+- 레이블은 version=blue 설정하고, 포트는 8080 포트 사용하기
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl create deployment blue --image=smlinux/nginx:blue --replicas=2 --dry-run=client -o yaml > d.yml
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: blue
+    version: blue # 버전 정보 추가
+  name: blue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: blue
+      version: blue # 버전 정보 추가
+  template:
+    metadata:
+      labels:
+        app: blue
+        version: blue # 버전 정보 추가
+    spec:
+      containers:
+      - image: smlinux/nginx:blue
+        name: nginx
+        ports: # 포트 지정
+        - containerPort: 8080 # 컨테이너 포트
+{% endhighlight %}
+
+</details>
+<p></p>
+
+- app-svc 서비스를 version=blue 레이블로 묶어 NodePort 타입의 서비스 포트 80으로 운영하기
+
+`kubectl expose deployment <디플로이먼트이름> --port=<서비스가노출할포트> --target-port=<실제파드의포트>`
+`kubectl create service nodeport <서비스이름> --tcp=<서비스가노출할포트>:<실제파드의포트>`
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl expose deployment blue --type=NodePort --port=80 --target-port=8080 --name=app-svc
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl create service nodeport app-svc --tcp=80:8080 --dry-run=client -o yaml > s.yml
+{% endhighlight %}
+
+{% highlight yaml %}controlplane:~$ cat s.yml 
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: blue
+    version: blue
+  name: app-svc
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector: # 서비스 대상 파드 선택 기준
+    app: blue
+    version: blue # 버전 
+  type: NodePort # 서비스 타입
+{% endhighlight %}
+
+</details>
+<p></p>
+
+- green 이라는 이름으로 smlinux/nginx:green 이미지를 가진 파드 2개를 배포하기
+- 레이블은 version=green 설정하고, 포트는 8080 포트 사용하기
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl create deployment green --image=smlinux/nginx:green --replicas=2 --dry-run=client -o yaml > d.yml
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: green
+    version: green # 버전 정보 추가
+  name: green
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: green
+      version: green # 버전 정보 추가
+  template:
+    metadata:
+      labels:
+        app: green
+        version: green # 버전 정보 추가
+    spec:
+      containers:
+      - image: smlinux/nginx:green
+        name: nginx
+        ports: # 포트 지정
+        - containerPort: 8080 # 컨테이너 포트
+{% endhighlight %}
+
+</details>
+<p></p>
+
+- app-svc의 레이블을 version=green으로 변경하기
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl edit svc app-svc
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2025-06-05T07:04:14Z"
+  labels:
+    app: green
+    version: green
+  name: app-svc
+  namespace: default
+  resourceVersion: "7456"
+  uid: 4da6c861-7c3a-42e0-a305-267023e1c5ce
+spec:
+  clusterIP: 10.105.229.67
+  clusterIPs:
+  - 10.105.229.67
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 30086
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector: # 선택 레이블 변경
+    app: green
+    version: green
+  sessionAffinity: None
+  type: NodePort
+{% endhighlight %}
+
+{% highlight bash %}
+curl <노드IP>:30086
 {% endhighlight %}
 
 </details>
