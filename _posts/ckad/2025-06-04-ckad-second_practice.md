@@ -702,15 +702,3 @@ __**__
 
 </details>
 <p></p>
-
----
-
-__**__
-
-<details><summary>보기</summary>
-
-{% highlight bash %}
-{% endhighlight %}
-
-</details>
-<p></p>
