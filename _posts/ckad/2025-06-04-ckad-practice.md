@@ -480,10 +480,10 @@ metadata:
   namespace: devops
 spec:
   limits:
-  - default: # this section defines default limits
+  - default: # 기본 limits 설정
       cpu: 200m
       memory: "50Mi"
-    defaultRequest: # this section defines default requests
+    defaultRequest: # 기본 requests 설정
       cpu: 200m
       memory: "50Mi"
     type: Container
@@ -522,13 +522,56 @@ spec:k
 </details>
 <p></p>
 
----
+## init 컨테이너
 
-__**__
+다음 조건에 맞는 init 컨테이너 추가하기
+- fc-app.yml 파일로 main 컨테이너 애플리케이션이 동작함
+- init 컨테이너로 busybox:1.28 추가하고, /workdir/fcdata.txt 라는 emptyDir 생성하기
+- init 컨테이너가 fcdata.txt 파일을 생성하지 못 하면 main 컨테이너는 실행할 수 없게 하기
+- init 컨테이너와 main 컨테이너는 볼륨 마운트로 /workdir 디렉토리를 공유함
 
-<details><summary>보기</summary>
+<details><summary>보기 - 수정 전 fc-app.yml</summary>
 
-{% highlight bash %}
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fc-app
+spec:
+  containers:
+  - name: main
+    image: busybox:1.28
+    command: ['sh', '-c', 'if [ !-f /workdir/fcdata.txt ];then exit 1;else sleep 300;fi']
+{% endhighlight %}
+
+</details>
+<p></p>
+
+<details><summary>보기 - 수정 후 fc-app.yml</summary>
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fc-app
+spec:
+  containers:
+  - name: main
+    image: busybox:1.28
+    command: ['sh', '-c', 'if [ !-f /workdir/fcdata.txt ];then exit 1;else sleep 300;fi']
+    volumeMounts:
+    - name: vol
+      mountPath: /workdir
+  initContainers:
+  - name: init
+    image: busybox:1.28
+    command: ['sh', '-c', 'touch /workdir/fcdata.txt']
+    volumeMounts:
+    - name: vol
+      mountPath: /workdir
+  volumes:
+  - name: vol
+    emptyDir: {}
 {% endhighlight %}
 
 </details>
