@@ -626,6 +626,8 @@ data:
 </details>
 <p></p>
 
+<details><summary>보기</summary>
+
 {% highlight yaml %}
 apiVersion: apps/v1
 kind: Deployment
