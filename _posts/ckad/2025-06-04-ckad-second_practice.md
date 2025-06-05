@@ -733,3 +733,137 @@ spec:
 
 </details>
 <p></p>
+
+## Secret
+
+Secret을 생성하고 Secret을 환경(environment) 변수로 사용하기
+- key1/value3 키/값 쌍을 가진 another-secret 시크릿 생성
+- nginx-secret 파드를 시작하고, 환경변수 FC_VARIABLE가 another-secret 시크릿의 key1 값을 사용하게 하기
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl create secret generic another-secret --from-literal=key1=value1
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-secret
+spec:
+  containers:
+  - name: nginx-secret
+    image: nginx
+    env:
+    - name: FC_VARIABLE
+      valueFrom:
+        secretKeyRef:
+          name: another-secret
+          key: key1
+{% endhighlight %}
+
+</details>
+<p></p>
+
+## ConifgMap
+
+다음 작업을 완료하기
+- key2/value4 키/값 쌍을 포함하는 app-config 라는 ConfigMap 생성하기
+- nginx-configmap 파드를 시작하고, 생성한 configMap을 /app/data 디렉토리에 마운트하기
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl create configmap app-config --from-literal=key2=value4
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-configmap
+spec:
+  containers:
+    - name: nginx-configmap
+      image: nginx
+      volumeMounts:
+      - name: config-volume
+        mountPath: /app/data
+  volumes:
+    - name: config-volume
+      configMap:
+        name: app-config
+  restartPolicy: Never
+{% endhighlight %}
+
+## Network Policy
+
+cache 파드와 was 파드 사이에 통신이 되도록 해야 합니다. 실행 중인 db 파드가 Network Policy에 기반해서 cache 파드와 was 파드로부터의 트래픽만 주고 받을 수 있게 해야 합니다.
+
+다음 작업을 완료하기
+- 모든 작업은 migops 네임스페이스에 실행되어야 함
+- db 파드를 생성해야 함
+- 필요한 모든 Network Policy는 생성되어 있으므로 Network Policy 자체는 수정하지 말 것
+
+<details><summary>보기</summary>
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db
+  namespace: migops
+  labels:
+    run: db
+spec:
+  containers:
+    - name: db-container
+      image: nginx
+      command: ["sleep", "3600"]
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl apply -f db.yml
+{% endhighlight %}
+
+NetworkPolicy 확인
+
+{% highlight bash %}
+kubectl get networkpolicy -n migops
+NAME         POD-SELECTOR   AGE
+allow-db     run=db         <AGE>
+allow-cache  run=cache      <AGE>
+allow-was    run=was        <AGE>
+{% endhighlight %}
+
+NetworkPolicy 상세 확인
+
+{% highlight bash %}
+kubectl describe networkpolicy allow-db -n migops
+{% endhighlight %}
+
+{% highlight bash %}
+Name:         allow-db
+Namespace:    migops
+...
+PodSelector:  run=db
+PolicyTypes:  Ingress, Egress
+Ingress:
+  From:
+    PodSelector:
+      matchLabels:
+        run: cache
+    PodSelector:
+      matchLabels:
+        run: was
+Egress:
+  To:
+    PodSelector:
+      matchLabels:
+        run: cache
+    PodSelector:
+      matchLabels:
+        run: was
+{% endhighlight %}
+
