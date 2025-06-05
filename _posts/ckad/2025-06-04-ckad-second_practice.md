@@ -690,3 +690,46 @@ docker run -d --name apache-php apache-php:test-v1
 # 동작 중인 컨테이너를 export 하기
 docker export -o /data/apache-php-test-v1.tar apache-php
 {% endhighlight %}
+
+## Liveness/Readiness Probe
+
+클러스터에서 Pod가 실행 중이지만 응답하지 않는 상황입니다.
+목표는 /healthz 엔드포인트가 HTTP 500을 반환할 때, 쿠버네티스가 Pod를 다시 시작하도록 하는 것입니다.
+probe-pod 서비스는 Pod가 실패하는 동안 트래픽을 보내지 않아야 합니다.
+
+다음 요구사항을 충족하도록 설정을 완료하시오:
+- 애플리케이션은 트래픽을 수신할 준비가 되었는지 나타내는 /started 엔드포인트를 가지고 있으며, 준비가 되면 200을 반환합니다. (**can accept traffic**) 이 엔드포인트가 HTTP 500을 반환하면 애플리케이션 초기화가 완료되지 않은 것입니다.
+- 애플리케이션은 애플리케이션이 예상대로 동작하는지 나타내는 /healthz 엔드포인트를 가지고 있으며, 정상 동작하면 HTTP 200을 반환합니다. (**still working as expected**) 이 엔드포인트가 HTTP 500을 반환하면 애플리케이션이 더 이상 응답하지 않는 것입니다.
+- 제공된 probe-pod 를 이 엔드포인트들을 사용하도록 구성하시오.
+- 프로브는 8080 포트를 사용해야 합니다.
+
+<details><summary>보기</summary>
+
+{% highlight bash %}
+kubectl run probe-pod --image=nginx --dry-run=client -o yaml > probe-pod.yml
+vi probe-pod.yml
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: probe-pod
+  name: probe-pod
+spec:
+  containers:
+  - name: probe-pod
+    image: nginx
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+    readinessProbe:
+      httpGet:
+        path: /stared
+        port: 8080
+{% endhighlight %}
+
+</details>
+<p></p>
