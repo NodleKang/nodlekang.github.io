@@ -506,7 +506,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: security-context-demo
-spec:k
+spec:
   securityContext:
     runAsUser: 405     # Pod 내의 모든 컨테이너가 기본적으로 405 UID로 실행
     runAsNonRoot: true # Pod 내의 모든 컨테이너가 UID 0(root)으로 실행되는 것을 금지
@@ -577,13 +577,47 @@ spec:
 </details>
 <p></p>
 
----
+## CronJob
 
-__**__
+다음 조건을 만족하는 컨테이너 실행하기
+- /data/ckad/sample.yaml manifest 파일에 pod가 정의되어 있음
+- sample.yaml을 수정하여 busybox:stable 컨테이너가 매분마다 실행되어야 함
+- 10초 내에 완료되거나 kubernetes에 의해 종료되어야 함
+- cronjob 이름과 container 이름 모두 hello여야 함
+- hello 컨테이너가 성공적으로 실행되었는지 확인하기
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl create cronjob hello --image=busybox:stable --schedule="*/1 * * * *" --dry-run=client -o yaml > /data/ckad/sample.yaml
+vi /data/ckad/sample.yaml
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  jobTemplate:
+    metadata:
+      name: hello
+    spec:
+      activeDeadlineSeconds: 10 # Job이 시작된 후 10초 이내에 완료되지 않으면 쿠버네티스는 해당 Job을 실패로 간주하고 종료함
+      template:
+        spec:
+          containers:
+          - image: busybox:stable
+            name: hello
+            command: 
+            - sleep
+            - 5
+          restartPolicy: Never
+  schedule: '*/1 * * * *'
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl get pods
 {% endhighlight %}
 
 </details>
