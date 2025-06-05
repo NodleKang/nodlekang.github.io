@@ -318,19 +318,45 @@ curl <노드IP>:31610
 </details>
 <p></p>
 
-## Rolling Update
+## Rolling Update (애플리케이션 업데이트)
+
+### 주요 옵션들
+
+- **maxUnavailable**: 최대로 사용할 수 없는 파드 개수
+  - 롤아웃 할 때, 동시에 얼마나 많은 파드를 서비스에서 제외할 수 있는지 조절하는 규칙
+  - `maxUnavailable: 25%` 라고 설정하면, 전체 파드 중에 25% 까지만 동시에 사용할 수 없게 할 수 있음
+- **maxSurge**: 최대 서지
+  - 롤아웃 할 때, 서비스 용량을 일시적으로 늘려서 서비스 중단 없이 부드러운 전환을 돕는 역할을 함
+  - `maxSurge: 50%` 라고 설정하면, 원래 파드 개수의 50% 만큼 더 많은 파드를 임시로 생성할 수 있음
+- **progressDeadlineSeconds**: 진행 대기시간
+  - 롤아웃이 시작하고 완료되는 데 허용하는 최대 시간
+  - `progressDeadlineSeconds: 600` 라고 설정하면, 롤아웃을 시작한 후에 10분 안에 새로운 버전의 파드들이 ready 상태가 안 되면 Kubernetes는 롤아웃이 실패한 한 것으로 판단하고 롤백함
+- **minReadySeconds**: 최소 대기 시간
+  - 새로 업데이트된 파드가 서비스 트래픽을 받을 수 있을 정도로 ready 상태를 유지해야 하는 최소 시간
+  - `minReadySeconds: 30` 라고 설정하면, 새로운 파드가 30초 이상 ready 상태를 유지해야만 정상으로 간주함
+- **revisionHistoryLimit**: 최대 이력으로 남길 수 있는 리비전 개수
+
+### 예제
+
+디플로이먼트 생성:
+- 이름: app-deploy
+- 이미지: smlinux/app:v1
+- 포트: 8080
+- 복제: 3
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl create deployment app-deploy --replicas=3 --image=smlinux/app:v1 --port=8080
 {% endhighlight %}
 
 </details>
 <p></p>
 
----
-
-__**__
+앞서 생성한 app-deploy의 서비스 생성:
+- 이름: app-service
+- 타입: NordPort
+- 포트: 80
 
 <details><summary>보기</summary>
 
