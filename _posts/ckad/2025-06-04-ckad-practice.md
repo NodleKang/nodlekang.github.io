@@ -361,18 +361,59 @@ kubectl create deployment app-deploy --replicas=3 --image=smlinux/app:v1 --port=
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl expose deployment app-deploy --name=app-service --type=NodePort --port=80 --target-port=8080
+{% endhighlight %}
+
+{% highlight bash %}
+curl <CLUSTER-IP>:80
+curl <워커노드IP>:32092
 {% endhighlight %}
 
 </details>
 <p></p>
 
----
+app-deploy를 롤링 업데이트 하고 롤백하기
+- 이미지: smlinux/app:v2
+- maxUnavailable: 25%
+- maxSurge: 50%
+- progressDeadlineSeconds: 300
+- app:v1 으로 롤백
 
-__**__
+K8S Docs > Deployments > maxSurge 로 검색되는 영역
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl edit deployments.apps app-deploy
+{% endhighlight %}
+
+{% highlight yaml %}
+...
+spec:
+  progressDeadlineSeconds: 300 # 롤아웃 완료까지 기다릴 시간
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%       # 전체 파드에서 최대 50%까지만 추가 파드를 만들 수 있음
+      maxUnavailable: 25% # 전체 파드 중에 최대 25% 까지만 사용할 수 없게 만들 수 있음
+    type: RollingUpdate   # 롤링 업데이트
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: app-deploy
+    spec:
+      containers:
+      - image: smlinux/app:v2 # 이미지 버전 변경
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl rollout status deployment app-deploy
+kubectl rollout history deployment app-deploy
+{% endhighlight %}
+
+{% highlight bash %}
+# 이전 버전으로 롤백
+kubectl rollout undo deployment app-deploy
 {% endhighlight %}
 
 </details>
