@@ -577,6 +577,96 @@ spec:
 </details>
 <p></p>
 
+## sidecar 컨테이너
+
+포맷 A로 로그 파일을 쓰는 컨테이너와 포맷 A에서 포맷 B로 로그 파일을 변환하는 컨테이너가 주어졌을 때, 첫 번째 컨테이너의 로그 파일을 두 번째 컨테이너가 변환하여 포맷 B로 로그를 내보내도록 두 컨테이너를 실행하는 디플로이먼트를 생성합니다. 파일 이름: /data/ckad/deployment-ckad.yaml
+
+기본 네임스페이스에 deployment-ckad라는 이름의 디플로이먼트를 생성하기
+- main이라는 이름의 기본 busybox:stable 컨테이너 포함
+- log-adapter라는 이름의 사이드카 fluentd:1.14-1 컨테이너 포함
+- 두 컨테이너에 공유 볼륨 /tmp/log을 마운트, 포드가 삭제될 때 유지되지 않음
+- main 컨테이너가 다음 명령을 실행하도록 지시: `while true; do echo "hello ckad" >> /tmp/log/input.log; sleep 10; done`
+- 이는 plain text 형식으로 /tmp/log/input.log에 로그를 출력해야 함:
+  - hello ckad
+  - hello ckad
+  - hello ckad
+- log-adapter 사이드카 컨테이너는 /tmp/log/input.log를 읽고 데이터를 /tmp/log/output.log로 출력해야 함
+- 필요한 모든 것은 /data/ckad/fluentd-conf-configmap.yaml에 제공된 사양 파일에서 ConfigMap을 생성하고, 해당 ConfigMap을 log-adapter 사이드카 컨테이너의 /fluentd/etc에 마운트하는 것임
+
+/data/ckad/fluentd-conf-configmap.yaml 파일을 사용해서 ConfigMap 생성하기
+
+<details><summary>보기</summary>
+
+{% highlight yaml %}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: default
+data:
+  fluent.conf: |
+    <source>
+      @type tail
+      path /tmp/log/input.log
+      pos_file /tmp/log/fluentd.pos
+      tag raw.log
+      <parse>
+        @type none
+      </parse>
+    </source>
+    <match raw.log>
+      @type file
+      path /tmp/log/output.log
+      <format>
+        @type json
+      </format>
+    </match>
+{% endhighlight %}
+
+</details>
+<p></p>
+
+{% highlight yaml %}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-ckad
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deployment-ckad
+  template:
+    metadata:
+      labels:
+        app: deployment-ckad
+    spec:
+      containers:
+        - name: main
+          image: busybox:stable
+          command: ['sh', '-c', 'while true; do echo "hello ckad" >> /tmp/log/input.log; sleep 10; done']
+          volumeMounts:
+            - name: log-volume
+              mountPath: /tmp/log
+        - name: log-adapter # sidecar 컨테이너는 main 컨테이너와 같은 레벨로 작성됨
+          image: fluentd:1.14-1
+          volumeMounts:
+            - name: log-volume
+              mountPath: /tmp/log
+            - name: config-volume
+              mountPath: /fluentd/etc
+      volumes:
+        - name: log-volume
+          emptyDir: {}
+        - name: config-volume
+          configMap:
+            name: fluentd-config
+{% endhighlight %}
+
+</details>
+<p></p>
+
 ## CronJob
 
 다음 조건을 만족하는 컨테이너 실행하기
@@ -866,4 +956,3 @@ Egress:
       matchLabels:
         run: was
 {% endhighlight %}
-
