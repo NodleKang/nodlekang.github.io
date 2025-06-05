@@ -690,15 +690,3 @@ docker run -d --name apache-php apache-php:test-v1
 # 동작 중인 컨테이너를 export 하기
 docker export -o /data/apache-php-test-v1.tar apache-php
 {% endhighlight %}
-
----
-
-__**__
-
-<details><summary>보기</summary>
-
-{% highlight bash %}
-{% endhighlight %}
-
-</details>
-<p></p>
