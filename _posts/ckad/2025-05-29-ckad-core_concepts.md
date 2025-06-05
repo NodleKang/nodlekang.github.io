@@ -97,16 +97,6 @@ __*Kubernetes의 Secret 처리 방식*__
 - Kubelet은 Secret 데이터를 디스크에 쓰지 않고, 메모리 기반인 tmpfs(임시파일시스템)에 저장합니다.
 - Secret에 의존하는 Pod가 삭제되면 Kubelet은 Secret 데이터의 로컬 복사본도 삭제합니다.
 
-### ResourceQuota
-
-**네임스페이스** 전체적으로 사용할 수 있는 총 **리소스 양**을 제한합니다.
-
-오브젝트가 생성될 때 적용되며, 이미 실행 중인 오브젝트에는 소급 적용되지 않습니다.
-
-### LimitRange
-
-**개별 Pod의 최소/최대 리소스 양**을 제한합니다.
-
 ## Core Concepts
 
 ---
