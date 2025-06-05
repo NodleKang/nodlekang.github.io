@@ -183,55 +183,142 @@ curl <노드IP>:30086
 
 ## Canary 배포
 
-__**__
+stable라는 이름으로 smlinux/app:stable 이미지를 가진 Pod를 2개 배포하기. 레이블은 name=app, version=stable을 사용하며 port는 8080 포트를 사용해야 함.
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl create deployment stable --image=smlinux/app:stable --replicas=2 --dry-run=client -o yaml > stable.yml
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: stable
+  name: stable
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: app       # 레이블 설정
+      version: stable # 레이블 설정
+  template:
+    metadata:
+      labels:
+        name: app       # 레이블 설정
+        version: stable # 레이블 설정
+    spec:
+      containers:
+      - image: smlinux/app:stable
+        name: app
 {% endhighlight %}
 
 </details>
 <p></p>
 
----
-
-__**__
+canary-svc 서비스를 name=app 레이블로 묶어 NodePort 타입의 서비스 포트 80으로 운영하기
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl expose deployment stable --port=80 --target-port=8080 --name=canary-svc --type=NodePort
+{% endhighlight %}
+
+{% highlight bash %}
+curl <CLUSTER-IP>:80
+curl <노드IP>:31610
 {% endhighlight %}
 
 </details>
 <p></p>
 
----
-
-__**__
+new라는 이름으로 smlinux/app:new-release 이미지를 가진 Pod 1개를 배포하기. 레이블은 name=app, version=new를 사용하며 port는 8080 포트를 사용해야 함.
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl create deployment new --image=smlinux/app:new-release --replicas=1 --dry-run=client -o yaml > new.yaml
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: new
+  name: new
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: app
+      version: new
+  template:
+    metadata:
+      labels:
+        name: app
+        version: new
+    spec:
+      containers:
+      - image: smlinux/app:new-release
+        name: app
+        ports:
+        - containerPort: 8080
 {% endhighlight %}
 
 </details>
 <p></p>
 
----
-
-__**__
+canary-svc 서비스의 레이블을 version=green으로 변경하시오.
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl edit svc canary-svc
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2025-06-05T07:39:49Z"
+  labels:
+    app: stable
+  name: canary-svc
+  namespace: default
+  resourceVersion: "3721"
+  uid: d8752163-552a-4e4a-bb8a-573606478734
+spec:
+  clusterIP: 10.102.223.13
+  clusterIPs:
+  - 10.102.223.13
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 31610
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    version: new # 선택 조건 변경
+  sessionAffinity: None
+  type: NodePort
+{% endhighlight %}
+
+{% highlight bash %}
+curl <CLUSTER-IP>:80
+curl <노드IP>:31610
 {% endhighlight %}
 
 </details>
 <p></p>
 
----
-
-__**__
+## Rolling Update
 
 <details><summary>보기</summary>
 
