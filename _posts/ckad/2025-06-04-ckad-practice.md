@@ -17,10 +17,9 @@ CKAD 연습
 
 [쿠버네티스 연습사이트 - Kubernetes Playground (Killercoda)](https://killercoda.com/playgrounds/scenario/kubernetes)
 
-## Blue/Green 배포 테스트
+## Blue/Green 배포
 
-- blue 라는 이름으로 smlinux/nginx:blue 이미지를 가진 파드 2개를 배포하기
-- 레이블은 version=blue 설정하고, 포트는 8080 포트 사용하기
+blue 라는 이름으로 smlinux/nginx:blue 이미지를 가진 파드 2개를 배포하기, 레이블은 version=blue 설정하고, 포트는 8080 포트 사용하기
 
 <details><summary>보기</summary>
 
@@ -58,7 +57,7 @@ spec:
 </details>
 <p></p>
 
-- app-svc 서비스를 version=blue 레이블로 묶어 NodePort 타입의 서비스 포트 80으로 운영하기
+app-svc 서비스를 version=blue 레이블로 묶어 NodePort 타입의 서비스 포트 80으로 운영하기
 
 `kubectl expose deployment <디플로이먼트이름> --port=<서비스가노출할포트> --target-port=<실제파드의포트>`
 `kubectl create service nodeport <서비스이름> --tcp=<서비스가노출할포트>:<실제파드의포트>`
@@ -96,8 +95,7 @@ spec:
 </details>
 <p></p>
 
-- green 이라는 이름으로 smlinux/nginx:green 이미지를 가진 파드 2개를 배포하기
-- 레이블은 version=green 설정하고, 포트는 8080 포트 사용하기
+green 이라는 이름으로 smlinux/nginx:green 이미지를 가진 파드 2개를 배포하기, 레이블은 version=green 설정하고, 포트는 8080 포트 사용하기
 
 <details><summary>보기</summary>
 
@@ -135,7 +133,7 @@ spec:
 </details>
 <p></p>
 
-- app-svc의 레이블을 version=green으로 변경하기
+app-svc의 레이블을 version=green으로 변경하기
 
 <details><summary>보기</summary>
 
