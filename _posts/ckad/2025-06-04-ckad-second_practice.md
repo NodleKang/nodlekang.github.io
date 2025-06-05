@@ -623,29 +623,73 @@ kubectl get pods
 </details>
 <p></p>
 
----
+## Service Account
 
-__**__
+frontend 네임스페이스에 app-1 디플로이먼트가 app 서비스계정을 사용하도록 수정하기
 
 <details><summary>보기</summary>
 
 {% highlight bash %}
+kubectl get deployment app-1 -n fronted -o yaml > pod.yml
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-1
+  namespace: frontend
+  # ... (기타 메타데이터)
+spec:
+  # ...
+  template:
+    spec:
+      serviceAccountName: app # 서비스 계정 정보 추가
+      containers:
+      = image: nginx
+        name: nginx
+        # ... (다른 컨테이너 및 볼륨 정의)
+{% endhighlight %}
+
+{% highlight bash %}
+kubectl apply -f pod.yml
 {% endhighlight %}
 
 </details>
 <p></p>
 
----
-
-__**__
-
-<details><summary>보기</summary>
+## docker 이미지 빌드
 
 {% highlight bash %}
+# 제시된 Dockerfile 확인
+cd /data/build/apache-php/
+cat Dockerfile
 {% endhighlight %}
 
-</details>
-<p></p>
+{% highlight bash %}
+# Dockerfile 이용해서 컨테이너 빌드
+docker build -t apache-php:test-v1 .
+{% endhighlight %}
+
+{% highlight bash %}
+# Docker 이미지 확인
+docker images
+{% endhighlight %}
+
+{% highlight bash %}
+# Docker 이미지를 아카이브 파일로 저장
+docker save -o /data/apache-php-test-v1.tar apache-php:test-v1
+{% endhighlight %}
+
+{% highlight bash %}
+# Docker 이미지를 컨테이너로 실행
+docker run -d --name apache-php apache-php:test-v1
+{% endhighlight %}
+
+{% highlight bash %}
+# 동작 중인 컨테이너를 export 하기
+docker export -o /data/apache-php-test-v1.tar apache-php
+{% endhighlight %}
 
 ---
 
