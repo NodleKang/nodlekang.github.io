@@ -250,28 +250,28 @@ metadata:
     app: new
   name: new
 spec:
-  replicas: 1
+  replicas: 1 # 복제 개수
   selector:
     matchLabels:
-      name: app
-      version: new
+      name: app    # 레이블 설정
+      version: new # 레이블 설정
   template:
     metadata:
       labels:
-        name: app
-        version: new
+        name: app    # 레이블 설정
+        version: new # 레이블 설정
     spec:
       containers:
       - image: smlinux/app:new-release
         name: app
         ports:
-        - containerPort: 8080
+        - containerPort: 8080 # 컨테이너 포트 설정
 {% endhighlight %}
 
 </details>
 <p></p>
 
-canary-svc 서비스의 레이블을 version=green으로 변경하시오.
+canary-svc 서비스의 레이블을 version=new 로 변경하시오.
 
 <details><summary>보기</summary>
 
