@@ -16,36 +16,6 @@ toc_label: 목차
 toc_sticky: true
 ---
 
-<script type="module">
-	import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-	mermaid.initialize({
-		startOnLoad: true
-	});
-</script>
-
-<pre class="mermaid">
-flowchart TD
-    App[app] --> Config[Configure]
-    App --> APIserver[APIServer]
-    App --> AgentInfo[AgentInfo]
-    App --> RemoteHealthCheck[RemoteHealthCheck]
-
-    Config -->|주기적으로 <br> conf 파일 읽기| Config1[설정 정보 변경]
-    Config1 -->|변경 사항 반영| Config
-
-    AgentInfo -->|주기적으로 <br> Agent 정보 보내기| CollectServer[수집 서버]
-
-    APIserver --> Q{Cloud <br> Configuration <br> 수신?}
-
-    Q -->|예| Clippers[Clipper들 실행]
-    Q -->|아니오| W[대기상태]
-    
-    Clippers -->|메트릭과 리소스 <br> 데이터 수집과 전달| UDPSender
-    UDPSender -->|데이터 전송| CollectServer[수집 서버]
-
-    RemoteHealthCheck -->|주기적으로 <br>수집서버 상태 점검| CollectServer[수집 서버]
-</pre>
-
 ## 공유 자원 접근 제어는 왜 필요할까?
 
 여러 스레드나 프로세스가 **동시에!!** 공유 자원에 접근하여 데이터를 읽거나 수정하려고 하면 여러 가지 문제들이 발생할 수 있습니다.
@@ -57,6 +27,13 @@ flowchart TD
 - 철수는 저금통에 1,000원이 있는 걸 확인하고 100원을 인출하고, 잔액이 900원이 됐다고 기록합니다.
 - 영희는 저금통에 1,000원이 있는 걸 확인하고 200원을 입금하고, 잔액이 1,200원이 됐다고 기록합니다.
 - 철수와 영희는 서로의 존재를 모릅니다.
+
+<script type="module">
+	import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+	mermaid.initialize({
+		startOnLoad: true
+	});
+</script>
 
 <table>
   <tr>
