@@ -38,6 +38,14 @@ toc_sticky: true
 <table style="width: 100%">
   <tr>
     <td style="width: 50%">
+    영희의 작업이 마지막에 처리된 경우
+    </td>
+    <td style="width: 50%">
+    철수의 작업이 마지막에 처리된 경우
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%">
       <pre class="mermaid">
       sequenceDiagram
           participant 철수
