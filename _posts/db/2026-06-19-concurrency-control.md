@@ -35,9 +35,9 @@ toc_sticky: true
 	});
 </script>
 
-<table>
+<table style="width: 100%">
   <tr>
-    <td>
+    <td style="width: 50%">
       <pre class="mermaid">
       sequenceDiagram
           participant 철수
@@ -59,7 +59,7 @@ toc_sticky: true
           은행--x은행: 데이터 손상 / 업데이트 손실
       </pre>
     </td>
-    <td>
+    <td style="width: 50%">
       <pre class="mermaid">
       sequenceDiagram
           participant 철수
