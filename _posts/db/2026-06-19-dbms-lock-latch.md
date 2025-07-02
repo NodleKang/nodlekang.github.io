@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "DBMS Lock과 Latch: 엔지니어를 위한 가이드"
-date: 2025-06-19 14:00:00 +0900
+date: 2025-07-01 17:00:00 +0900
 categories: 
   - internal
 tag: 
