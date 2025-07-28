@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "Linux 권장 파라미터(250725)"
-date: 2024-12-06 15:00:00 +0900
+date: 2025-07-27 15:00:00 +0900
 categories: 
   - Linux
 tag: 
