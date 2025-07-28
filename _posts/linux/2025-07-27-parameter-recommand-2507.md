@@ -20,7 +20,7 @@ toc_sticky: true
 * **송수신 버퍼**: TCP 세션이 사용하는 버퍼. 한번에 보낼 수 있는 패킷 크기를 늘려서 효율적으로 전송하도록 하는 개념
 
 | 구분 | Kernel Parameter | 기본 값 | 권장 값 |
-|:---:|:---|:---|---:|---:|
+|:---:|:---|:---|:---|:---|
 | 패킷 listen queue | net.core.somaxconn | 4096 | 8192 |
 | 패킷 listen queue | net.core.netdev_max_backlog | 1000 | 30000 |
 | 패킷 listen queue | net.ipv4.tcp_max_syn_backlog | 2048 | 8192 |
